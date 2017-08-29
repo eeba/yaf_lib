@@ -53,7 +53,9 @@ class Response {
 	 */
 	public static function outPlain($text){
         Logger::getInstance('response')->debug([$text]);
-		echo $text;
+        if($text){
+            echo $text;
+        }
 	}
 
 	public function cacheHeader($expires) {

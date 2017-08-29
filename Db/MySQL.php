@@ -2,7 +2,6 @@
 namespace Db;
 
 use Base\Config;
-use Base\Log;
 use Base\Logger;
 
 class MySQL {
@@ -235,7 +234,7 @@ class MySQL {
         }
         $_end = microtime(true);
 
-        //执行的sql
+        //执行的sql todo debug环境下执行
         $debug_sql = $sql;
         foreach ($params as $param) {
             $debug_sql = substr_replace($debug_sql, $param, strpos($debug_sql, "?"), 1);
