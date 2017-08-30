@@ -8,6 +8,11 @@ class Digit extends \Validate\Abstraction {
         if (is_numeric($param['value'])) {
             return $param['value'];
         }
-        throw new Exception($param['msg']);
+
+        if ($param['msg']) {
+            throw new Exception($param['msg']);
+        } else {
+            throw new Exception("参数格式错误", 5001001);
+        }
     }
 }

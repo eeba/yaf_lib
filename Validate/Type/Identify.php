@@ -10,8 +10,11 @@ class Identify extends \Validate\Abstraction {
     public function action($param) {
         if (preg_match('/(^\d{15}$)|(^\d{17}[0-9Xx]$)/', $param['value']) && self::checkIdentity($param['value'])) {
             return $param['value'];
-        } else {
+        }
+        if ($param['msg']) {
             throw new Exception($param['msg']);
+        } else {
+            throw new Exception("参数格式错误", 5001001);
         }
     }
 

@@ -12,7 +12,11 @@ class Date extends \Validate\Abstraction {
     public function action($param) {
         $value = trim($param['value']);
         if (!$value || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $param['value'])) {
-            throw new Exception($param['msg']);
+            if ($param['msg']) {
+                throw new Exception($param['msg']);
+            } else {
+                throw new Exception("参数格式错误", 5001001);
+            }
         }
         return $param['value'];
     }

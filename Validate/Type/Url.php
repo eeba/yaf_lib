@@ -16,10 +16,14 @@ class Url extends \Validate\Abstraction {
     public function action($param) {
         $result = filter_var($param['value'], FILTER_VALIDATE_URL);
         if (!$result) {
-            throw new Exception($param['msg']);
+            if ($param['msg']) {
+                throw new Exception($param['msg']);
+            } else {
+                throw new Exception("参数格式错误", 5001001);
+            }
         }
-        $value = $this->filter_xss($param['value']);
-        return $value;
+
+        return $param['value'];
     }
 
     public function filter_xss($url) {

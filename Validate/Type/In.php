@@ -9,7 +9,11 @@ class In extends \Validate\Abstraction {
         if (in_array($param['value'], $param['in_list'])) {
             return $param['value'];
         }
-        throw new Exception($param['msg']);
+        if ($param['msg']) {
+            throw new Exception($param['msg']);
+        } else {
+            throw new Exception("参数格式错误", 5001001);
+        }
     }
 
 }

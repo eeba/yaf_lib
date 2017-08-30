@@ -14,9 +14,13 @@ class Str extends \Validate\Abstraction {
         $min = $param['option']['min'];
         $max = $param['option']['max'];
         if ($len < $min || $len > $max) {
-            throw new Exception($param['msg']);
+            if ($param['msg']) {
+                throw new Exception($param['msg']);
+            } else {
+                throw new Exception("参数格式错误", 5001001);
+            }
         }
 
-        return trim($param['value']);
+        return $param['value'];
     }
 }

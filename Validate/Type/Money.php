@@ -12,6 +12,10 @@ class Money extends \Validate\Abstraction {
             return $param['value'];
         }
 
-        throw new Exception($param['msg']);
+        if ($param['msg']) {
+            throw new Exception($param['msg']);
+        } else {
+            throw new Exception("参数格式错误", 5001001);
+        }
     }
 }
