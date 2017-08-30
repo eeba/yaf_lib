@@ -37,7 +37,7 @@ class Local extends Abstraction {
             throw new Exception("file $local_file_name is nou found");
         }
 
-        $store_path = $this->path . DS . date('Ymd') . DS;
+        $store_path = $this->path . DIRECTORY_SEPARATOR . date('Ymd') . DIRECTORY_SEPARATOR;
 
         if (!is_dir($store_path)) {
             $ret = mkdir($store_path, 0777, true);

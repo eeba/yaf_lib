@@ -2,7 +2,33 @@
 
 namespace Validate;
 
-
+/**
+ * Class Handler
+ * @package Validate
+ *
+ * <code>
+ * $params = array(
+ *      'id' => array(
+ *               'value'  => Request::request('id'),
+ *               'rule'   => 'digit',
+ *               'msg'    => 'validate.is_not_number',
+ *      ),
+ *      'type' => array(
+ *               'value'  => Request::request('type'),
+ *               'rule'   => 'in',
+ *               'in_list' => array(1,2,4,5)
+ *               'msg'    => 'validate.is_not_number',
+ *      )
+ *      'loan_id' => array(
+ *               'value'  => Request::request('loan_id'),
+ *               'rule'   => '/^[a-zA-Z0-9]{1,32}$/',
+ *               'msg'    => 'validate.is_not_number',
+ *      )
+ * )
+ * Handler::check($params);
+ *
+ * </code>
+ */
 class Handler {
 
     private static $_default_validator = array(
@@ -17,7 +43,6 @@ class Handler {
         'money' => 'Type\\Money',
         'card' => 'Type\\Card',
         'identify' => 'Type\\Identify',
-        //'regx'     =>  'Type\\Regx',
     );
 
     /**

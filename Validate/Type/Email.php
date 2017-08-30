@@ -12,12 +12,4 @@ class Email extends \Validate\Abstraction {
 
         return $param['value'];
     }
-
-    /**
-     * @param $host
-     * @return bool
-     */
-    private function _mx_exist($host) {
-        return getmxrr($host, $arr);
-    }
 }
