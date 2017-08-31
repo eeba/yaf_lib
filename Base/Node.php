@@ -12,7 +12,7 @@ class Node {
     }
 
     public function nodeList() {
-        $this->fileList($this->path);
+        $this->fileList($this->path);print_r($this->file_list);
         $node = [];
         if (!$this->file_list) {
             return $node;
@@ -57,11 +57,11 @@ class Node {
             }
 
             $file = str_ireplace('.php', '', $file);
-            if(is_dir($this->path . DS . $file)){
-                $this->fileList($path . DS . $file);
+            if(is_dir($this->path . DIRECTORY_SEPARATOR . $file)){
+                $this->fileList($path . DIRECTORY_SEPARATOR . $file);
             }else{
                 if ($file !== get_class($this) || $file !== 'Error') {
-                    $this->file_list[] = $path . DS . $file;
+                    $this->file_list[] = $path . DIRECTORY_SEPARATOR . $file;
                 }
             }
         }

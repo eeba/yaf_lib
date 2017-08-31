@@ -9,9 +9,9 @@ use Base\Exception as Exception;
  */
 class Redis extends Abstraction {
 
-    const   DEFAULT_CONNECT_TIMEOUT = 1,
-        DEFAULT_SEND_TIMEOUT = 1,
-        DEFAULT_RECV_TIMEOUT = 1;
+    const   DEFAULT_CONNECT_TIMEOUT = 1;
+    const   DEFAULT_SEND_TIMEOUT = 1;
+    const   DEFAULT_RECV_TIMEOUT = 1;
 
     protected $livetime = 0;
 

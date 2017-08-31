@@ -23,6 +23,12 @@ class Qiniu extends Abstraction {
         $this->upload = $this->upload ?: new UploadManager();
     }
 
+    /**
+     * 文件存储
+     * @param string $remote_file_name
+     * @param string $local_file_name
+     * @return bool
+     */
     public function put($remote_file_name, $local_file_name) {
         list($ret, $err) = $this->upload->putFile($this->token[$this->config], $remote_file_name, $local_file_name);
         if ($err !== null) {
