@@ -12,7 +12,7 @@ class Node {
     }
 
     public function nodeList() {
-        $this->fileList($this->path);print_r($this->file_list);
+        $this->fileList($this->path);
         $node = [];
         if (!$this->file_list) {
             return $node;
