@@ -3,7 +3,7 @@ namespace Msg;
 
 use Base\Exception;
 use Base\Config;
-use Base\Log;
+use Base\Logger;
 use Swift_SmtpTransport;
 use Swift_Mailer;
 use Swift_Message;
@@ -54,7 +54,7 @@ class Mail {
         try {
              return $mailer->send($message);
         } catch (Exception $e) {
-            Log::error([$e]);
+            Logger::getInstance()->error([$e->getCode(), $e->getMessage()]);
         }
     }
 }
