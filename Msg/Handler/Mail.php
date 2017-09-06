@@ -1,5 +1,5 @@
 <?php
-namespace Msg;
+namespace Msg\Handler;
 
 use Base\Exception;
 use Base\Config;
@@ -33,7 +33,7 @@ class Mail {
         $this->config = $config;
     }
 
-    public function sendMail($to,$title,$msg,$files=[]) {
+    public function send($to, $title, $msg, $files = []) {
         $transport = (new Swift_SmtpTransport($this->config['host'], $this->config['port']))
             ->setUsername($this->config['user'])
             ->setPassword($this->config['password']);
@@ -44,17 +44,19 @@ class Mail {
             ->setTo([$to])
             ->setBody($msg, 'text/html');
 
-        if(is_array($files) && !empty($files)){
-            foreach($files as $file_name=>$file_path) {
+        if (is_array($files) && !empty($files)) {
+            foreach ($files as $file_name => $file_path) {
                 $message->attach(Swift_Attachment::fromPath($file_path)->setFilename($file_name));
             }
         }
 
-        // Send the message
+        $ret = false;
         try {
-             return $mailer->send($message);
-        } catch (Exception $e) {
+            $ret = $mailer->send($message);
+            var_dump($ret);
+        } catch (\Exception $e) {
             Logger::getInstance()->error([$e->getCode(), $e->getMessage()]);
         }
+        return $ret ? true : false;
     }
 }
