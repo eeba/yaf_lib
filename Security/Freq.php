@@ -37,9 +37,9 @@ class Freq
      */
     private static $_redis;
 
-    public function __construct($name=\S\Db\Redis::NAME_DEFAULT){
+    public function __construct($name=\Db\Redis::NAME_DEFAULT){
         if(!self::$_redis){
-            self::$_redis = new \S\Db\Redis($name);
+            self::$_redis = new \Db\Redis($name);
         }
         return self::$_redis;
     }

@@ -22,7 +22,7 @@ class Lock {
      * @return bool
      */
     public static function mutexLock($lock_id, $expire = self::DEFAULT_EXPIRE) {
-        $redis = new Redis();
+        $redis = new \Db\Redis();
         $ret = $redis->set($lock_id, self::DEFAULT_VALUE, array('nx', 'ex'=>$expire));
         return $ret?true:false;
     }
@@ -61,7 +61,7 @@ class Lock {
      * @throws \Exception
      */
     public static function unlock($lock_id) {
-        $redis = new Redis();
+        $redis = new \Db\Redis();
         $ret = $redis->del($lock_id);
         return $ret?true:false;
     }

@@ -19,7 +19,7 @@ class Token {
      * @return string
      */
     public static function getFormToken(array $data = array(), $uniq = false){
-        $controller = \Core\Env::getControllerName();
+        $controller = \Base\Env::getControllerName();
         $time = microtime(true);
         $token = $time."|".$controller."|".$uniq."|".md5($time.$controller.$uniq.serialize($data).self::RANDOM);
         return $token;

@@ -1,9 +1,9 @@
 <?php
 namespace S\Security;
 
-use \S\Request;
-use \S\Response;
-use \S\Config;
+use \Http\Request;
+use \Http\Response;
+use \Base\Config;
 
 /**
  * 对外接口规范
@@ -61,7 +61,7 @@ class Api {
     /**
      * 校验请求串
      * @return bool
-     * @throws \S\Exception
+     * @throws \Base\Exception
      */
     public static function check($config_key){
         $key  = Request::request("key", null);
