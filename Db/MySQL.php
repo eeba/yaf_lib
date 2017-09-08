@@ -123,7 +123,7 @@ class MySQL {
             $cols = implode(',', array_map(function ($v) {
                 return "`{$v}`";
             }, array_values($cols)));
-        } elseif (!$cols){
+        } elseif (!$cols) {
             $cols = '*';
         }
         $where_sql = $this->toSql($where, $order, $limit);
@@ -169,27 +169,44 @@ class MySQL {
     /**
      * 生成sql条件
      *
-     * @param array $where
+     * @param array $param
      * @param array $order
      * @param int   $limit
      * @return array
      */
-    private function toSql(array $where = array(), array $order = array(), $limit = 0) {
+    public function toSql(array $param = array(), array $order = array(), $limit = 0) {
         $sql = '';
+        $where = array();
         $params = array();
-        $where_arr = array();
-        if (!empty($where)) {
-            foreach ($where as $key => $value) {
+        if (!empty($param)) {
+            foreach ($param as $key => $value) {
                 if (is_array($value)) {
-                    $in_sql = implode(array_fill(0, count($value), '?'), ',');
-                    $where_arr[] = "`{$key}` in({$in_sql})";
-                    $params = array_merge($params, array_values($value));
+                    if (isset($value['start']) || isset($value['end'])) {
+                        if ($value['start']) {
+                            $where[] = "`{$key}` >= ?";
+                            $params[] = $value['start'];
+                        }
+                        if ($value['end']) {
+                            $where[] = "`{$key}` <= ?";
+                            $params[] = $value['end'];
+                        }
+                    } elseif (isset($value['like'])) {
+                        $where[] = "`{$key}` like ?";
+                        $params[] = $value['like'];
+                    } elseif (isset($value['neq'])) {
+                        $where[] = "`{$key}` != ?";
+                        $params[] = $value['neq'];
+                    } else {
+                        $in_sql = implode(array_fill(0, count($value), '?'), ',');
+                        $where[] = "`{$key}` in (" . $in_sql . ")";
+                        $params = array_merge($params, array_values($value));
+                    }
                 } else {
-                    $where_arr[] = "`{$key}` = ?";
+                    $where[] = "`{$key}` = ?";
                     $params[] = $value;
                 }
             }
-            $sql .= implode(' and ', $where_arr);
+            $sql .= implode(' and ', $where);
         }
 
         if (!empty($order)) {
@@ -208,7 +225,7 @@ class MySQL {
             }
         }
 
-        return array('sql' => $sql ?: ' 1 = 1 ', 'params' => $params);
+        return array('sql' => $sql ?: ' 1 ', 'params' => $params);
     }
 
     /**
@@ -239,7 +256,7 @@ class MySQL {
         foreach ($params as $param) {
             $debug_sql = substr_replace($debug_sql, $param, strpos($debug_sql, "?"), 1);
         }
-        Logger::getInstance()->debug([$_start, $_end, $_end-$_start, $debug_sql],'sql');
+        Logger::getInstance()->debug([$_start, $_end, $_end - $_start, $debug_sql], 'sql');
 
         return $this->stmt;
     }
