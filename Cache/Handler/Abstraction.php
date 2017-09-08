@@ -51,7 +51,7 @@ abstract class Abstraction implements CacheInterface {
     public function configure($type, $name = '') {
         $this->type = $type;
         $this->name = $name;
-        $this->config = \Base\Config::get('service.cache.'.$type);
+        $this->config = \Base\Config::get('service.cache.' . $type);
         if (!$this->config) {
             throw new \Base\Exception(get_class($this) . ' need be configured. Config : ' . $name);
         }
@@ -110,7 +110,8 @@ abstract class Abstraction implements CacheInterface {
         return $ret;
     }
 
-    protected function init() {}
+    protected function init() {
+    }
 
     /**
      * 关闭缓存连接

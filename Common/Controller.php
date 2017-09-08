@@ -1,7 +1,6 @@
 <?php
 namespace Common;
 
-use Base\Exception;
 use Base\Logger;
 use Http\Response;
 use Http\Request;

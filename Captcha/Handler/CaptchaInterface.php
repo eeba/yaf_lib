@@ -1,7 +1,7 @@
 <?php
 namespace Base\Captcha\Handler;
 
-interface CaptchaInterface{
+interface CaptchaInterface {
     /**
      * 验证码展示
      * @param $args

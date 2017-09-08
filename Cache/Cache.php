@@ -12,8 +12,8 @@ namespace Cache;
  * 会到config下的memcache配置文件中查找userinfo项
  *
  * <code>
- * $ret = \Base\Cache\Cache::get($key);
- * $ret = \Base\Cache\Cache::set($key, $value);
+ * $ret = Cache\Cache::get($key);
+ * $ret = Cache\Cache::set($key, $value);
  *
  * //init
  * $mc  = Cache\Cache::pool('memcache', 'userinfo');

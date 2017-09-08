@@ -6,7 +6,7 @@ class Node {
     private $path = '';
     private $file_list = [];
 
-    public function __construct($path, $filter=[]) {
+    public function __construct($path, $filter = []) {
         $this->path = $path;
         $this->filter = $filter;
     }
@@ -21,7 +21,7 @@ class Node {
 
             \Yaf\Loader::import($file . EXT);
             $tmp_file = explode('controllers', $file);
-            $file_name = str_replace('/','_',trim($tmp_file[1],'/'));
+            $file_name = str_replace('/', '_', trim($tmp_file[1], '/'));
             $class_name = 'Controller_' . $file_name;
             if (!class_exists($class_name) || in_array($class_name, $this->filter)) {
                 continue;
@@ -36,7 +36,7 @@ class Node {
             $method_list = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
             foreach ($method_list as $value) {
                 $method_name = $value->name;
-                if(!stripos($method_name,'Action')){
+                if (!stripos($method_name, 'Action')) {
                     continue;
                 }
                 $method_doc = $value->getDocComment();
@@ -57,9 +57,9 @@ class Node {
             }
 
             $file = str_ireplace('.php', '', $file);
-            if(is_dir($this->path . DIRECTORY_SEPARATOR . $file)){
+            if (is_dir($this->path . DIRECTORY_SEPARATOR . $file)) {
                 $this->fileList($path . DIRECTORY_SEPARATOR . $file);
-            }else{
+            } else {
                 if ($file !== get_class($this) || $file !== 'Error') {
                     $this->file_list[] = $path . DIRECTORY_SEPARATOR . $file;
                 }

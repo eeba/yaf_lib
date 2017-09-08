@@ -23,8 +23,7 @@ namespace S\Security;
  * $ret = $freq->clear('ip_limit','10.0.0.1');
  *
  */
-class Freq
-{
+class Freq {
     const TTL_TYPE_DAY = 1;  //按自然日计数
     const TTL_TYPE_WEEK = 2;  //按自然周计数
     const TTL_TYPE_MONTH = 3;  //按自然月计数
@@ -37,29 +36,29 @@ class Freq
      */
     private static $_redis;
 
-    public function __construct($name=\Db\Redis::NAME_DEFAULT){
-        if(!self::$_redis){
+    public function __construct($name = \Db\Redis::NAME_DEFAULT) {
+        if (!self::$_redis) {
             self::$_redis = new \Db\Redis($name);
         }
         return self::$_redis;
     }
 
-    public function get($rule_name, $key){
+    public function get($rule_name, $key) {
         return self::$_redis->hGet($rule_name, $key);
     }
 
-    public function clear($rule_name, $key){
+    public function clear($rule_name, $key) {
         return self::$_redis->hDel($rule_name, $key);
     }
 
     /**
      * @param string $rule_name 规则名
-     * @param string $key  唯一标示
-     * @param int $threshold 阈值
+     * @param string $key 唯一标示
+     * @param int    $threshold 阈值
      *
      * @return bool|string
      */
-    public function check($rule_name, $key, $threshold){
+    public function check($rule_name, $key, $threshold) {
         $count = self::$_redis->hGet($rule_name, $key);
         $result = ($threshold > intval($count));
 
@@ -88,10 +87,10 @@ class Freq
      * 先判断后计数
      *
      * @param string $rule_name 规则名
-     * @param string $key  唯一标示
-     * @param int $threshold 阈值
-     * @param int $ttl 过期时效
-     * @param int $increment default 1 单次增加频率数量
+     * @param string $key 唯一标示
+     * @param int    $threshold 阈值
+     * @param int    $ttl 过期时效
+     * @param int    $increment default 1 单次增加频率数量
      *
      * @return int|bool 成功返回已计数次数, 失败返回false
      */
@@ -111,26 +110,26 @@ class Freq
     /**
      *
      * @param string $rule_name 规则名
-     * @param string $key  唯一标示
-     * @param int $threshold 阈值
+     * @param string $key 唯一标示
+     * @param int    $threshold 阈值
      *
      * @return bool|string
      */
-    public function checkByNaturalTime($rule_name, $key, $threshold){
+    public function checkByNaturalTime($rule_name, $key, $threshold) {
         return $this->check($rule_name, $key, $threshold);
     }
 
     /**
      *
      * @param string $rule_name 规则名
-     * @param string $key  唯一标示
-     * @param int $threshold 阈值
-     * @param int $freqDesc 自然周期 0-每自然日 1-每自然周 2-每自然月 3-每自然年
-     * @param int $increment default 1 单次增加频率数量
+     * @param string $key 唯一标示
+     * @param int    $threshold 阈值
+     * @param int    $freqDesc 自然周期 0-每自然日 1-每自然周 2-每自然月 3-每自然年
+     * @param int    $increment default 1 单次增加频率数量
      *
      * @return bool|string
      */
-    public function addByNaturalTime($rule_name, $key, $threshold, $freqDesc, $increment = 1){
+    public function addByNaturalTime($rule_name, $key, $threshold, $freqDesc, $increment = 1) {
         return $this->add($rule_name, $key, $threshold, self::getTTL($freqDesc), $increment);
     }
 
@@ -141,7 +140,7 @@ class Freq
      *
      * @return int
      */
-    public static function getTTL($freqDesc){
+    public static function getTTL($freqDesc) {
         $timestamp = time();
         switch ($freqDesc) {
             case self::TTL_TYPE_DAY :

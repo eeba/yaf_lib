@@ -21,7 +21,7 @@ class Utils {
      * @return array
      */
     public static function getIncludedFilesMd5() {
-        $ret   = array();
+        $ret = array();
         $files = get_included_files();
         foreach ($files as $file) {
             $ret[$file] = md5_file($file);

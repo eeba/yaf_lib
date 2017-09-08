@@ -144,7 +144,7 @@ class Redis extends Abstraction {
     protected function connect() {
         if (isset($this->config['persistent']) && $this->config['persistent']) {
             $this->_persistent = true;
-            $conn              = $this->redis->pconnect($this->config['host'], $this->config['port'], $this->config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
+            $conn = $this->redis->pconnect($this->config['host'], $this->config['port'], $this->config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
             //重连一次
             if ($conn === false) {
                 $conn = $this->redis->pconnect($this->config['host'], $this->config['port'], $this->config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);

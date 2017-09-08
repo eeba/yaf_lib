@@ -3,6 +3,7 @@ namespace Http;
 
 use Base\Exception;
 use Base\Config;
+
 /**
  * Class Curl
  *
@@ -59,7 +60,7 @@ class Curl {
      * Http constructor.
      *
      * @param string $base_uri 服务根路径 e.g. http://demo.com/api
-     * @param array  $options  default array() 请求配置
+     * @param array  $options default array() 请求配置
      *
      * @throws Exception
      */
@@ -70,55 +71,22 @@ class Curl {
 
         $this->_base_uri = $base_uri;
 
-        $config['base_uri']        = $base_uri;
-        $config['timeout']         = 10;
+        $config['base_uri'] = $base_uri;
+        $config['timeout'] = 10;
         $config['connect_timeout'] = 3;
-        $config['version']         = '1.1';
-        $config['http_errors']     = true;
-        $config['verify']          = false;
+        $config['version'] = '1.1';
+        $config['http_errors'] = true;
+        $config['verify'] = false;
 
         $this->_client = new \GuzzleHttp\Client(array_merge($config, $options));
     }
 
     /**
-     * 内部请求-走http-gateway
-     *
-     * @param       $method
-     * @param       $path
-     * @param array $data
-     * @param array $options
-     * @return string
-     * @throws Exception
-     */
-    public function requestInternal($method, $path, array $data = array(), array $options = array()) {
-        //构造header
-        $secret = ('app.' . APP_NAME . '.secret');
-        if (!$secret) {
-            throw new Exception('app secret not configured');
-        }
-        $time = time();
-        ksort($data);
-        $fields_values = array_values($data);
-        $fields_keys   = array_keys($data);
-
-        $headers             = array();
-        $headers['x-source'] = APP_NAME;
-        $headers['x-time']   = $time;
-        $headers['x-fields'] = implode(",", $fields_keys);
-        $headers['x-m']      = md5(APP_NAME . "|" . $time . "|" . $secret . "|" . implode("", $fields_values));
-
-        $options['headers'] = array_merge($headers, (array)$options['headers']);
-        $ret                = $this->request($method, $path, $data, $options);
-
-        return $ret;
-    }
-
-    /**
      * 外部请求
      *
-     * @param string $method  请求方法
-     * @param string $path    请求资源相对路径 e.g. foo/bar foo/bar?a=1&b=2
-     * @param mixed  $data    default array()
+     * @param string $method 请求方法
+     * @param string $path 请求资源相对路径 e.g. foo/bar foo/bar?a=1&b=2
+     * @param mixed  $data default array()
      * @param array  $options default array()
      *
      * @return string

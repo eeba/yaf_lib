@@ -1,8 +1,9 @@
 <?php
 namespace Controller;
 
-use Base\Response;
-use Base\Request;
+use Http\Response;
+use Http\Request;
+
 /**
  * Class Common
  *
@@ -15,12 +16,12 @@ abstract class Common extends \Yaf\Controller_Abstract {
     protected $response;
 
     public function init() {
-        if(Request::isAjax()){
+        if (Request::isAjax()) {
             Response::setFormatter(Response::FORMAT_JSON);
         }
     }
 
-    public function getParams($key, $type='request'){
+    public function getParams($key, $type = 'request') {
         switch (strtolower($type)) {
             case 'request':
                 $ret = strip_tags(Request::request($key));
@@ -44,11 +45,11 @@ abstract class Common extends \Yaf\Controller_Abstract {
         }
     }
 
-    public function displayJson($data){
+    public function displayJson($data) {
         Response::outJson(2000000, 'success', $data);
     }
 
-    public function displayView($tpl_vars){
+    public function displayView($tpl_vars) {
         $tpl_name = $this->getRequest()->action;
         $this->display($tpl_name, $tpl_vars);
     }

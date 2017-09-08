@@ -42,9 +42,9 @@ class Config {
      * 设置工作进程的配置
      *
      * @param string $class_name 类名(包括命名空间)
-     * @param int    $work_num  工作进程数
-     * @param int    $ttl       进程工作多少时间会被回收     默认一天
-     * @param int    $deal_num  进程循环处理多少次会被回收   默认1000000次
+     * @param int    $work_num 工作进程数
+     * @param int    $ttl 进程工作多少时间会被回收     默认一天
+     * @param int    $deal_num 进程循环处理多少次会被回收   默认1000000次
      *
      * @return bool
      *
@@ -58,7 +58,7 @@ class Config {
         }
         $this->_config[$class_name] = array(
             'work_num' => $work_num,
-            'ttl'      => $ttl,
+            'ttl' => $ttl,
             'deal_num' => $deal_num,
         );
         $this->_setConfigByFile();

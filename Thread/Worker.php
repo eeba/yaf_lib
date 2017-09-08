@@ -37,7 +37,7 @@ abstract class Worker {
      */
     public function doTask() {
         $this->runStartTime = time();
-        $this->isRunning    = true;
+        $this->isRunning = true;
         $this->registerSigHandler();
         Utils::echoInfo(cli_get_process_title() . " start");
         //循环处理，直到接受到停止信号
@@ -71,14 +71,16 @@ abstract class Worker {
             $this->runNum++;
 
             pcntl_signal_dispatch();
-            if (!$this->isRunning) break;
+            if (!$this->isRunning)
+                break;
             if ($this->whileSleep == 0) {
                 usleep(10000);//10秒
             } else {
                 sleep($this->whileSleep);
             }
             pcntl_signal_dispatch();
-            if (!$this->isRunning) break;
+            if (!$this->isRunning)
+                break;
         }
         exit;
     }
@@ -147,7 +149,7 @@ abstract class Worker {
      */
     protected function checkRunNum() {
         $thread_config = new Config();
-        $class_name     = "\\" . get_class($this);
+        $class_name = "\\" . get_class($this);
         if ($this->runNum >= $thread_config->getWorkerDealNum($class_name)) {
             return false;
         }
@@ -160,7 +162,7 @@ abstract class Worker {
      */
     protected function checkRunTtl() {
         $thread_config = new Config();
-        $class_name     = "\\" . get_class($this);
+        $class_name = "\\" . get_class($this);
         if ((time() - $this->runStartTime) >= $thread_config->getWorkerTtl($class_name)) {
             return false;
         }

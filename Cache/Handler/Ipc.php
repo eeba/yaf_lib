@@ -28,9 +28,9 @@ class Ipc implements CacheInterface {
     /**
      * 实现缓存的set接口
      *
-     * @param string $key   key值
+     * @param string $key key值
      * @param mixed  $value value值
-     * @param int    $max   最大缓存元素数，注意请勿设置过大，除非你确定不会引起内存泄露之类的问题
+     * @param int    $max 最大缓存元素数，注意请勿设置过大，除非你确定不会引起内存泄露之类的问题
      *
      * @return bool
      */

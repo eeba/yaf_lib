@@ -33,8 +33,8 @@ class Memcache extends Abstraction {
     /**
      * 实现缓存的set接口
      *
-     * @param string $key    key值
-     * @param mixed  $value  value值
+     * @param string $key key值
+     * @param mixed  $value value值
      * @param int    $expire 过期时间
      *
      * @return bool
@@ -177,12 +177,12 @@ class Memcache extends Abstraction {
     protected function initConf(array $config) {
         //Memcache::addServer(string $host [, int $port = 11211 [, bool $persistent [, int $weight [, int $timeout [, int $retry_interval [, bool $status [, callable $failure_callback [, int $timeoutms ]]]]]]]] )
         $default = array(
-            'port'             => 11211,
-            'persistent'       => false,//memcache中默认是true
-            'weight'           => 1,
-            'timeout'          => self::DEFAULT_CONNECT_TIMEOUT,
-            'retry_interval'   => 15,  //memcache中默认是15s，-1为禁止
-            'status'           => true,
+            'port' => 11211,
+            'persistent' => false,//memcache中默认是true
+            'weight' => 1,
+            'timeout' => self::DEFAULT_CONNECT_TIMEOUT,
+            'retry_interval' => 15,  //memcache中默认是15s，-1为禁止
+            'status' => true,
             'failure_callback' => array($this, 'failureCallback'),
         );
         if (isset($config['persistent']) && $config['persistent']) {

@@ -26,6 +26,8 @@ class Guid {
      * 1.短链id
      * 2.订单id
      * 3.追踪id
+     * @param string $flag
+     * @return string
      */
     public static function getUid($flag = "") {
         $time = microtime(true) * 10000;//14位

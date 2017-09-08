@@ -33,18 +33,19 @@ use \Base\Exception;
  */
 class Rsa implements CryptInterface {
 
-    const DEFAULT_KEY   = "common";
+    const DEFAULT_KEY = "common";
+
     /**
      * 加密
-     * @param $plain
-     * @param $key
+     * @param     $plain
+     * @param     $key
      * @param int $padding
      *
      * @return string
      * @throws Exception
      */
-    public static function encrypt($plain, $key=self::DEFAULT_KEY, $padding=OPENSSL_PKCS1_PADDING){
-        $rsa_content = \Base\Config::confSecurity('rsa.'.$key);
+    public static function encrypt($plain, $key = self::DEFAULT_KEY, $padding = OPENSSL_PKCS1_PADDING) {
+        $rsa_content = \Base\Config::get('rsa.' . $key);
         if (!$rsa_content) {
             throw new Exception("The rsa $key is not find");
         }
@@ -54,7 +55,7 @@ class Rsa implements CryptInterface {
         $public_key = openssl_pkey_get_public($rsa_content['public_key']);
         if (!openssl_public_encrypt($plain, $enplain, $public_key, $padding)) {
             while ($msg = openssl_error_string()) {
-                $errmsg .= $msg. "\n";
+                $errmsg .= $msg . "\n";
             }
             throw new Exception($errmsg);
         }
@@ -63,15 +64,15 @@ class Rsa implements CryptInterface {
 
     /**
      * 解密
-     * @param $enplain
-     * @param $key
+     * @param     $enplain
+     * @param     $key
      * @param int $padding
      *
      * @return string
      * @throws Exception
      */
-    public static function decrypt($enplain, $key=self::DEFAULT_KEY, $padding=OPENSSL_PKCS1_PADDING){
-        $rsa_content = \Base\Config::confSecurity('rsa.'.$key);
+    public static function decrypt($enplain, $key = self::DEFAULT_KEY, $padding = OPENSSL_PKCS1_PADDING) {
+        $rsa_content = \Base\Config::get('rsa.' . $key);
         if (!$rsa_content) {
             throw new Exception("The rsa $key is not find");
         }
@@ -81,7 +82,7 @@ class Rsa implements CryptInterface {
         $private_key = openssl_pkey_get_private($rsa_content['private_key']);
         if (!openssl_private_decrypt($enplain, $plain, $private_key, $padding)) {
             while ($msg = openssl_error_string()) {
-                $errmsg .= $msg. "\n";
+                $errmsg .= $msg . "\n";
             }
             throw new Exception($errmsg);
         }
@@ -90,14 +91,14 @@ class Rsa implements CryptInterface {
 
     /**
      * 对js加密的内容解密
-     * @param $enplain
-     * @param $key
+     * @param     $enplain
+     * @param     $key
      * @param int $padding
      *
      * @return string
      * @throws Exception
      */
-    public static function decryptForJs($enplain, $key=self::DEFAULT_KEY, $padding=OPENSSL_PKCS1_PADDING) {
+    public static function decryptForJs($enplain, $key = self::DEFAULT_KEY, $padding = OPENSSL_PKCS1_PADDING) {
         $enplain = pack("H*", $enplain);
         $plain = self::decrypt($enplain, $key);
         if ($padding == OPENSSL_NO_PADDING) {

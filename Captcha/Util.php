@@ -4,12 +4,12 @@ namespace Base\Captcha;
 use Base\Exception;
 use Base\Util\Rand;
 
-class Util{
+class Util {
 
     const MARK = '%captcha%';
 
-    public static function create($type, $length){
-        switch($type){
+    public static function create($type, $length) {
+        switch ($type) {
             case Captcha::TYPE_DIGIT:
                 $code = Rand::digit($length);
                 break;
@@ -26,18 +26,18 @@ class Util{
                 $code = Rand::alnum($length);
                 break;
             default:
-                throw new Exception(__CLASS__." captcha $type is not found");
+                throw new Exception(__CLASS__ . " captcha $type is not found");
         }
 
         return $code;
     }
 
-    public static function createID(){
+    public static function createID() {
         $id = uniqid('code_', true);
         return $id;
     }
 
-    public static function content($code, $modules){
+    public static function content($code, $modules) {
         return str_replace(self::MARK, $code, $modules);
     }
 }

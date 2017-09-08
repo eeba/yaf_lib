@@ -17,14 +17,14 @@ class Lock {
      * 互斥锁 CAS
      * 基于时间一直没有误差
      * 如果时间较短 有死锁风险
-     * @param $lock_id
+     * @param     $lock_id
      * @param int $expire
      * @return bool
      */
     public static function mutexLock($lock_id, $expire = self::DEFAULT_EXPIRE) {
         $redis = new \Db\Redis();
-        $ret = $redis->set($lock_id, self::DEFAULT_VALUE, array('nx', 'ex'=>$expire));
-        return $ret?true:false;
+        $ret = $redis->set($lock_id, self::DEFAULT_VALUE, array('nx', 'ex' => $expire));
+        return $ret ? true : false;
     }
 
     /**
@@ -34,19 +34,19 @@ class Lock {
      * @param $wait_time
      * @return bool
      */
-    public static function blockLock($lock_id, $expire = self::DEFAULT_EXPIRE, $wait_time = self::DEFAULT_WAIT ){
+    public static function blockLock($lock_id, $expire = self::DEFAULT_EXPIRE, $wait_time = self::DEFAULT_WAIT) {
         $ret = self::mutexLock($lock_id, $expire);
-        if($ret){
+        if ($ret) {
             return true;
-        }else{
+        } else {
             $i = 0;
-            $num = intval(($wait_time*1000)/self::DEFAULT_WAIT_SEC);
-            while($i < $num){
+            $num = intval(($wait_time * 1000) / self::DEFAULT_WAIT_SEC);
+            while ($i < $num) {
                 $ret = self::mutexLock($lock_id, $expire);
-                if($ret){
+                if ($ret) {
                     return true;
-                }else{
-                    usleep(self::DEFAULT_WAIT_SEC*1000);
+                } else {
+                    usleep(self::DEFAULT_WAIT_SEC * 1000);
                     $i++;
                 }
             }
@@ -63,7 +63,7 @@ class Lock {
     public static function unlock($lock_id) {
         $redis = new \Db\Redis();
         $ret = $redis->del($lock_id);
-        return $ret?true:false;
+        return $ret ? true : false;
     }
 
 }

@@ -1,20 +1,27 @@
 <?php
 namespace Common;
 
-use Base\Logger;
 use Validate\Handler;
+use Http\Response;
 
 abstract class PlainAbstract extends Controller {
     protected $params;
 
-    public function before(){}
-    public function auth(){}
-    abstract public function params();
-    abstract public function action();
-    public function after(){}
+    public function before() {
+    }
 
-    public function indexAction(){
-        \Http\Response::setFormatter(\Http\Response::FORMAT_PLAIN);
+    public function auth() {
+    }
+
+    abstract public function params();
+
+    abstract public function action();
+
+    public function after() {
+    }
+
+    public function indexAction() {
+        Response::setFormatter(Response::FORMAT_PLAIN);
 
         $this->before();
         $this->auth();

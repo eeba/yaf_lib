@@ -34,44 +34,44 @@ use \Base\Exception;
  * 即待加密数据按8字节分组，最后一组不足8字数据按补位长度分别右补1-7个字节的相应数据
  * 加解密时都需要使用pkcs5方法来处理明文/密文数据
  */
-class Des implements CryptInterface{
+class Des implements CryptInterface {
 
-	const DEFAULT_KEY   = "common";
+    const DEFAULT_KEY = "common";
 
-	public static function encrypt($plain, $key=self::DEFAULT_KEY) {
-		$config = \Base\Config::confSecurity('des.'.$key);
-		if(!$config){
-			throw new Exception("des $key config not find");
-		}
+    public static function encrypt($plain, $key = self::DEFAULT_KEY) {
+        $config = \Base\Config::get('des.' . $key);
+        if (!$config) {
+            throw new Exception("des $key config not find");
+        }
 
-		if ($config['pkcs5pad'] !== false) {
-			$plain = self::pkcs5Pad($plain, 8);
-		}
-		return openssl_encrypt($plain, $config['method'], $config['password'], $config['options']);
-	}
+        if ($config['pkcs5pad'] !== false) {
+            $plain = self::pkcs5Pad($plain, 8);
+        }
+        return openssl_encrypt($plain, $config['method'], $config['password'], $config['options']);
+    }
 
-	public static function decrypt($enplain, $key=self::DEFAULT_KEY) {
-		$config = \Base\Config::confSecurity('des.'.$key);
-		if(!$config){
-			throw new Exception("des $key config not find");
-		}
-		$plain = openssl_decrypt($enplain, $config['method'], $config['password'], $config['options']);
-		return $config['pkcs5pad'] !== false ? self::pkcs5Unpad($plain) : $plain;
-	}
+    public static function decrypt($enplain, $key = self::DEFAULT_KEY) {
+        $config = \Base\Config::get('des.' . $key);
+        if (!$config) {
+            throw new Exception("des $key config not find");
+        }
+        $plain = openssl_decrypt($enplain, $config['method'], $config['password'], $config['options']);
+        return $config['pkcs5pad'] !== false ? self::pkcs5Unpad($plain) : $plain;
+    }
 
-	public static function pkcs5Pad($plain, $blocksize) {
-		$pad = $blocksize - (strlen($plain) % $blocksize);
-		return $plain . str_repeat(chr($pad), $pad);
-	}
+    public static function pkcs5Pad($plain, $blocksize) {
+        $pad = $blocksize - (strlen($plain) % $blocksize);
+        return $plain . str_repeat(chr($pad), $pad);
+    }
 
-	public static function pkcs5Unpad($plain) {
-		$pad = ord($plain{strlen($plain) - 1});
-		if ($pad > strlen($plain)) {
-			return false;
-		}
-		if (strspn($plain, chr($pad), strlen($plain) - $pad) != $pad) {
-			return false;
-		}
-		return substr($plain, 0, -1 * $pad);
-	}
+    public static function pkcs5Unpad($plain) {
+        $pad = ord($plain{strlen($plain) - 1});
+        if ($pad > strlen($plain)) {
+            return false;
+        }
+        if (strspn($plain, chr($pad), strlen($plain) - $pad) != $pad) {
+            return false;
+        }
+        return substr($plain, 0, -1 * $pad);
+    }
 }
