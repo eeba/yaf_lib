@@ -22,7 +22,7 @@ class Config {
         $file = '';
         while (!file_exists($file) && $names) {
             $file_name = array_shift($names);
-            $file_path .= DS . $file_name;
+            $file_path .= DIRECTORY_SEPARATOR . $file_name;
             $file = $file_path . ".php";
         }
 
