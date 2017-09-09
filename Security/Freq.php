@@ -1,5 +1,5 @@
 <?php
-namespace S\Security;
+namespace Security;
 
 /**
  * Class Sfreq

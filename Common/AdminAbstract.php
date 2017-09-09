@@ -6,8 +6,8 @@ abstract class AdminAbstract extends Controller {
 
     public function init() {
         parent::init();
-        $app_info = $_SESSION['app_info'];
-        if (!$app_info['app_key']) {
+        $app_info = $_SESSION['admin_info'];
+        if (!$app_info) {
             $this->redirect('/admin/login/index');
         }
     }

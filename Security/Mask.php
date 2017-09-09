@@ -1,9 +1,9 @@
 <?php
 
-namespace S\Security;
+namespace Security;
 /**
  * Class Mask
- * @package S\Security
+ * @package Security
  * @description 关键讯息添加马赛克工具类
  */
 class Mask {

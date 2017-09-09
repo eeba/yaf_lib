@@ -1,5 +1,5 @@
 <?php
-namespace S\Security;
+namespace Security;
 
 /**
  * 生成表单校验用的token

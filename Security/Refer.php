@@ -2,7 +2,7 @@
 /**
  * 校验refer方法
  */
-namespace S\Security;
+namespace Security;
 
 class Refer {
     /**
