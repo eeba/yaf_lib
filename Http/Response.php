@@ -9,8 +9,8 @@ class Response {
     const FORMAT_PLAIN = 'plain';
     const FORMAT_HTML = 'html';
 
+    static public $formatter = null;
     static protected $meta = array();
-    static protected $formatter = null;
 
     public static function setFormatter($format) {
         self::$formatter = $format;

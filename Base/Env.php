@@ -29,6 +29,14 @@ class Env {
         self::$module = $request->getModuleName() ?: '';
         self::$controller = $request->getControllerName() ?: '';
         self::$action = $request->getActionName() ?: '';
+        //初始化请求类型
+        if(!Response::$formatter) {
+            if (Request::isAjax()) {
+                Response::setFormatter(Response::FORMAT_JSON);
+            } else {
+                Response::setFormatter(Response::FORMAT_HTML);
+            }
+        }
     }
 
     public static function getCliClass() {
