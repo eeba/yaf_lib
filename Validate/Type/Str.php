@@ -11,8 +11,8 @@ class Str extends \Validate\Abstraction {
 
     public function action($param) {
         $len = strlen($param['value']);
-        $min = $param['option']['min'];
-        $max = $param['option']['max'];
+        $min = $param['option']['min']?:0;
+        $max = $param['option']['max']?:255;
         if ($len < $min || $len > $max) {
             if ($param['msg']) {
                 throw new Exception($param['msg']);
