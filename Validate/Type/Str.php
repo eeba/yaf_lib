@@ -4,15 +4,15 @@ namespace Validate\Type;
 use Base\Exception;
 
 class Str extends \Validate\Abstraction {
-    protected $_default_settings = array(
+    protected $default_settings = array(
         'min' => 1,
         'max' => 255,
     );
 
     public function action($param) {
         $len = strlen($param['value']);
-        $min = isset($param['option']['min']) ? $param['option']['min'] : 0;
-        $max = isset($param['option']['max']) ? $param['option']['max'] : 255;
+        $min = isset($param['option']['min']) ? $param['option']['min'] : $this->default_settings['min'];
+        $max = isset($param['option']['max']) ? $param['option']['max'] : $this->default_settings['max'];
         if ($len < $min || $len > $max) {
             if ($param['msg']) {
                 throw new Exception($param['msg']);
