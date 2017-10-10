@@ -43,7 +43,7 @@ class Node {
                 if ($method_doc && preg_match('/\@name\s+(.+)/i', $method_doc, $match)) {
                     $method_name = strtolower(trim($match[1]));
                 }
-                $node[$file_name]['method'][$value->name] = $method_name;
+                $node[$file_name]['action'][$value->name] = $method_name;
             }
         }
         return $node;

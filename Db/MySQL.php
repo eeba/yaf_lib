@@ -207,6 +207,8 @@ class MySQL {
                 }
             }
             $sql .= implode(' and ', $where);
+        } else {
+            $sql = ' 1 ';
         }
 
         if (!empty($order)) {
@@ -225,7 +227,7 @@ class MySQL {
             }
         }
 
-        return array('sql' => $sql ?: ' 1 ', 'params' => $params);
+        return array('sql' => $sql, 'params' => $params);
     }
 
     /**
