@@ -214,7 +214,7 @@ class MySQL {
         if (!empty($order)) {
             $order_arr = array();
             foreach ($order as $key => $value) {
-                $order_arr[] = $key . ' ' . $value;
+                $order_arr[] = "`{$key}` {$value}";
             }
             $sql .= ' order by ' . implode(' and ', $order_arr);
         }
