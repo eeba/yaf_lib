@@ -7,8 +7,6 @@ use Base\Config;
 class Redis {
 
     const DEFAULT_CONNECT_TIMEOUT = 5;
-    const DEFAULT_SEND_TIMEOUT = 5;
-    const DEFAULT_RECV_TIMEOUT = 5;
     const NAME_DEFAULT = 'common';
 
     /**
@@ -82,10 +80,6 @@ class Redis {
             $this->connect();
             $this->setOptions();
         }
-
-        /**
-         * @var /Redis $res[$this->name]
-         */
         return self::$res[$this->name];
     }
 
