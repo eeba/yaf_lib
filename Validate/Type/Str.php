@@ -5,7 +5,7 @@ use Base\Exception;
 
 class Str extends \Validate\Abstraction {
     protected $default_settings = array(
-        'min' => 1,
+        'min' => 0,
         'max' => 255,
     );
 
