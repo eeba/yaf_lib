@@ -105,16 +105,16 @@ class Logger {
                 $module = Env::$module;
                 $controller = Env::$controller;
                 $action = Env::$action;
-                $controller_name = strtolower(str_replace('_', DS, $controller));
+                $controller_name = strtolower(str_replace('_', DIRECTORY_SEPARATOR, $controller));
                 if (strtolower($module) == 'index') {
-                    $key = $module . DS . $controller_name;
+                    $key = $module . DIRECTORY_SEPARATOR . $controller_name;
                 } else {
-                    $key = $module . DS . $controller_name . DS . $action;
+                    $key = $module . DIRECTORY_SEPARATOR . $controller_name . DIRECTORY_SEPARATOR . $action;
                 }
             }
         } else {
             $key = $path;
         }
-        return strtolower(LOG_PATH . DS . APP . DS . $key . DS . date("Ym") . DS . $level_name . '.' . date("Ymd") . ".log");
+        return strtolower(LOG_PATH . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . date("Ym") . DIRECTORY_SEPARATOR . $level_name . '.' . date("Ymd") . ".log");
     }
 }

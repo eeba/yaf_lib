@@ -38,7 +38,7 @@ abstract class Controller extends \Yaf\Controller_Abstract {
         return $ret;
     }
 
-    public function render($tpl = '', array $parameters = []) {
+    public function render() {
         if (Response::getFormatter() === Response::FORMAT_PLAIN) {
             Response::outPlain($this->response);
         } elseif (Response::getFormatter() === Response::FORMAT_JSON) {
@@ -59,16 +59,16 @@ abstract class Controller extends \Yaf\Controller_Abstract {
         $controller = $this->getRequest()->getControllerName();
         $action = $this->getRequest()->getActionName();
         if ($this->route == 'map') {
-            $tpl_path = str_replace('_', DS, strtolower($controller)) . '.html';
+            $tpl_path = str_replace('_', DIRECTORY_SEPARATOR, strtolower($controller)) . '.html';
         } else {
-            $tpl_path = str_replace('_', DS, strtolower($controller)) . DS . strtolower($action) . '.html';
+            $tpl_path = str_replace('_', DIRECTORY_SEPARATOR, strtolower($controller)) . DIRECTORY_SEPARATOR . strtolower($action) . '.html';
         }
         $smarty = new \Smarty();
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
         $smarty->setTemplateDir($this->getViewpath());
-        $smarty->setCompileDir(ROOT_PATH . DS . 'data/compile');
-        $smarty->setCacheDir(ROOT_PATH . DS . 'data/cache');
+        $smarty->setCompileDir(ROOT_PATH . DIRECTORY_SEPARATOR . 'data/compile');
+        $smarty->setCacheDir(ROOT_PATH . DIRECTORY_SEPARATOR . 'data/cache');
         $smarty->caching = false;//\Smarty::CACHING_LIFETIME_CURRENT;
         //$smarty->cache_lifetime = 5;
         foreach ($tpl_vars as $key => $value) {

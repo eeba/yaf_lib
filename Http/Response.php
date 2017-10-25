@@ -35,7 +35,7 @@ class Response {
             'code' => $code,
             'msg' => strval($message),
         ), $data));
-        Logger::getInstance('response')->debug([$json_string]);
+        Logger::getInstance('response')->info([$json_string]);
         if ($return_string) {
             return $json_string;
         } else {
@@ -52,7 +52,7 @@ class Response {
      * @param string $text
      */
     public static function outPlain($text) {
-        Logger::getInstance('response')->debug([$text]);
+        Logger::getInstance('response')->info([$text]);
         if ($text) {
             echo $text;
         }
