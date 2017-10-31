@@ -34,12 +34,12 @@ class Response {
         $json_string = json_encode(array_merge(self::$meta, array(
             'code' => $code,
             'msg' => strval($message),
-        ), $data));
+        ), $data), JSON_UNESCAPED_UNICODE);
         Logger::getInstance('response')->info([$json_string]);
         if ($return_string) {
             return $json_string;
         } else {
-            @header('Content-type: application/json');
+            @header('Content-type: application/json; charset=utf-8');
             echo $json_string;
             return true;
         }
