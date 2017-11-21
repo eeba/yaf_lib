@@ -30,20 +30,31 @@ class Guid {
      * @return string
      */
     public static function getUid($flag = "") {
-        $time = microtime(true) * 10000;//14位
-        $server_id = substr(crc32($_SERVER['SERVER_ADDR']), 0, 2);//2位
         self::$while++;
-        $while = str_pad(substr(self::$while, -2), 2, 0, STR_PAD_LEFT);//2位
-        $rand = str_pad(mt_rand(0, 9999), 4, 0, STR_PAD_LEFT);//4位
+        $num = '';
+        $num .= microtime(true) * 10000;//14位 时间戳
+        $num .= substr(crc32(gethostname()), 0, 2);//2位 主机号
+        $num .= str_pad(substr(self::$while, -4), 4, 0, STR_PAD_LEFT);//4位 顺序号
+        $num .= str_pad(mt_rand(0, 9999), 4, 0, STR_PAD_LEFT);//4位 随机数
 
-        $num = $time . $server_id . $while . $rand;
-        $to = 62;
+        return self::Hex($num, $flag);
+    }
+
+    /**
+     * 进制转换
+     * @param $num
+     * @param $flag
+     * @return string
+     */
+    public static function Hex($num, $flag=''){
         $dict = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $ret = '';
+        $hex = 62;
         do {
-            $ret = $dict[bcmod($num, $to)] . $ret;
-            $num = bcdiv($num, $to);
+            $ret = $dict[bcmod($num, $hex)] . $ret;
+            $num = bcdiv($num, $hex, 0);
         } while ($num > 0);
+
         return $flag . $ret;
     }
 }
