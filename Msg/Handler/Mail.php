@@ -33,15 +33,20 @@ class Mail {
         $this->config = $config;
     }
 
-    public function send($to, $title, $msg, $files = []) {
+    public function send($mail, $object, $msg, $files = []) {
+        if(!is_array($mail)){
+            $mail_list[] = $mail;
+        }else{
+            $mail_list = $mail;
+        }
         $transport = (new Swift_SmtpTransport($this->config['host'], $this->config['port']))
             ->setUsername($this->config['user'])
             ->setPassword($this->config['password']);
         $mailer = new Swift_Mailer($transport);
         $message = (new Swift_Message())
             ->setFrom([$this->config['user'] => $this->config['nickname']])
-            ->setSubject($title)
-            ->setTo([$to])
+            ->setSubject($object)
+            ->setTo($mail_list)
             ->setBody($msg, 'text/html');
 
         if (is_array($files) && !empty($files)) {
