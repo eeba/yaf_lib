@@ -53,7 +53,6 @@ class Mail {
         $ret = false;
         try {
             $ret = $mailer->send($message);
-            var_dump($ret);
         } catch (\Exception $e) {
             Logger::getInstance()->error([$e->getCode(), $e->getMessage()]);
         }
