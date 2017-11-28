@@ -14,6 +14,7 @@ class Mail {
     protected $need_config = array(
         'host',
         'port',
+        'ssl',
         'user',
         'password',
         'nickname'
@@ -39,7 +40,10 @@ class Mail {
         }else{
             $mail_list = $mail;
         }
-        $transport = (new Swift_SmtpTransport($this->config['host'], $this->config['port']))
+
+        $ssl = $this->config['ssl'] ? 'ssl' : null;
+
+        $transport = (new Swift_SmtpTransport($this->config['host'], $this->config['port'], $ssl))
             ->setUsername($this->config['user'])
             ->setPassword($this->config['password']);
         $mailer = new Swift_Mailer($transport);
