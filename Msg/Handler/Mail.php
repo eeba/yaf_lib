@@ -60,6 +60,7 @@ class Mail {
             $ret = $mailer->send($message);
         } catch (\Exception $e) {
             Logger::getInstance()->error([$e->getCode(), $e->getMessage()]);
+            throw new Exception($e->getMessage());
         }
         return $ret ? true : false;
     }
