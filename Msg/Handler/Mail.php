@@ -15,7 +15,7 @@ class Mail {
         'host',
         'port',
         'ssl',
-        'user',
+        'username',
         'password',
         'nickname'
     );
@@ -31,6 +31,7 @@ class Mail {
                 throw new Exception("mail config must have $key");
             }
         }
+        $config['nickname'] = $config['nickname'] ? $config['nickname'] : $config['username'];
         $this->config = $config;
     }
 
@@ -44,11 +45,11 @@ class Mail {
         $ssl = $this->config['ssl'] ? 'ssl' : null;
 
         $transport = (new Swift_SmtpTransport($this->config['host'], $this->config['port'], $ssl))
-            ->setUsername($this->config['user'])
+            ->setUsername($this->config['username'])
             ->setPassword($this->config['password']);
         $mailer = new Swift_Mailer($transport);
         $message = (new Swift_Message())
-            ->setFrom([$this->config['user'] => $this->config['nickname']])
+            ->setFrom([$this->config['username'] => $this->config['nickname']])
             ->setSubject($object)
             ->setTo($mail_list)
             ->setBody($msg, 'text/html');
