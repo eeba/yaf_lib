@@ -185,8 +185,7 @@ class Master {
                 'class_name' => $class_name,
             );
         } else {
-            $title = strtoupper("THREAD_PHP_" . APP . "_" . str_replace('\\','_',$class_name));
-            Utils::setProcessTitle($title);
+            Utils::setProcessTitle("THREAD_PHP_" . strtoupper(APP) . "_" . $class_name);
             $work = new $class_name;
             $work->doTask();
             exit();
