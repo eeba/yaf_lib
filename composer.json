@@ -9,11 +9,11 @@
     "swiftmailer/swiftmailer": "^5.4",
     "mk-j/php_xlsxwriter": "^0.32.0",
     "sonata-project/google-authenticator": "^1.0",
-    "workerman/workerman": "^3.4",
     "qiniu/php-sdk": "^7.1",
     "ramsey/uuid": "^3.6",
     "hautelook/phpass": "^1.1",
-    "smarty/smarty": "^3.1"
+    "smarty/smarty": "^3.1",
+    "workerman/phpsocket.io": "^1.1"
   },
   "repositories": {
     "packagist": {
