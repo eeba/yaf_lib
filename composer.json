@@ -1,7 +1,7 @@
 {
   "require": {
     "guzzlehttp/guzzle": "6.2.3",
-    "overtrue/wechat": "^3.3",
+    "overtrue/wechat": "~4.0",
     "monolog/monolog": "~1.2",
     "endroid/qrcode": "^2.2",
     "phpoffice/phpexcel": "^1.8",
