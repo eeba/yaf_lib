@@ -13,7 +13,8 @@
     "ramsey/uuid": "^3.6",
     "hautelook/phpass": "^1.1",
     "smarty/smarty": "^3.1",
-    "workerman/phpsocket.io": "^1.1"
+    "workerman/phpsocket.io": "^1.1",
+    "intervention/image": "^2.4"
   },
   "repositories": {
     "packagist": {
