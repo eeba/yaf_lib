@@ -14,7 +14,7 @@
     "hautelook/phpass": "^1.1",
     "smarty/smarty": "^3.1",
     "workerman/phpsocket.io": "^1.1",
-    "intervention/image": "^2.4"
+    "imagine/imagine": "^0.7.1"
   },
   "repositories": {
     "packagist": {

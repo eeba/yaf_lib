@@ -38,7 +38,7 @@ abstract class Controller extends \Yaf\Controller_Abstract {
         return $ret;
     }
 
-    public function render() {
+    public function render($tpl='', array $response=null) {
         if (Response::getFormatter() === Response::FORMAT_PLAIN) {
             Response::outPlain($this->response);
         } elseif (Response::getFormatter() === Response::FORMAT_JSON) {
