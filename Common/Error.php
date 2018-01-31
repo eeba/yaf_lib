@@ -29,7 +29,6 @@ class Error extends \Common\Controller {
      * @param $exception
      */
     public function errorAction($exception) {
-        \Base\Logger::getInstance('request')->debug([$exception]);
         $is_not_found = $this->isNotFound($exception->getCode());
         //        print_r($this->getRequest());
         if ($is_not_found) {
