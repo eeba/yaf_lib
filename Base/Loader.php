@@ -5,9 +5,7 @@ namespace Base;
  */
 
 class Loader {
-    public static $local_namespaces = array();
-
-    public static function autoLoader($class_name) {
+    public function autoLoader($class_name) {
         if (strtolower(substr($class_name, 0, 3)) == 'job') {
             $library_path = 'job';
             $class_name = substr($class_name, 4);
