@@ -31,13 +31,4 @@ class Util {
 
         return $code;
     }
-
-    public static function createID() {
-        $id = uniqid('code_', true);
-        return $id;
-    }
-
-    public static function content($code, $modules) {
-        return str_replace(self::MARK, $code, $modules);
-    }
 }

@@ -1,7 +1,7 @@
 <?php
-
 namespace Office;
 
-class Excel {
+
+class Csv {
 
 }

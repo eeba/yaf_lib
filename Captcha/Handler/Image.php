@@ -9,7 +9,7 @@ class Image implements CaptchaInterface {
     const DEFAULT_WIDTH = 80;
     const DEFAULT_HEIGHT = 30;
 
-    const CAPTCHA_FONT_ROOT = '/S/Captcha/Conf/Font/';
+    const CAPTCHA_FONT_ROOT = '/Captcha/Conf/Font/';
 
     public static $default_english_font = array('bookos.ttf', 'cour.ttf', 'georgia.ttf', 'gothic.ttf');
 
@@ -84,7 +84,7 @@ class Image implements CaptchaInterface {
 
     protected function getRand($min, $max) {
         $n = (double)rand();
-        $n = $min + ((double)($max - $min + 1.0) * ($n / (getRandmax() + 1.0)));
+        $n = $min + ((double)($max - $min + 1.0) * ($n / (getrandmax() + 1.0)));
         return (int)$n;
     }
 }

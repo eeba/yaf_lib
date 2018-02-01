@@ -121,7 +121,7 @@ class Captcha {
         if (is_numeric($clear)) {
             $rule_name = 'code_val_limit';
 
-            $freq = new \Base\Security\Freq();
+            $freq = new \Security\Freq();
             $freq->add($rule_name, $prefix . $id, $clear, 600);
 
             if (!$freq->check($rule_name, $prefix . $id, $clear)) {
