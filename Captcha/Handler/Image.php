@@ -53,7 +53,7 @@ class Image implements CaptchaInterface {
             $nColor = $this->getRand(1, count($colors) - 1); //不使用白色
 
             $last_pos = imagettftext($fake_img, $size, $angle, 0, 0, 0,
-                PHPLIB . self::CAPTCHA_FONT_ROOT . $font[$nFont], mb_substr($args['code'], $i, 1, 'utf-8'));
+                YAF_LIB . self::CAPTCHA_FONT_ROOT . $font[$nFont], mb_substr($args['code'], $i, 1, 'utf-8'));
             if ($last_pos[0] > $last_pos[6]) {
                 $left_lean = true;
             } else {
@@ -63,7 +63,7 @@ class Image implements CaptchaInterface {
             $drift_x = $left_lean ? $last_pos[0] - $last_pos[6] : 0;
             $last_pos = imagettftext($img, $size, $angle,
                 $x + $drift_x, $y, $colors[$nColor],
-                PHPLIB . self::CAPTCHA_FONT_ROOT . $font[$nFont], mb_substr($args['code'], $i, 1, 'utf-8'));
+                YAF_LIB . self::CAPTCHA_FONT_ROOT . $font[$nFont], mb_substr($args['code'], $i, 1, 'utf-8'));
             $x += $left_lean ? $last_pos[2] - $last_pos[6] : $last_pos[4] - $last_pos[0] + 1;
         }
 
