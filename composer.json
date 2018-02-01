@@ -1,20 +1,17 @@
 {
   "require": {
-    "guzzlehttp/guzzle": "6.2.3",
-    "overtrue/wechat": "~4.0",
-    "monolog/monolog": "~1.2",
-    "endroid/qrcode": "^2.2",
-    "phpoffice/phpexcel": "^1.8",
-    "phpoffice/phpword": "^0.13.0",
-    "swiftmailer/swiftmailer": "^5.4",
-    "mk-j/php_xlsxwriter": "^0.32.0",
-    "sonata-project/google-authenticator": "^1.0",
-    "qiniu/php-sdk": "^7.1",
-    "ramsey/uuid": "^3.6",
-    "hautelook/phpass": "^1.1",
+    "endroid/qr-code": "^3.2",
     "smarty/smarty": "^3.1",
+    "overtrue/wechat": "~4.0",
+    "monolog/monolog": "^1.23",
+    "swiftmailer/swiftmailer": "^6.0",
+    "guzzlehttp/guzzle": "^6.3",
+    "imagine/imagine": "^0.7.1",
+    "workerman/workerman": "^3.5",
     "workerman/phpsocket.io": "^1.1",
-    "imagine/imagine": "^0.7.1"
+    "phpoffice/phpword": "^0.14.0",
+    "mk-j/php_xlsxwriter": "^0.37.0",
+    "jaeger/querylist": "^4.0"
   },
   "repositories": {
     "packagist": {
