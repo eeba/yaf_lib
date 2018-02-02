@@ -52,7 +52,7 @@ class Response {
      * @param string $text
      */
     public static function outPlain($text) {
-        $text = is_array($text) ? json_encode($text) : $text;
+        $text = is_array($text) ? json_encode($text, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES) : $text;
         Logger::getInstance('response')->info([$text]);
         if ($text) {
             echo $text;
