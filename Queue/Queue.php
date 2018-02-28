@@ -31,11 +31,6 @@ class Queue {
 
     const NAME_COMMON = 'common';
 
-    public static function __callStatic($name, $args) {
-        $queue = self::pool(self::TYPE_DEFAULT, self::NAME_COMMON);
-        return call_user_func_array(array($queue, $name), $args);
-    }
-
     /**
      * @var \Queue\Abstraction[]
      */
