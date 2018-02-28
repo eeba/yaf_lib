@@ -27,9 +27,9 @@ namespace Queue;
 
 class Queue {
     const TYPE_REDIS = 'redis';
-    const TYPE_DEFAULT = self::TYPE_REDIS;
 
-    const NAME_COMMON = 'common';
+    const DEFAULT_TYPE = self::TYPE_REDIS;
+    const DEFAULT_NAME = 'common';
 
     /**
      * @var \Queue\Abstraction[]
@@ -43,7 +43,7 @@ class Queue {
      * @param string $name 实例名
      * @return \Queue\Abstraction
      */
-    public static function pool($type, $name = '') {
+    public static function pool($type = self::DEFAULT_TYPE, $name = self::DEFAULT_NAME) {
         $key = self::getKey($type, $name);
 
         if (!isset(self::$pools[$key])) {
