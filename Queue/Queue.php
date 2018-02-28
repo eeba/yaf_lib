@@ -56,6 +56,6 @@ class Queue {
     }
 
     private static function getKey($type, $name = '') {
-        return $type . '-' . $name;
+        return strtoupper($type . '-' . $name);
     }
 }
