@@ -49,7 +49,8 @@ class Queue {
         if (!isset(self::$pools[$key])) {
             $handler_ns = __NAMESPACE__ . '\\Handler\\';
 
-            $obj = new ($handler_ns . ucfirst($type))();
+            $class = $handler_ns . ucfirst($type);
+            $obj = new $class();
             self::$pools[$key] = $obj;
         }
         return self::$pools[$key];
