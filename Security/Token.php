@@ -51,10 +51,10 @@ class Token {
         }
         if ($uniq) {
             try {
-                if (\S\Cache\Cache::get(self::REDIS_KEY . $md5_token) == self::REDIS_VALUE) {
+                if (\Cache\Cache::get(self::REDIS_KEY . $md5_token) == self::REDIS_VALUE) {
                     return false;
                 } else {
-                    \S\Cache\Cache::set(self::REDIS_KEY . $md5_token, self::REDIS_VALUE, self::REDIS_TTL);
+                    \Cache\Cache::set(self::REDIS_KEY . $md5_token, self::REDIS_VALUE, self::REDIS_TTL);
                 }
             } catch (\Exception $e) {
             }
