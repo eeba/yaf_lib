@@ -1,5 +1,5 @@
 <?php
-namespace Queue;
+namespace Queue\Handler;
 
 use Db\Redis as DbRedis;
 

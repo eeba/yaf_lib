@@ -1,5 +1,5 @@
 <?php
-namespace Queue;
+namespace Queue\Handler;
 
 abstract class Abstraction {
     /**
