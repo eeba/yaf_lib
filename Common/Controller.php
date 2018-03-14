@@ -50,7 +50,7 @@ abstract class Controller extends \Yaf\Controller_Abstract {
 
     public function displayJson($data) {
         $msg = isset($data['msg']) ?: 'success';
-        $code = isset($data['code']) ?: '2000000';
+        $code = isset($data['code']) ?: 2000000;
         Response::outJson($code, $msg, $data);
     }
 
