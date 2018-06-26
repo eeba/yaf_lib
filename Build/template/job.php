@@ -1,5 +1,5 @@
 <?php
-//测试数据库长连接的问题
+//todo 测试数据库长连接的问题
 //ini_set("display_errors", 1);
 //nohup /usr/bin/env php job.php Job_Daemon_Master >> /tmp/nohup.Daemon.log 2>&1 &
 
