@@ -1,0 +1,13 @@
+<phpunit bootstrap="Bootstrap.php">
+    <php>
+        <env name="APP_ENV" value="phpunit"/>
+    </php>
+    <testsuites>
+        <testsuite name="Api">
+            <directory>Api</directory>
+        </testsuite>
+        <testsuite name="Lib">
+            <directory>File</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
