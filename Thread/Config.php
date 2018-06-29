@@ -35,7 +35,7 @@ class Config {
     protected $_config = array();
 
     public function __construct() {
-        self::$_thread_config_file = self::THREAD_CONFIG_FILE_PREFIX . APP . ".conf";
+        self::$_thread_config_file = self::THREAD_CONFIG_FILE_PREFIX . APP_NAME . ".conf";
     }
 
     /**
@@ -138,6 +138,7 @@ class Config {
      * @return bool
      */
     private function _setConfigByFile() {
+        var_dump(json_encode($this->_config));
         if (md5(json_encode($this->_config)) !== md5_file(self::$_thread_config_file)) {
             file_put_contents(self::$_thread_config_file, json_encode($this->_config));
         }

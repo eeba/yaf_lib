@@ -11,6 +11,7 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
         $loader->addPsr4('Service\\', APP_PATH . '/library/Service');
         $loader->addPsr4('Data\\', APP_PATH . '/library/Data');
         $loader->addPsr4('Dao\\', APP_PATH . '/library/Dao');
+        $loader->addPsr4('Job\\', APP_PATH . '/job');
     }
 
     /**
