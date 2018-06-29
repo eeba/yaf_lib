@@ -23,6 +23,9 @@ namespace Queue;
  * $queue->pop('key1');
  *
  * </code>
+ *
+ * @method static push($queue_name, $value);
+ * @method static pop($queue_name);
  */
 
 class Queue {
@@ -32,6 +35,11 @@ class Queue {
     const DEFAULT_NAME = 'common';
 
     private static $pools = array();
+
+    public static function __callStatic($name, $args){
+        $queue = self::pool(self::DEFAULT_TYPE, self::DEFAULT_NAME);
+        return call_user_func_array(array($queue, $name), $args);
+    }
 
     /**
      * 根据名字获取一个队列实例
