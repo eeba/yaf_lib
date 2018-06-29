@@ -17,7 +17,7 @@ define('VIEW_PATH',     APP_PATH.'/views/');
 define('LIB',           '@yaflibpath@');
 
 //应用
-define('APP_NAME', '@appname@');//不限制
+define('APP_NAME', '@appname@');//英文、数字、下划线
 define('HOST', '@appdomain@');
 
 // php.ini定义

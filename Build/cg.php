@@ -16,6 +16,11 @@ $domain = $argv[2];
 $app_path = rtrim($argv[3], '/');
 $template_path = dirname(__FILE__) . '/template';
 $yaf_lib_path = dirname(dirname(__FILE__));
+
+if(!preg_match("/^[0-9a-zA-Z_]+$/", $app_name)){
+    echo "应用名称格式：英文、数字、下划线" . PHP_EOL;
+}
+
 //需要替换的值
 $replace = array(
     "@appname@" => $app_name,
