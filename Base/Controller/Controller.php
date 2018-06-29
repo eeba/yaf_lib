@@ -1,5 +1,5 @@
 <?php
-namespace Common;
+namespace Base\Controller;
 
 use Base\Logger;
 use Http\Response;

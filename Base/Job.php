@@ -1,7 +1,6 @@
 <?php
-
-namespace Base;
+namespace Base\Jobs;
 
 abstract class Job {
-    abstract public function action($argv = []);
+    abstract public function action($argv=array());
 }

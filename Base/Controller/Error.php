@@ -1,5 +1,5 @@
 <?php
-namespace Common;
+namespace Base\Controller;
     /**
      * 在此做错误和异常统一处理
      *
@@ -22,13 +22,13 @@ namespace Common;
 /**
  * 当有未捕获的异常, 则控制流会流到这里
  */
-class Error extends \Common\Controller {
+class Error extends Controller {
 
     /**
      * 错误页面
      * @param $exception
      */
-    public function errorAction($exception) {
+    public function errorAction(\Exception $exception) {
         $is_not_found = $this->isNotFound($exception->getCode());
         if ($is_not_found) {
             $this->response['code'] = '4040000';
@@ -47,9 +47,7 @@ class Error extends \Common\Controller {
     public function isNotFound($error_code) {
         switch ($error_code) {
             case 515://YAF_ERR_NOTFOUND_MODULE
-                return true;
             case 516://YAF_ERR_NOTFOUND_CONTROLLER
-                return true;
             case 517://YAF_ERR_NOTFOUND_ACTION
                 return true;
             default:
