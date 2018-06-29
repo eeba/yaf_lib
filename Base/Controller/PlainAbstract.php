@@ -1,5 +1,5 @@
 <?php
-namespace Common;
+namespace Base\Controller;
 
 use Validate\Handler;
 use Http\Response;
@@ -7,18 +7,15 @@ use Http\Response;
 abstract class PlainAbstract extends Controller {
     protected $params;
 
-    public function before() {
-    }
+    public function before() {}
 
-    public function auth() {
-    }
+    public function auth() {}
 
     abstract public function params();
 
     abstract public function action();
 
-    public function after() {
-    }
+    public function after() {}
 
     public function indexAction() {
         Response::setFormatter(Response::FORMAT_PLAIN);

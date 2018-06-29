@@ -8,7 +8,7 @@ namespace Cache;
  * @description 封装缓存池和简易调用
  *
  * 配置文件的解析放在相应的文件中，初始化时只提供配置名
- * 如S\Cache\Cache::pool('memcache', 'userinfo');
+ * 如Cache\Cache::pool('memcache', 'userinfo');
  * 会到config下的memcache配置文件中查找userinfo项
  *
  * <code>
