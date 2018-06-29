@@ -34,7 +34,7 @@ class Master {
     protected $work_proc = array();
 
     public function __construct() {
-        self::$_master_pid_file = self::MASTER_PID_FILE_PREFIX . APP;
+        self::$_master_pid_file = self::MASTER_PID_FILE_PREFIX . APP_NAME;
 
         //进程组和回话组组长
         posix_setsid();
@@ -70,12 +70,10 @@ class Master {
         while (true) {
             $this->manageWorkers();
             pcntl_signal_dispatch();
-            if (!$this->isRunning)
-                break;
+            if (!$this->isRunning)break;
             sleep(self::MASTER_SLEEP);
             pcntl_signal_dispatch();
-            if (!$this->isRunning)
-                break;
+            if (!$this->isRunning)break;
         }
 
         //如果收到退出信号
@@ -185,7 +183,7 @@ class Master {
                 'class_name' => $class_name,
             );
         } else {
-            Utils::setProcessTitle("THREAD_PHP_" . strtoupper(APP) . "_" . $class_name);
+            Utils::setProcessTitle("THREAD_PHP_" . strtoupper(APP_NAME) . "_" . $class_name);
             $work = new $class_name;
             $work->doTask();
             exit();
