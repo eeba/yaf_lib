@@ -2,8 +2,8 @@
 namespace Job\Cron;
 
 //模板消息
-class Demo {
-    public function action() {
+class Demo extends \Base\Job {
+    public function action($argv = []) {
         // coding..
     }
 

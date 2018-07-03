@@ -1,5 +1,5 @@
 <?php
 
-class Controller_Error extends Common\Error{
+class Controller_Error extends Base\Controller\Error{
 
 }
