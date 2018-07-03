@@ -1,9 +1,10 @@
 <?php
 
 use Http\Request;
+use Http\Response;
 use Base\Exception;
 
-abstract class Controller_Api_Abstract extends Common\ApiAbstract {
+abstract class Controller_Api_Abstract extends Base\Controller\ApiAbstract {
 
     public $app_key;
     public $app_id;
@@ -15,6 +16,12 @@ abstract class Controller_Api_Abstract extends Common\ApiAbstract {
         if (!$ret) {
             throw new Exception('The frequency of access is too fast', 9999999);
         }
+
+
+        //统计
+        //(new Db\Redis())->
+
+
 
         //客户端限制
         //$ua = strtolower($_SERVER['HTTP_USER_AGENT']);

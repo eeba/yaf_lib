@@ -1,6 +1,7 @@
 <?php
 
 use Http\Request;
+use Http\Response;
 
 /**
  * @name 用户信息

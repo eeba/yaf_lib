@@ -16,7 +16,7 @@ $app->bootstrap();
 
 $class_path = APP_PATH . '/' . lcfirst(str_replace('_', '/', $argv[1])) . '.php';
 $class_name = str_replace('_', '\\', $argv[1]);
-
+echo $class_path;
 if (!class_exists($class_name, false)) {
     \Yaf\Loader::import($class_path);
 }

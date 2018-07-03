@@ -5,12 +5,11 @@ namespace Job\Daemon;
  * kill `cat /var/run/PHP_THREAD_MASTER_PID.BASE_FW`
  */
 
-class Master{
+class Master extends \Base\Job {
 
-    public function action(){
+    public function action($argv = []){
         $master = new \Thread\Master();
         $config = new \Thread\Config();
-
         $config->setWorkerConfig("\\Job\\Daemon\\Demo\\Test", 10);
 
         $master->main();

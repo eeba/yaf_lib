@@ -1,11 +1,12 @@
 <?php
 
-class Controller_Index extends Common\AppAbstract{
+class Controller_Index extends Base\Controller\PlainAbstract {
     public function params() {
         return [];
     }
 
     public function action() {
-       $this->response['content'] = '成功';
+        var_dump(Yaf\Registry::get('a'));
+        echo '成功';
     }
 }
