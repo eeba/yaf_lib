@@ -1,7 +1,6 @@
 <?php
 namespace Base\Controller;
 
-use Base\Logger;
 use Http\Response;
 use Http\Request;
 use Base\Env;
@@ -15,13 +14,12 @@ use Base\Env;
  */
 abstract class Controller extends \Yaf\Controller_Abstract {
 
-    protected $response = array();
+    protected $response = '';
     protected $route = 'map';
 
 
     public function init() {
         Env::init($this->getRequest());
-        Logger::getInstance('request')->debug(['get' => $_GET, 'post' => $_POST, 'cookie' => $_COOKIE, 'session' => $_SESSION]);
     }
 
     public function getParams($key, $type = 'request') {
