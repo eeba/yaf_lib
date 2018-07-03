@@ -7,6 +7,12 @@ use Http\Response;
 abstract class PlainAbstract extends Controller {
     protected $params;
 
+    public function init() {
+        parent::init();
+        Response::setFormatter(Response::FORMAT_PLAIN);
+    }
+
+
     public function before() {}
 
     public function auth() {}
@@ -18,8 +24,6 @@ abstract class PlainAbstract extends Controller {
     public function after() {}
 
     public function indexAction() {
-        Response::setFormatter(Response::FORMAT_PLAIN);
-
         $this->before();
         $this->auth();
         $param = $this->params();
