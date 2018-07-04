@@ -14,7 +14,7 @@ use Base\Env;
  */
 abstract class Controller extends \Yaf\Controller_Abstract {
 
-    protected $response = '';
+    protected $response = [];
     protected $route = 'map';
 
 
@@ -38,6 +38,7 @@ abstract class Controller extends \Yaf\Controller_Abstract {
 
     public function render($tpl='', array $response=null) {
         if (Response::getFormatter() === Response::FORMAT_PLAIN) {
+            $this->response = !$this->response ? '' : $this->response;
             Response::outPlain($this->response);
         } elseif (Response::getFormatter() === Response::FORMAT_JSON) {
             $this->displayJson($this->response);
