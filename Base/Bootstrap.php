@@ -21,4 +21,11 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
     public function _initEnv(\Yaf\Dispatcher $dispatcher) {
         \Base\Env::init($dispatcher->getRequest());
     }
+
+    public function _initDebug(){
+        if(DEBUG) {
+            error_reporting(E_ALL);
+            ini_set('display_errors', true);
+        }
+    }
 }
