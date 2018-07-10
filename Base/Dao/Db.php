@@ -1,5 +1,5 @@
 <?php
-namespace Base\Db;
+namespace Base\Dao;
 
 use Http\Request;
 
