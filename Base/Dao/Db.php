@@ -4,15 +4,15 @@ namespace Base\Dao;
 use Http\Request;
 
 class Db {
-    private static $db = '';
+    private $db = '';
     protected $table = '';
     protected $field = [];
 
-    public static function db() {
-        if (!self::$db) {
-            self::$db = new \Db\MySQL();
+    public function db() {
+        if (!$this->db) {
+            $this->db = new \Db\MySQL();
         }
-        return self::$db;
+        return $this->db;
     }
 
     /**
@@ -42,15 +42,15 @@ class Db {
     }
 
     public function begin() {
-        self::db()->begin();
+        $this->db()->begin();
     }
 
     public function commit() {
-        self::db()->commit();
+        $this->db()->commit();
     }
 
     public function rollback() {
-        self::db()->rollback();
+        $this->db()->rollback();
     }
 
     /**
@@ -60,31 +60,31 @@ class Db {
      * @return bool|int|null
      */
     public function add($data) {
-        return self::db()->insert($this->table, $data);
+        return $this->db()->insert($this->table, $data);
     }
 
     public function update(array $data = array(), array $where = array(), array $order = array(), $limit = 0) {
-        return self::db()->update($this->table, $data, $where, $order, $limit);
+        return $this->db()->update($this->table, $data, $where, $order, $limit);
     }
 
     public function findById($id, $cols = '*', array $order = array()) {
-        return self::db()->find($this->table, ['id' => $id], $cols, $order);
+        return $this->db()->find($this->table, ['id' => $id], $cols, $order);
     }
 
     public function find($where = [], $cols = '*', array $order = array()) {
-        return self::db()->find($this->table, $where, $cols, $order);
+        return $this->db()->find($this->table, $where, $cols, $order);
     }
 
     public function getList(array $where = array(), $cols = '*', array $order = array(), $limit = 0) {
-        return self::db()->select($this->table, array_filter($where), $cols, $order, $limit);
+        return $this->db()->select($this->table, array_filter($where), $cols, $order, $limit);
     }
 
-    public static function query($sql, $params = []) {
-        return self::db()->query($sql, $params);
+    public function query($sql, $params = []) {
+        return $this->db()->query($sql, $params);
     }
 
-    public static function count($where = []) {
-        $ret = self::find($where, 'count(1) num');
+    public function count($where = []) {
+        $ret = $this->find($where, 'count(1) num');
         return $ret['num'];
     }
 
@@ -94,16 +94,16 @@ class Db {
 
         $start = Request::request('start', 0);
         $length = Request::request('length', 10);
-        $sql_arr = self::db()->toSql($where, $order, [$start, $length]);
-        $content_sql_arr = self::db()->toSql($where, $order);
+        $sql_arr = $this->db()->toSql($where, $order, [$start, $length]);
+        $content_sql_arr = $this->db()->toSql($where, $order);
 
         $sql .= $sql_arr['sql'];
         $count_sql .= $content_sql_arr['sql'];
 
-        $count = self::db()->query($count_sql, $content_sql_arr['params']);
+        $count = $this->db()->query($count_sql, $content_sql_arr['params']);
         $count = $count[0]['num'];
 
-        $data['data'] = self::db()->query($sql, $sql_arr['params']);
+        $data['data'] = $this->db()->query($sql, $sql_arr['params']);
         $data['draw'] = Request::request('draw');
         $data['iTotalRecords'] = $count;
         $data['iTotalDisplayRecords'] = $count;
