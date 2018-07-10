@@ -79,6 +79,15 @@ class Db {
         return self::db()->select($this->table, array_filter($where), $cols, $order, $limit);
     }
 
+    public static function query($sql, $params = []) {
+        return self::db()->query($sql, $params);
+    }
+
+    public static function count($where = []) {
+        $ret = self::find($where, 'count(1) num');
+        return $ret['num'];
+    }
+
     public function dataTable(array $where = [], $cols = '*', array $order = []) {
         $sql = "select {$cols} from {$this->table} where ";
         $count_sql = "select count(1) num from {$this->table} where ";
