@@ -2,7 +2,7 @@
 /**
  * 图片验证码当前只支持英文字符
  */
-namespace Base\Captcha\Handler;
+namespace Captcha\Handler;
 
 class Image implements CaptchaInterface {
 

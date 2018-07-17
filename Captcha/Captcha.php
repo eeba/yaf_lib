@@ -1,5 +1,5 @@
 <?php
-namespace Base\Captcha;
+namespace Captcha;
 
 /**
  * 提供验证码服务
@@ -25,7 +25,7 @@ namespace Base\Captcha;
  *
  *
  * 获取图片验证码
- * $captcha = new \Base\Captcha\Captcha();
+ * $captcha = new \Captcha\Captcha();
  * $id = $captcha->create('mix', 4, 'id'); //4位的数字字母混合验证码
  * $captcha->show('image', array('width' => 80, 'height' => 30));
  * show方法将自动生成验证码图片并输出

@@ -3,7 +3,7 @@ namespace Util;
 
 /**
  * Class Guid
- * @package Base\Util
+ * @package Util
  * @desc 生成全局唯一id
  * 一般对于唯一ID生成的要求主要这么几点：
  * 毫秒级的快速响应
