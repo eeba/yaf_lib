@@ -1,5 +1,5 @@
 <?php
-namespace Base\Util;
+namespace Util;
 
 class Rand {
     const DIGIT = '0123456789',
