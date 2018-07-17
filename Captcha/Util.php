@@ -2,7 +2,7 @@
 namespace Base\Captcha;
 
 use Base\Exception;
-use Base\Util\Rand;
+use Util\Rand;
 
 class Util {
 
@@ -30,5 +30,10 @@ class Util {
         }
 
         return $code;
+    }
+
+    public static function createID(){
+        $id = uniqid('code_', true);
+        return $id;
     }
 }
