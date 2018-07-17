@@ -1,5 +1,5 @@
 <?php
-namespace Base\Crypt;
+namespace Crypt;
 
 use \Base\Exception;
 
