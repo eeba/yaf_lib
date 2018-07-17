@@ -1,5 +1,5 @@
 <?php
-namespace Base\Util;
+namespace Util;
 
 class OS {
 

@@ -6,7 +6,7 @@ use Cache\Cache;
 /**
  * Class Store
  *
- * @package S\Captcha
+ * @package Captcha
  * @description 验证码存储服务
  */
 class Store {
