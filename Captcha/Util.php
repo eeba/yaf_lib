@@ -1,5 +1,5 @@
 <?php
-namespace Base\Captcha;
+namespace Captcha;
 
 use Base\Exception;
 use Util\Rand;

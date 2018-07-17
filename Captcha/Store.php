@@ -1,5 +1,5 @@
 <?php
-namespace Base\Captcha;
+namespace Captcha;
 
 use Cache\Cache;
 
