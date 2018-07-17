@@ -1,5 +1,5 @@
 <?php
-namespace Base\Captcha\Handler;
+namespace Captcha\Handler;
 
 interface CaptchaInterface {
     /**
