@@ -4,7 +4,7 @@ class Plugin_Freq extends \Yaf\Plugin_Abstract{
 
     //频率限制
     public function dispatchLoopStartup(\Yaf\Request_Abstract $request, \Yaf\Response_Abstract $response) {
-        $uri = $request->getModuleName() . '_' .$request->getControllerName() . '_' .$request->getActionName();
+        $uri = $request->getRequestUri();
         $key = $uri . '_' . ip2long(Util\Ip::getClientIp());
         $ret = (new Security\Freq())->add('ACCESS_TIMES', $key, 25, 60);
         if (!$ret) {
