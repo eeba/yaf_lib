@@ -22,20 +22,6 @@ abstract class Controller extends \Yaf\Controller_Abstract {
         Env::init($this->getRequest());
     }
 
-    public function getParams($key, $type = 'request') {
-        switch (strtolower($type)) {
-            case 'request':
-                $ret = Request::request($key);
-                break;
-            case 'cookie':
-                $ret = Request::cookie($key);
-                break;
-            default:
-                $ret = '';
-        }
-        return $ret;
-    }
-
     public function render($tpl='', array $response=null) {
         if (Response::getFormatter() === Response::FORMAT_PLAIN) {
             $this->response = !$this->response ? '' : $this->response;
