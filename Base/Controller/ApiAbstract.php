@@ -27,8 +27,8 @@ abstract class ApiAbstract extends Controller {
     public function indexAction() {
         $this->before();
         $this->auth();
-        $param = $this->params();
-        $this->params = Handler::check($param);
+        //验证传入接口的参数
+        $this->params = Handler::check($this->params());
         $this->action();
         $this->after();
     }
