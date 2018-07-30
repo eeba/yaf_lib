@@ -6,6 +6,8 @@ use Http\Response;
 abstract class AppAbstract extends Controller  {
     protected $route = 'static';
 
+    protected $params;
+
     public function params() {
         return [];
     }
@@ -13,9 +15,8 @@ abstract class AppAbstract extends Controller  {
     public function init() {
         parent::init();
         Response::setFormatter(Response::FORMAT_HTML);
-    }
 
-    public function get($key, $default=''){
-
+        //PATH_INFO中的参数
+        $this->params = $this->getRequest()->getParams();
     }
 }
