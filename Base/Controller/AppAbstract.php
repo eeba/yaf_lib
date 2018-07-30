@@ -8,8 +8,8 @@ abstract class AppAbstract extends Controller  {
 
     protected $params;
 
-    public function params() {
-        return [];
+    public function getParam($key, $default=''){
+        return isset($this->params[$key]) ? $this->params[$key] : $default;
     }
 
     public function init() {

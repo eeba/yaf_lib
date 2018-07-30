@@ -14,6 +14,10 @@ abstract class ApiAbstract extends Controller {
         Response::setFormatter(Response::FORMAT_JSON);
     }
 
+    public function getParam($key, $default=''){
+        return isset($this->params[$key]) ? $this->params[$key] : $default;
+    }
+
     public function before() {}
 
     public function auth() {}
