@@ -2,6 +2,7 @@
 namespace Validate\Type;
 
 use Base\Exception;
+use Base\Config;
 
 /**
  * 身份证号码验证（18位，15位数字或17位数字+X|x）
@@ -11,11 +12,11 @@ class Identify extends \Validate\Abstraction {
         if (preg_match('/(^\d{15}$)|(^\d{17}[0-9Xx]$)/', $param['value']) && self::checkIdentity($param['value'])) {
             return $param['value'];
         }
-        if ($param['msg']) {
-            throw new Exception($param['msg']);
-        } else {
-            throw new Exception("参数格式错误", 5001001);
-        }
+
+        $conf = Config::get($param['msg']);
+        $error_msg = ($conf['user_msg'] ?: $conf['sys_msg']) ?: "参数格式错误";
+        $error_code = $conf['code'] ?: 5001001;
+        throw new Exception($error_msg, $error_code);
     }
 
     /**
