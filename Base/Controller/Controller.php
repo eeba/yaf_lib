@@ -17,12 +17,11 @@ abstract class Controller extends \Yaf\Controller_Abstract {
     protected $response = [];
     protected $route = 'map';
 
-
     public function init() {
-        Env::init($this->getRequest());
+
     }
 
-    public function render($tpl='', array $response=null) {
+    protected function render($tpl, array $parameters = null) {
         if (Response::getFormatter() === Response::FORMAT_PLAIN) {
             $this->response = !$this->response ? '' : $this->response;
             Response::outPlain($this->response);
