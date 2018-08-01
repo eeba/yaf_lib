@@ -13,7 +13,7 @@ class Logger {
     const ALERT = 7;
     const EMERGENCY = 8;
 
-    public static $log_name_map = [
+    private static $log_name_map = [
         self::DEBUG => 'debug',
         self::INFO => 'info',
         self::NOTICE => 'notice',
@@ -56,7 +56,7 @@ class Logger {
         self::addRecord(self::EMERGENCY, $data, $path);
     }
 
-    public static function addRecord($level, $data, $path) {
+    private static function addRecord($level, $data, $path) {
         $file_path = self::getPath($level, $path);
         $dir_path = dirname($file_path);
         if (!is_dir($dir_path)) {
@@ -76,7 +76,7 @@ class Logger {
         return $ret;
     }
 
-    public static function getPath($level, $path) {
+    private static function getPath($level, $path) {
         $level_name = self::$log_name_map[$level];
         if (!$path) {
             if (Env::isCli()) {
