@@ -24,58 +24,40 @@ class Logger {
         self::EMERGENCY => 'emergency',
     ];
 
-    public static $_instance;
-    public static $_channel;
-
-    public function __construct($channel) {
-        self::$_channel = $channel;
+    public static function debug(array $data = [], $path = "") {
+        self::addRecord(self::DEBUG, $data, $path);
     }
 
-    /**
-     * @param string $channel
-     * @return mixed
-     */
-    public static function getInstance($channel = 'default') {
-        if (!isset(self::$_instance[$channel])) {
-            self::$_instance[$channel] = new self($channel);
-        }
-        return self::$_instance[$channel];
+    public static function info(array $data = [], $path = "") {
+        self::addRecord(self::INFO, $data, $path);
     }
 
-    public function debug(array $data = [], $path = "") {
-        $this->addRecord(self::DEBUG, $data, $path);
+    public static function notice(array $data = [], $path = "") {
+        self::addRecord(self::NOTICE, $data, $path);
     }
 
-    public function info(array $data = [], $path = "") {
-        $this->addRecord(self::INFO, $data, $path);
+    public static function warning(array $data = [], $path = "") {
+        self::addRecord(self::WARNING, $data, $path);
     }
 
-    public function notice(array $data = [], $path = "") {
-        $this->addRecord(self::NOTICE, $data, $path);
+    public static function error(array $data = [], $path = "") {
+        self::addRecord(self::ERROR, $data, $path);
     }
 
-    public function warning(array $data = [], $path = "") {
-        $this->addRecord(self::WARNING, $data, $path);
+    public static function critical(array $data = [], $path = "") {
+        self::addRecord(self::CRITICAL, $data, $path);
     }
 
-    public function error(array $data = [], $path = "") {
-        $this->addRecord(self::ERROR, $data, $path);
+    public static function alert(array $data = [], $path = "") {
+        self::addRecord(self::ALERT, $data, $path);
     }
 
-    public function critical(array $data = [], $path = "") {
-        $this->addRecord(self::CRITICAL, $data, $path);
+    public static function emergency(array $data = [], $path = "") {
+        self::addRecord(self::EMERGENCY, $data, $path);
     }
 
-    public function alert(array $data = [], $path = "") {
-        $this->addRecord(self::ALERT, $data, $path);
-    }
-
-    public function emergency(array $data = [], $path = "") {
-        $this->addRecord(self::EMERGENCY, $data, $path);
-    }
-
-    public function addRecord($level, $data, $path) {
-        $file_path = $this->getPath($level, $path);
+    public static function addRecord($level, $data, $path) {
+        $file_path = self::getPath($level, $path);
         $dir_path = dirname($file_path);
         if (!is_dir($dir_path)) {
             @mkdir($dir_path, 0777, true);
@@ -85,7 +67,6 @@ class Logger {
         $data = array_merge(
             [
                 'log_time' => Request::getRequestDataTime(),
-                'group' => self::$_channel
             ],
             $data
         );
@@ -95,7 +76,7 @@ class Logger {
         return $ret;
     }
 
-    public function getPath($level, $path) {
+    public static function getPath($level, $path) {
         $level_name = self::$log_name_map[$level];
         if (!$path) {
             if (Env::isCli()) {
@@ -106,11 +87,7 @@ class Logger {
                 $controller = Env::$controller;
                 $action = Env::$action;
                 $controller_name = strtolower(str_replace('_', DIRECTORY_SEPARATOR, $controller));
-                if (strtolower($module) == 'index') {
-                    $key = $module . DIRECTORY_SEPARATOR . $controller_name;
-                } else {
-                    $key = $module . DIRECTORY_SEPARATOR . $controller_name . DIRECTORY_SEPARATOR . $action;
-                }
+                $key = $module . DIRECTORY_SEPARATOR . $controller_name . DIRECTORY_SEPARATOR . $action;
             }
         } else {
             $key = $path;
