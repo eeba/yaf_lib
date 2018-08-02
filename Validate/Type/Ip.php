@@ -11,9 +11,6 @@ class Ip extends \Validate\Abstraction {
             return $param['value'];
         }
 
-        $conf = Config::get($param['msg']);
-        $error_msg = ($conf['user_msg'] ?: $conf['sys_msg']) ?: "参数格式错误";
-        $error_code = $conf['code'] ?: 5001001;
-        throw new Exception($error_msg, $error_code);
+        throw new Exception($param['msg']);
     }
 }
