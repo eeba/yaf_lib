@@ -5,7 +5,7 @@ use Validate\Handler;
 use Http\Response;
 
 abstract class ApiAbstract extends Controller {
-    protected $route = 'static';
+    protected $route = 'map';
 
     protected $params;
 
