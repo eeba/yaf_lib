@@ -23,7 +23,7 @@ class Node {
             $tmp_file = explode('controllers', $file);
             $file_name = str_replace('/', '_', trim($tmp_file[1], '/'));
             $class_name = 'Controller_' . $file_name;
-            $node[$file_name]['controller'] = $class_name;
+            $node[$class_name]['controller'] = $class_name;
             if (!class_exists($class_name) || in_array($class_name, $this->filter)) {
                 continue;
             }
@@ -32,7 +32,7 @@ class Node {
             if ($class_doc && preg_match('/\@name\s+(.+)/i', $class_doc, $match)) {
                 $class_name = strtolower(trim($match[1]));
             }
-            $node[$file_name]['controller_name'] = $class_name;
+            $node[$class_name]['controller_name'] = $class_name;
 
             $method_list = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
             foreach ($method_list as $value) {
@@ -44,7 +44,7 @@ class Node {
                 if ($method_doc && preg_match('/\@name\s+(.+)/i', $method_doc, $match)) {
                     $method_name = strtolower(trim($match[1]));
                 }
-                $node[$file_name]['method'][] = [
+                $node[$class_name]['method'][] = [
                     'action' => $value->name,
                     'action_name' => $method_name
                 ];

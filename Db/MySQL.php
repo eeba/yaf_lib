@@ -3,6 +3,7 @@ namespace Db;
 
 use Base\Config;
 use Base\Logger;
+use Base\Exception;
 
 class MySQL {
     private $pdo = null;
@@ -249,7 +250,7 @@ class MySQL {
         }
         if (false === $ret) {
             $error_info = $this->stmt->errorInfo();
-            throw new \Exception($error_info[2], $error_info[0]);
+            throw new Exception($error_info[2], $error_info[0]);
         }
         $_end = microtime(true);
 
