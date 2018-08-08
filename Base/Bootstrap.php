@@ -19,7 +19,7 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
      * @param \Yaf\Dispatcher $dispatcher
      */
     public function _initEnv(\Yaf\Dispatcher $dispatcher) {
-        \Base\Env::init($dispatcher->getRequest());
+        \Base\Env::init();
     }
 
     public function _initDebug(){

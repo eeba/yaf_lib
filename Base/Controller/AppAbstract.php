@@ -1,7 +1,7 @@
 <?php
 namespace Base\Controller;
 
-abstract class AppAbstract extends Controller  {
+class AppAbstract extends Controller  {
     protected $route = 'static';
 
     protected $params;

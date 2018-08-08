@@ -21,14 +21,8 @@ use Http\Response;
 class Env {
 
     public static $cli_class;
-    public static $module;
-    public static $controller;
-    public static $action;
 
-    public static function init(\Yaf\Request_Abstract $request) {
-        self::$module = $request->getModuleName() ?: '';
-        self::$controller = $request->getControllerName() ?: '';
-        self::$action = $request->getActionName() ?: '';
+    public static function init() {
         //初始化请求类型
         if(!Response::$formatter) {
             if (Request::isAjax()) {
@@ -96,17 +90,6 @@ class Env {
      */
     public static function isCli() {
         return php_sapi_name() === 'cli' ? true : false;
-    }
-
-    /**
-     * 判断是否phpunit环境
-     *
-     * 根据APP_TEST/phpunit.xml中APP_ENV的值进行判断
-     *
-     * @return bool true-phpunit环境 false-非phpunit环境
-     */
-    public static function isPhpUnit() {
-        return $_ENV['APP_ENV'] === 'phpunit' ? true : false;
     }
 
 }
