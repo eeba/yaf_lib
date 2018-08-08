@@ -83,11 +83,7 @@ class Logger {
                 $cli_class_name = Env::getCliClass();
                 $key = strtolower(str_replace('\\', '/', $cli_class_name));
             } else {
-                $module = Env::$module;
-                $controller = Env::$controller;
-                $action = Env::$action;
-                $controller_name = strtolower(str_replace('_', DIRECTORY_SEPARATOR, $controller));
-                $key = $module . DIRECTORY_SEPARATOR . $controller_name . DIRECTORY_SEPARATOR . $action;
+                $key = \Yaf\Dispatcher::getInstance()->getRequest()->getRequestUri();
             }
         } else {
             $key = $path;
