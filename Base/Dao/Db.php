@@ -123,6 +123,18 @@ class Db {
     }
 
     /**
+     * 删除
+     *
+     * @param array $where
+     * @param array $order
+     * @param int   $limit
+     * @return bool|int|null
+     */
+    public function delete(array $where = array(), array $order = array(), $limit = 1){
+        return $this->db()->delete($this->table, $where, $order, $limit);
+    }
+
+    /**
      * 直接执行sql
      *
      * @param       $sql

@@ -16,9 +16,8 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
 
     /**
      * 初始化环境
-     * @param \Yaf\Dispatcher $dispatcher
      */
-    public function _initEnv(\Yaf\Dispatcher $dispatcher) {
+    public function _initEnv() {
         \Base\Env::init();
     }
 

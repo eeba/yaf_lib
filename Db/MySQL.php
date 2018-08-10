@@ -103,7 +103,7 @@ class MySQL {
      * @param int   $limit
      * @return bool|int|null
      */
-    public function delete($table_name, array $where = array(), array $order = array(), $limit = 0) {
+    public function delete($table_name, array $where = array(), array $order = array(), $limit = 1) {
         $where_sql = $this->toSql($where, $order, $limit);
         $sql = "delete from {$table_name} where {$where_sql['sql']}";
         return $this->query($sql, $where_sql['params']);
