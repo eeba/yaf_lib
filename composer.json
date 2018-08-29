@@ -5,7 +5,8 @@
     "monolog/monolog": "^1.23",
     "swiftmailer/swiftmailer": "^6.0",
     "guzzlehttp/guzzle": "^6.3",
-    "endroid/qr-code": "^3.2"
+    "endroid/qr-code": "^3.2",
+    "gregwar/captcha": "^1.1"
   },
   "repositories": {
     "packagist": {
