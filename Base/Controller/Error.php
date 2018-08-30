@@ -18,6 +18,7 @@ namespace Base\Controller;
      * ajax请求异常给返回json信息
      * api请求异常给返回json信息
      */
+use Base\Logger;
 
 /**
  * 当有未捕获的异常, 则控制流会流到这里
@@ -29,6 +30,16 @@ class Error extends Controller {
      * @param $exception
      */
     public function errorAction(\Exception $exception) {
+        Logger::error([
+            $exception->getCode(),
+            $exception->getMessage(),
+            $exception->getFile(),
+            $exception->getTrace(),
+            $exception->getTraceAsString(),
+            $exception->getLine(),
+            $exception->getPrevious(),
+        ], 'error');
+
         $is_not_found = $this->isNotFound($exception->getCode());
         if ($is_not_found) {
             $this->response['code'] = '4040000';
