@@ -141,12 +141,20 @@ class Request {
     }
 
     /**
+     * 获取当前域名地址
+     * @return string
+     */
+    public static function getHost(){
+        $scheme = self::server('HTTPS') === 'on' ? 'https://' : 'http://';
+        $port = self::server('SERVER_PORT') != '80' ? ':' . self::server('SERVER_PORT') : '';
+        return $scheme . self::server('HTTP_HOST') . $port;
+    }
+
+    /**
      * 获取当前请求地址
      * @return string
      */
     public static function getCurrentUrl() {
-        $scheme = self::server('HTTPS') === 'on' ? 'https://' : 'http://';
-        $port = self::server('SERVER_PORT') != '80' ? ':' . self::server('SERVER_PORT') : '';
-        return $scheme . self::server('SERVER_NAME') . $port . self::server('REQUEST_URI');
+        return self::getHost() . self::server('REQUEST_URI');
     }
 }
