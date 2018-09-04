@@ -13,6 +13,8 @@ class AdminAbstract extends AppAbstract {
     protected $all_access_uri = array(
         '/admin/access/login',
         '/admin/access/dologin',
+        '/admin/access/qrlogin',
+        '/admin/access/qrcheck',
     );
 
     public function getParam($key, $default=''){
