@@ -4,6 +4,30 @@ namespace Db;
 use Base\Exception;
 use Base\Config;
 
+/**
+ * Class Redis
+ * @method get( $key )
+ * @method set( $key, $value, $timeout = 0 )
+ * @method setex( $key, $ttl, $value )
+ * @method setnx( $key, $value )
+ * @method del( $key1, $key2 = null, $key3 = null )
+ * @method delete( $key1, $key2 = null, $key3 = null )
+ * @method incr( $key )
+ * @method incrBy( $key, $value )
+ * @method decr( $key )
+ * @method decrBy( $key, $value )
+ * @method lPush( $key, $value1, $value2 = null, $valueN = null )
+ * @method rPush( $key, $value1, $value2 = null, $valueN = null )
+ * @method lPop( $key )
+ * @method rPop( $key )
+ * @method lLen( $key )
+ * @method hSet( $key, $hashKey, $value )
+ * @method hSetNx( $key, $hashKey, $value )
+ * @method hGet($key, $hashKey)
+ * @method hDel( $key, $hashKey1, $hashKey2 = null, $hashKeyN = null )
+ * @method hGetAll( $key )
+ * @package Db
+ */
 class Redis {
 
     const DEFAULT_CONNECT_TIMEOUT = 5;
