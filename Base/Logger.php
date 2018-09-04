@@ -4,59 +4,50 @@ namespace Base;
 use Http\Request;
 
 class Logger {
-    const DEBUG = 1;
-    const INFO = 2;
-    const NOTICE = 3;
-    const WARNING = 4;
-    const ERROR = 5;
-    const CRITICAL = 6;
-    const ALERT = 7;
-    const EMERGENCY = 8;
+    private static $_instance;
 
-    private static $log_name_map = [
-        self::DEBUG => 'debug',
-        self::INFO => 'info',
-        self::NOTICE => 'notice',
-        self::WARNING => 'warning',
-        self::ERROR => 'error',
-        self::CRITICAL => 'critical',
-        self::ALERT => 'alert',
-        self::EMERGENCY => 'emergency',
-    ];
+    private function __construct(){}
 
-    public static function debug(array $data = [], $path = "") {
-        self::addRecord(self::DEBUG, $data, $path);
+    public static function getInstance() {
+        if (is_null(self::$_instance)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
     }
 
-    public static function info(array $data = [], $path = "") {
-        self::addRecord(self::INFO, $data, $path);
+    public function debug(array $data = [], $path = "") {
+        $this->addRecord('debug', $data, $path);
     }
 
-    public static function notice(array $data = [], $path = "") {
-        self::addRecord(self::NOTICE, $data, $path);
+    public function info(array $data = [], $path = "") {
+        $this->addRecord('info', $data, $path);
     }
 
-    public static function warning(array $data = [], $path = "") {
-        self::addRecord(self::WARNING, $data, $path);
+    public function notice(array $data = [], $path = "") {
+        $this->addRecord('notice', $data, $path);
     }
 
-    public static function error(array $data = [], $path = "") {
-        self::addRecord(self::ERROR, $data, $path);
+    public function warning(array $data = [], $path = "") {
+        $this->addRecord('warning', $data, $path);
     }
 
-    public static function critical(array $data = [], $path = "") {
-        self::addRecord(self::CRITICAL, $data, $path);
+    public function error(array $data = [], $path = "") {
+        $this->addRecord('error', $data, $path);
     }
 
-    public static function alert(array $data = [], $path = "") {
-        self::addRecord(self::ALERT, $data, $path);
+    public function critical(array $data = [], $path = "") {
+        $this->addRecord('critical', $data, $path);
     }
 
-    public static function emergency(array $data = [], $path = "") {
-        self::addRecord(self::EMERGENCY, $data, $path);
+    public function alert(array $data = [], $path = "") {
+        $this->addRecord('alert', $data, $path);
     }
 
-    private static function addRecord($level, $data, $path) {
+    public function emergency(array $data = [], $path = "") {
+        $this->addRecord('emergency', $data, $path);
+    }
+
+    private function addRecord($level, $data, $path) {
         $file_path = self::getPath($level, $path);
         $dir_path = dirname($file_path);
         if (!is_dir($dir_path)) {
@@ -76,8 +67,7 @@ class Logger {
         return $ret;
     }
 
-    private static function getPath($level, $path) {
-        $level_name = self::$log_name_map[$level];
+    private function getPath($level, $path) {
         if (!$path) {
             if (Env::isCli()) {
                 $cli_class_name = Env::getCliClass();
@@ -88,6 +78,6 @@ class Logger {
         } else {
             $key = $path;
         }
-        return strtolower(LOG_PATH . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . date("Ym") . DIRECTORY_SEPARATOR . $level_name . '.' . date("Ymd") . ".log");
+        return strtolower(LOG_PATH . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . date("Ym") . DIRECTORY_SEPARATOR . $level . '.' . date("Ymd") . ".log");
     }
 }
