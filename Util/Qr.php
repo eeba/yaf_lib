@@ -27,8 +27,8 @@ class Qr {
         $qrCode->setRoundBlockSize(true);
         $qrCode->setValidateResult(false);
 
-        header('Content-Type: '.$qrCode->getContentType());
-        echo $qrCode->writeString();
+        //header('Content-Type: '.$qrCode->getContentType());
+        return $qrCode->writeDataUri();
     }
 
 }
