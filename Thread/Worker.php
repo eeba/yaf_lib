@@ -1,6 +1,7 @@
 <?php
 
 namespace Thread;
+use Base\Logger;
 
 /**
  * 工作进程基类
@@ -46,10 +47,12 @@ abstract class Worker {
                 $this->process();
             } catch (\Base\Exception $e) {
                 Utils::echoInfo(cli_get_process_title() . " throw " . $e->getMessage());
+                Logger::getInstance()->error([$e->getCode(), $e->getMessage(), $e->getTraceAsString()]);
                 $this->isRunning = false;
             } catch (\Exception $e) {
                 //上层异常 退出进程
                 Utils::echoInfo(cli_get_process_title() . " throw " . $e->getMessage());
+                Logger::getInstance()->error([$e->getCode(), $e->getMessage(), $e->getTraceAsString()]);
                 $this->isRunning = false;
             }
 
