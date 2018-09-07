@@ -15,6 +15,8 @@ class AdminAbstract extends AppAbstract {
         '/admin/access/dologin',
         '/admin/access/qrlogin',
         '/admin/access/qrcheck',
+        '/admin/access/allowlogin',
+        '/admin/access/refuselogin',
     );
 
     public function getParam($key, $default=''){

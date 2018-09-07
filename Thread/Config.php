@@ -138,7 +138,7 @@ class Config {
      * @return bool
      */
     private function _setConfigByFile() {
-        if (md5(json_encode($this->_config)) !== md5_file(self::$_thread_config_file)) {
+        if (!file_exists(self::$_thread_config_file) || md5(json_encode($this->_config)) !== md5_file(self::$_thread_config_file)) {
             file_put_contents(self::$_thread_config_file, json_encode($this->_config));
         }
         return true;

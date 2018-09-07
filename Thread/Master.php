@@ -200,7 +200,8 @@ class Master {
         $this->work_proc = Utils::getWorkerProcessInfo($this->pids);
         //查看进程情况，按配置启动和减少进程
         foreach ($thread_config as $class_name => $v) {
-            $num = count($this->work_proc[$class_name]) - $v['work_num'];
+            $work_proc_num = isset($this->work_proc[$class_name]) ? count($this->work_proc[$class_name]) : 0;
+            $num = $work_proc_num - $v['work_num'];
             if ($num >= 0) {
                 for ($i = 0; $i < $num; $i++) {
                     $this->cleanup($this->work_proc[$class_name][$i]);

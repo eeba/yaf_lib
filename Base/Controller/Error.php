@@ -31,7 +31,7 @@ class Error extends Controller {
      * @param $exception
      */
     public function errorAction(\Exception $exception) {
-        Logger::error([
+        Logger::getInstance()->error([
             $exception->getCode(),
             $exception->getMessage(),
             $exception->getFile(),
