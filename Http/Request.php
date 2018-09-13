@@ -125,6 +125,22 @@ class Request {
     }
 
     /**
+     * 检查是否为get请求
+     * @return bool
+     */
+    public static function isGet(){
+        return strtolower(self::server('REQUEST_METHOD')) == 'get';
+    }
+
+    /**
+     * 检查是否为post请求
+     * @return bool
+     */
+    public static function isPost(){
+        return strtolower(self::server('REQUEST_METHOD')) == 'post';
+    }
+
+    /**
      * 保障时间的统一
      * @return mixed
      */
