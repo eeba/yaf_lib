@@ -26,6 +26,7 @@ use Base\Config;
  * @method hGet($key, $hashKey)
  * @method hDel( $key, $hashKey1, $hashKey2 = null, $hashKeyN = null )
  * @method hGetAll( $key )
+ * @method hIncrBy( $key, $hashKey, $value )
  * @package Db
  */
 class Redis {

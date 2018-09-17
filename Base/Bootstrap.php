@@ -8,10 +8,10 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
      */
     public function _initBaseLoader() {
         $loader = include(LIB . '/vendor/autoload.php');
-        $loader->addPsr4('Service\\', APP_PATH . '/library/Service');
-        $loader->addPsr4('Data\\', APP_PATH . '/library/Data');
-        $loader->addPsr4('Dao\\', APP_PATH . '/library/Dao');
-        $loader->addPsr4('Job\\', APP_PATH . '/job');
+        $loader->addPsr4('Service\\', ROOT_PATH . '/library/Service');
+        $loader->addPsr4('Data\\', ROOT_PATH . '/library/Data');
+        $loader->addPsr4('Dao\\', ROOT_PATH . '/library/Dao');
+        $loader->addPsr4('Job\\', ROOT_PATH . '/job');
     }
 
     /**
@@ -21,8 +21,8 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
         \Base\Env::init();
     }
 
-    public function _initDebug(){
-        if(DEBUG) {
+    public function _initDebug() {
+        if (DEBUG) {
             error_reporting(E_ALL);
             ini_set('display_errors', true);
         }
