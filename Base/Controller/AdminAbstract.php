@@ -11,12 +11,12 @@ class AdminAbstract extends AppAbstract {
     protected $params;
 
     protected $all_access_uri = array(
-        '/admin/access/login',
-        '/admin/access/dologin',
-        '/admin/access/qrlogin',
-        '/admin/access/qrcheck',
-        '/admin/access/allowlogin',
-        '/admin/access/refuselogin',
+        '/access/login',
+        '/access/dologin',
+        '/access/qrlogin',
+        '/access/qrcheck',
+        '/access/allowlogin',
+        '/access/refuselogin',
     );
 
     public function getParam($key, $default=''){
@@ -38,7 +38,7 @@ class AdminAbstract extends AppAbstract {
             if(Request::isAjax()){
                 $msg = '你现在是退出状态，请先登录!';
             }else{
-                $msg = "你现在是退出状态，请先登录! <a href='/admin/access/login'>登录</a>";
+                $msg = "你现在是退出状态，请先登录! <a href='/access/login'>登录</a>";
             }
             throw new Exception($msg);
         }
