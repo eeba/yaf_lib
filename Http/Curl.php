@@ -90,7 +90,8 @@ class Curl {
      * @param array  $options default array()
      *
      * @return string
-     * @throws \Base\Exception
+     * @throws Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function request($method, $path, $data = array(), array $options = array()) {
         $method = strtolower($method);

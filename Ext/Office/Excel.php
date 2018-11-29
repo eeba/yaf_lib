@@ -1,6 +1,5 @@
 <?php
-
-namespace Office;
+namespace Ext\Office;
 
 class Excel {
 

@@ -55,6 +55,12 @@ class Redis {
         $this->name = $name;
     }
 
+    /**
+     * @param $name
+     * @param array $args
+     * @return mixed
+     * @throws Exception
+     */
     public function __call($name, $args = array()) {
         try {
             $ret = call_user_func_array(array($this->getInstance(), $name), $args);
@@ -110,6 +116,7 @@ class Redis {
 
     /**
      * 初始化配置信息，以addServers方式使用
+     * @throws Exception
      */
     protected function configure() {
         $this->config = Config::get('service.redis.' . $this->name);
@@ -146,6 +153,9 @@ class Redis {
         return true;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function setOptions() {
         if (isset($this->config['user']) && $this->config['user'] && $this->config['auth']) {
             if (self::$res[$this->name]->auth($this->config['user'] . ":" . $this->config['auth']) == false) {

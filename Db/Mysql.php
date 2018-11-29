@@ -5,28 +5,90 @@ use Base\Config;
 use Base\Logger;
 use Base\Exception;
 
-class MySQL {
-    private $pdo = null;
+class Mysql {
+    private $database_name = '';
+    private $db = [];
     private $stmt = null;
+    private $in_transaction = false; //是否启用了事务
+    private $mode_flag = false; //是否启用读写分离
+    private $config = []; //配置
 
-    public function __construct() {
-        if (!isset($this->pdo)) {
-            try {
-                if (!$this->pdo) {
-                    $config = Config::get('service.database.master');
-                    $option = array(
-                        \PDO::ATTR_CASE => \PDO::CASE_LOWER,
-                    );
-                    if (php_sapi_name() == 'cli') {
-                        $option = array(\PDO::ATTR_PERSISTENT => true);
-                    }
-                    $this->pdo = new \PDO($config['dsn'], $config['username'], $config['password'], array_filter($option));
-                }
-            } catch (\PDOException $e) {
-                throw new \Exception($e->getMessage(), $e->getCode());
-            }
+    const TIMEOUT = 3;
+    const WRITE = 'master';
+    const READ = 'slave';
+
+    /**
+     * Mysql constructor.
+     * @param $name 数据库名称
+     */
+    public function __construct($name) {
+        $this->database_name = $name;
+        if(!isset($this->config[$name])) {
+            $this->config[$name] = Config::get('service.database.' . $name);
         }
-        return $this->pdo;
+    }
+
+    protected function getId($mode) {
+        return $mode . $this->database_name;
+    }
+
+    protected function getDbMode($sql) {
+        //不区分读写模式时，直接用写模式，连接master
+        if (!$this->mode_flag) {
+            return self::WRITE;
+        }
+        //如果已有开启的写会话,那复用写会话,连接master
+        if ($this->db[$this->getId(self::WRITE)]) {
+            return self::WRITE;
+        }
+        //事务直接连接master
+        if ($this->in_transaction) {
+            return self::WRITE;
+        }
+
+        $mode = stripos(trim($sql), 'select') !== false ? self::READ : self::WRITE;
+
+        return $mode;
+    }
+
+    private function connect($config) {
+        $option = array();
+        if (isset($config['pconnect']) && $config['pconnect'] === true) {
+            $option[\PDO::ATTR_PERSISTENT] = true;
+        }
+        // MYSQL查询缓存
+        //		$option[PDO::MYSQL_ATTR_USE_BUFFERED_QUERY]	= true;
+
+        // 错误处理方式，使用异常
+        $option[\PDO::ATTR_ERRMODE] = \PDO::ERRMODE_EXCEPTION;
+
+        // 默认连接后执行的sql
+        if (!empty($config['encoding'])) {
+            $option[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES '{$config['encoding']}'";
+        }
+
+        $option[\PDO::ATTR_TIMEOUT] = self::TIMEOUT;
+        if (isset($config['timeout'])) {
+            $option[\PDO::ATTR_TIMEOUT] = $config['timeout'];
+        }
+
+        $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s', $config['host'], $config['port'], $config['dbname']);
+        if (isset($config['charset'])) {
+            $dsn .= ';charset=' . $config['charset'];
+        }
+        return new \PDO($dsn, $config['username'], $config['password'], $option);
+    }
+
+    public function getPdo($mode = self::READ){
+        $key = $this->getId($mode);
+        if (!isset($this->db[$key])) {
+            $this->db[$key] = $this->connect($this->config[$mode]);
+        }
+        return $this->db[$key];
+    }
+
+    public function setModeFlag($flag){
+        $this->mode_flag = $flag;
     }
 
     /**
@@ -35,6 +97,7 @@ class MySQL {
      * @param       $sql
      * @param array $params
      * @return bool|int|null
+     * @throws \Exception
      */
     public function query($sql, $params = array()) {
         $this->exec($sql, $params);
@@ -62,6 +125,7 @@ class MySQL {
      * @param $table_name
      * @param $data
      * @return bool|int|null
+     * @throws \Exception
      */
     public function insert($table_name, $data) {
         $cols = implode(',', array_map(function ($v) {
@@ -82,6 +146,7 @@ class MySQL {
      * @param array $order
      * @param int   $limit
      * @return bool|int|null
+     * @throws \Exception
      */
     public function update($table_name, array $data = array(), array $where = array(), array $order = array(), $limit = 0) {
         $params = array();
@@ -102,6 +167,7 @@ class MySQL {
      * @param array $order
      * @param int   $limit
      * @return bool|int|null
+     * @throws \Exception
      */
     public function delete($table_name, array $where = array(), array $order = array(), $limit = 1) {
         $where_sql = $this->toSql($where, $order, $limit);
@@ -118,6 +184,7 @@ class MySQL {
      * @param array  $order
      * @param int    $limit
      * @return bool|int|null
+     * @throws \Exception
      */
     public function select($table_name, array $where = array(), $cols = '*', array $order = array(), $limit = 0) {
         if (is_array($cols)) {
@@ -140,6 +207,7 @@ class MySQL {
      * @param string $cols
      * @param array  $order
      * @return array
+     * @throws \Exception
      */
     public function find($table_name, array $where = array(), $cols = '*', array $order = array()) {
         $result = $this->select($table_name, $where, $cols, $order, 1);
@@ -150,21 +218,24 @@ class MySQL {
      * 开启
      */
     public function begin() {
-        $this->pdo->beginTransaction();
+        $this->in_transaction = true;
+        $this->getPdo(self::WRITE)->beginTransaction();
     }
 
     /**
      * 提交
      */
     public function commit() {
-        $this->pdo->commit();
+        $this->in_transaction = false;
+        $this->getPdo(self::WRITE)->commit();
     }
 
     /**
      * 回滚
      */
     public function rollback() {
-        $this->pdo->rollBack();
+        $this->in_transaction = false;
+        $this->getPdo(self::WRITE)->rollBack();
     }
 
     /**
@@ -242,7 +313,8 @@ class MySQL {
     private function exec($sql, $params) {
         //执行
         $_start = microtime(true);
-        $this->stmt = $this->pdo->prepare($sql);
+        $mode = $this->getDbMode($sql);
+        $this->stmt = $this->getPdo($mode)->prepare($sql);
         if ($params) {
             $ret = $this->stmt->execute($params);
         } else {
@@ -272,7 +344,7 @@ class MySQL {
      * @return bool|int
      */
     public function lastInsertId($name = null) {
-        $last = $this->pdo->lastInsertId($name);
+        $last = $this->getPdo(self::WRITE)->lastInsertId($name);
         if (false === $last) {
             return false;
         } else if ('0' === $last) {
@@ -286,6 +358,15 @@ class MySQL {
      * 关闭数据库连接
      */
     public function __destruct() {
-        $this->pdo = null;
+        $read_id = $this->getId(self::READ);
+        if (isset($this->db[$read_id])) {
+            $this->db[$read_id] = null;
+        }
+        $write_id = $this->getId(self::WRITE);
+        if (isset($this->db[$write_id])) {
+            $this->db[$write_id] = null;
+        }
+
+        return true;
     }
 }

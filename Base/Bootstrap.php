@@ -2,6 +2,12 @@
 namespace Base;
 
 class Bootstrap extends \Yaf\Bootstrap_Abstract {
+    public function _initDebug() {
+        if (defined(DEBUG) && DEBUG) {
+            error_reporting(E_ALL);
+            ini_set('display_errors', true);
+        }
+    }
 
     /**
      * 在此处注册非YAF的autoload
@@ -19,12 +25,5 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
      */
     public function _initEnv() {
         \Base\Env::init();
-    }
-
-    public function _initDebug() {
-        if (DEBUG) {
-            error_reporting(E_ALL);
-            ini_set('display_errors', true);
-        }
     }
 }
