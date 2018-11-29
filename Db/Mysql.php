@@ -6,7 +6,7 @@ use Base\Logger;
 use Base\Exception;
 
 class Mysql {
-    private $database_name = '';
+    private $db_name = '';
     private $db = [];
     private $stmt = null;
     private $in_transaction = false; //是否启用了事务
@@ -22,14 +22,14 @@ class Mysql {
      * @param $name 数据库名称
      */
     public function __construct($name) {
-        $this->database_name = $name;
-        if(!isset($this->config[$name])) {
-            $this->config[$name] = Config::get('service.database.' . $name);
+        $this->db_name = $name;
+        if(!$this->config) {
+            $this->config = Config::get('service.database.' . $name);
         }
     }
 
     protected function getId($mode) {
-        return $mode . $this->database_name;
+        return $mode . $this->db_name;
     }
 
     protected function getDbMode($sql) {
@@ -38,7 +38,7 @@ class Mysql {
             return self::WRITE;
         }
         //如果已有开启的写会话,那复用写会话,连接master
-        if ($this->db[$this->getId(self::WRITE)]) {
+        if (isset($this->db[$this->getId(self::WRITE)])) {
             return self::WRITE;
         }
         //事务直接连接master
@@ -81,6 +81,7 @@ class Mysql {
 
     public function getPdo($mode = self::READ){
         $key = $this->getId($mode);
+        echo $mode . '----';
         if (!isset($this->db[$key])) {
             $this->db[$key] = $this->connect($this->config[$mode]);
         }
