@@ -3,16 +3,23 @@ namespace Base\Dao;
 
 use Http\Request;
 
-class Db {
-    private $db = '';
+abstract class Db {
+
+    protected static $db = array();
     protected $table = '';
     protected $field = [];
+    protected static $database_name = '';
 
-    public function db() {
-        if (!$this->db) {
-            $this->db = new \Db\MySQL();
+    abstract static function databaseName();
+
+    public static function getInstance() {
+        $database_name = databaseName();
+        if (!isset(self::$db[$database_name])) {
+            self::$db[$database_name] = new \Db\Mysql($database_name);
+            //读写分离
+            self::$db[$database_name]->setModeFlag(true);
         }
-        return $this->db;
+        return self::$db[$database_name];
     }
 
     /**
@@ -45,21 +52,21 @@ class Db {
      * 事务开始
      */
     public function begin() {
-        $this->db()->begin();
+        self::getInstance()->begin();
     }
 
     /**
      * 提交事务
      */
     public function commit() {
-        $this->db()->commit();
+        self::getInstance()->commit();
     }
 
     /**
      * 回滚
      */
     public function rollback() {
-        $this->db()->rollback();
+        self::getInstance()->rollback();
     }
 
     /**
@@ -67,9 +74,10 @@ class Db {
      *
      * @param $data
      * @return bool|int|null
+     * @throws \Exception
      */
     public function add($data) {
-        return $this->db()->insert($this->table, $data);
+        return self::getInstance()->insert($this->table, $data);
     }
 
     /**
@@ -80,9 +88,10 @@ class Db {
      * @param array $order
      * @param int   $limit
      * @return bool|int|null
+     * @throws \Exception
      */
     public function update(array $data = array(), array $where = array(), array $order = array(), $limit = 0) {
-        return $this->db()->update($this->table, $data, $where, $order, $limit);
+        return self::getInstance()->update($this->table, $data, $where, $order, $limit);
     }
 
     /**
@@ -92,9 +101,10 @@ class Db {
      * @param string $cols
      * @param array  $order
      * @return array
+     * @throws \Exception
      */
     public function findById($id, $cols = '*', array $order = array()) {
-        return $this->db()->find($this->table, ['id' => $id], $cols, $order);
+        return self::getInstance()->find($this->table, ['id' => $id], $cols, $order);
     }
 
     /**
@@ -104,9 +114,10 @@ class Db {
      * @param string $cols
      * @param array  $order
      * @return array
+     * @throws \Exception
      */
     public function find($where = [], $cols = '*', array $order = array()) {
-        return $this->db()->find($this->table, $where, $cols, $order);
+        return self::getInstance()->find($this->table, $where, $cols, $order);
     }
 
     /**
@@ -117,9 +128,10 @@ class Db {
      * @param array  $order
      * @param int    $limit
      * @return bool|int|null
+     * @throws \Exception
      */
     public function getList(array $where = array(), $cols = '*', array $order = array(), $limit = 0) {
-        return $this->db()->select($this->table, array_filter($where), $cols, $order, $limit);
+        return self::getInstance()->select($this->table, array_filter($where), $cols, $order, $limit);
     }
 
     /**
@@ -129,9 +141,10 @@ class Db {
      * @param array $order
      * @param int   $limit
      * @return bool|int|null
+     * @throws \Exception
      */
     public function delete(array $where = array(), array $order = array(), $limit = 1){
-        return $this->db()->delete($this->table, $where, $order, $limit);
+        return self::getInstance()->delete($this->table, $where, $order, $limit);
     }
 
     /**
@@ -140,9 +153,10 @@ class Db {
      * @param       $sql
      * @param array $params
      * @return bool|int|null
+     * @throws \Exception
      */
     public function query($sql, $params = []) {
-        return $this->db()->query($sql, $params);
+        return self::getInstance()->query($sql, $params);
     }
 
     /**
@@ -150,6 +164,7 @@ class Db {
      *
      * @param array $where
      * @return mixed
+     * @throws \Exception
      */
     public function count($where = []) {
         $ret = $this->find($where, 'count(1) num');
@@ -163,6 +178,7 @@ class Db {
      * @param string $cols
      * @param array  $order
      * @return mixed
+     * @throws \Exception
      */
     public function dataTable(array $where = [], $cols = '*', array $order = []) {
         $sql = "select {$cols} from {$this->table} where ";
@@ -170,16 +186,16 @@ class Db {
 
         $start = Request::request('start', 0);
         $length = Request::request('length', 10);
-        $sql_arr = $this->db()->toSql($where, $order, [$start, $length]);
-        $content_sql_arr = $this->db()->toSql($where, $order);
+        $sql_arr = self::getInstance()->toSql($where, $order, [$start, $length]);
+        $content_sql_arr = self::getInstance()->toSql($where, $order);
 
         $sql .= $sql_arr['sql'];
         $count_sql .= $content_sql_arr['sql'];
 
-        $count = $this->db()->query($count_sql, $content_sql_arr['params']);
+        $count = self::getInstance()->query($count_sql, $content_sql_arr['params']);
         $count = $count[0]['num'];
 
-        $data['data'] = $this->db()->query($sql, $sql_arr['params']);
+        $data['data'] = self::getInstance()->query($sql, $sql_arr['params']);
         $data['draw'] = Request::request('draw');
         $data['iTotalRecords'] = $count;
         $data['iTotalDisplayRecords'] = $count;

@@ -1,5 +1,5 @@
 <?php
-namespace Util;
+namespace Ext\Qrcode;
 
 use Endroid\QrCode\ErrorCorrectionLevel as QrErrorCorrectionLevel;
 use Endroid\QrCode\QrCode as QrCode;

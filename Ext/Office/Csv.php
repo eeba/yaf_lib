@@ -1,5 +1,5 @@
 <?php
-namespace Office;
+namespace Ext\Office;
 
 
 class Csv {
