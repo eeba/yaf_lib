@@ -12,10 +12,10 @@ class Session extends \Yaf\Plugin_Abstract{
      */
     public function dispatchLoopStartup(\Yaf\Request_Abstract $request, \Yaf\Response_Abstract $response) {
         //启用session
-        if(defined(APP_NAME)) {
+        if(defined('APP_NAME')) {
             ini_set('session.name', APP_NAME . 'ID');
         }
-        if(defined(SESSION_TYPE) && strtolower(SESSION_TYPE) == 'redis') {
+        if(defined('SESSION_TYPE') && strtolower(SESSION_TYPE) == 'redis') {
             ini_set('session.save_handler', 'redis');
 
             $session_config = \Base\Config::get('service.cache.redis');
