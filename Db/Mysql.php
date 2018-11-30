@@ -81,7 +81,6 @@ class Mysql {
 
     public function getPdo($mode = self::READ){
         $key = $this->getId($mode);
-        echo $mode . '----';
         if (!isset($this->db[$key])) {
             $this->db[$key] = $this->connect($this->config[$mode]);
         }
