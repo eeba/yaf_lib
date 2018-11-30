@@ -5,19 +5,12 @@ use Base\Env;
 use Base\Exception;
 use Http\Request;
 
-class AdminAbstract extends AppAbstract {
+class AdminAbstract extends Controller  {
     protected $route = 'static';
 
     protected $params;
 
-    protected $all_access_uri = array(
-        '/access/login',
-        '/access/dologin',
-        '/access/qrlogin',
-        '/access/qrcheck',
-        '/access/allowlogin',
-        '/access/refuselogin',
-    );
+    protected $all_access_uri = [];
 
     public function getParam($key, $default=''){
         //PATH_INFO中的参数
@@ -26,12 +19,18 @@ class AdminAbstract extends AppAbstract {
         return isset($params[$key]) ? $params[$key] : $default;
     }
 
+    /**
+     * @throws Exception
+     */
     public function init() {
-        parent::init();
         $this->checkAccessLogin();
         $this->checkAuthorization();
     }
 
+    /**
+     * 检查是否已经登录
+     * @throws Exception
+     */
     public function checkAccessLogin(){
         $request_uri = $this->getRequest()->getRequestUri();
         if(!in_array(strtolower($request_uri), $this->all_access_uri) && !isset($_SESSION['admin_info']) ){
@@ -44,6 +43,9 @@ class AdminAbstract extends AppAbstract {
         }
     }
 
+    /**
+     * 检查是否有权限
+     */
     public function checkAuthorization(){
 
     }
