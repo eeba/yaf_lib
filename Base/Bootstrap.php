@@ -3,7 +3,7 @@ namespace Base;
 
 class Bootstrap extends \Yaf\Bootstrap_Abstract {
     public function _initDebug() {
-        if (defined(DEBUG) && DEBUG) {
+        if (defined('DEBUG') && DEBUG) {
             error_reporting(E_ALL);
             ini_set('display_errors', true);
         }
