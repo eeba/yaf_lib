@@ -8,6 +8,9 @@ use Http\Response;
 class Qr {
 
     /**
+     * php 版本要求 >= 7.1
+     *
+     *
      * @param $text 二维码内容
      * @param int $size 大小（像素）
      * @param array $color 二维码颜色
