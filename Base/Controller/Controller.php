@@ -12,7 +12,7 @@ use Base\Env;
  * @description 主模块控制器基类
  *              app/controllers目录下所有Controller的基类, 所有主模块中控制器均需要继承此类
  */
-abstract class Controller extends \Yaf\Controller_Abstract {
+class Controller extends \Yaf\Controller_Abstract {
 
     protected $response = [];
     protected $route = 'map';
