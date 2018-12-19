@@ -35,7 +35,7 @@ class Config {
     protected $_config = array();
 
     public function __construct() {
-        self::$_thread_config_file = self::THREAD_CONFIG_FILE_PREFIX . APP_NAME . ".conf";
+        self::$_thread_config_file = self::THREAD_CONFIG_FILE_PREFIX . APP . ".conf";
     }
 
     /**

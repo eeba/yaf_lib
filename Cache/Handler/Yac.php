@@ -72,7 +72,7 @@ class Yac extends Abstraction {
      */
     public function getInstance() {
         if (!$this->yac) {
-            $this->yac = new \Yac(substr(APP_NAME . "_", 0, 16));
+            $this->yac = new \Yac(substr(APP . "_", 0, 16));
         }
 
         return $this->yac;
