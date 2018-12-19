@@ -12,8 +12,8 @@ class Session extends \Yaf\Plugin_Abstract{
      */
     public function dispatchLoopStartup(\Yaf\Request_Abstract $request, \Yaf\Response_Abstract $response) {
         //启用session
-        if(defined('APP_NAME')) {
-            ini_set('session.name', 'id'.substr(md5(APP_NAME),0,12));
+        if(defined('APP')) {
+            ini_set('session.name', 'id'.substr(md5(APP),0,12));
         }
         if(defined('SESSION_TYPE') && strtolower(SESSION_TYPE) == 'redis') {
             ini_set('session.save_handler', 'redis');
