@@ -1,7 +1,7 @@
 <?php
 namespace Base;
 
-use Http\Request;
+use S\Http\Request;
 
 class Logger {
     private static $_instance;
@@ -51,7 +51,8 @@ class Logger {
         $file_path = self::getPath($level, $path);
         $dir_path = dirname($file_path);
         if (!is_dir($dir_path)) {
-            @mkdir($dir_path, 0777, true);
+             @mkdir($dir_path, 0777, true);
+             @chmod($dir_path, 0777);
         }
 
         $ret = true;
@@ -69,15 +70,12 @@ class Logger {
 
     private function getPath($level, $path) {
         if (!$path) {
-            if (Env::isCli()) {
-                $cli_class_name = Env::getCliClass();
-                $key = strtolower(str_replace('\\', '/', $cli_class_name));
-            } else {
-                $key = \Yaf\Dispatcher::getInstance()->getRequest()->getRequestUri();
-            }
+            $cli_class_name = Env::getControllerName();
+            $key = strtolower(str_replace('_', '/', $cli_class_name));
         } else {
             $key = $path;
         }
-        return strtolower(LOG_PATH . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . date("Ym") . DIRECTORY_SEPARATOR . $level . '.' . date("Ymd") . ".log");
+        $path = strtolower(LOG_PATH  . DIRECTORY_SEPARATOR . APP . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . date("Ym") . DIRECTORY_SEPARATOR . $level . '.' . date("Ymd") . ".log");
+        return str_replace('//', '/', $path);
     }
 }

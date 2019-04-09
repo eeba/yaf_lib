@@ -1,7 +1,7 @@
 <?php
 namespace Base\Dao;
 
-use Http\Request;
+use S\Http\Request;
 
 trait TraitDb {
 

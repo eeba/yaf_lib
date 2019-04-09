@@ -1,5 +1,4 @@
 <?php
-
 namespace Base;
 
 class Config {

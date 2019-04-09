@@ -1,21 +1,44 @@
 <?php
 namespace Base\Controller;
 
-use Base\Env;
-use Base\Exception;
-use Http\Request;
+use \S\Http\Response;
+use \S\Http\Request;
+use \S\Validate\Handler;
 
-class WebAbstract extends Controller  {
-    protected $route = 'static';
+/**
+ * Class ApiAbstract
+ *
+ * Api接口类的Controller继承
+ */
+abstract class WebAbstract extends ControllerAbstract {
+    protected $params = [];
 
-    protected $params;
-
-    protected $all_access_uri = [];
-
-    public function getParam($key, $default=''){
-        //PATH_INFO中的参数
-        $path_info_params = $this->getRequest()->getParams();
-        $params = array_merge($path_info_params, $_REQUEST);
-        return isset($params[$key]) ? $params[$key] : $default;
+    public function init() {
+        if(Request::isAjax()) {
+            Response::setFormatter(Response::FORMAT_JSON);
+        }else{
+            Response::setFormatter(Response::FORMAT_HTML);
+        }
     }
- }
+
+    public function before() {}
+
+    public function auth() {}
+
+    public function params(){
+        return [];
+    }
+
+    abstract public function action();
+
+    public function after() {}
+
+    public function indexAction() {
+        $this->before();
+        $this->auth();
+        //验证传入接口的参数
+        $this->params = Handler::check($this->params());
+        $this->action();
+        $this->after();
+    }
+}

@@ -1,95 +1,23 @@
 <?php
 namespace Base;
 
-define('APP_ENVIRON_DEV', 'dev');
-define('APP_ENVIRON_TEST', 'test');
-define('APP_ENVIRON_REAL_TEST', 'real_test');
-define('APP_ENVIRON_PRODUCT', 'product');
-
-use Http\Request;
-use Http\Response;
-
-/**
- * Class Env
- *
- * @package     Base
- * @description 环境常量定义
- *
- * 1.环境变量设置问题
- * 2.开发测试生成环境判断问题
- */
 class Env {
 
-    public static $cli_class;
+    private static $controller_name = '';
 
-    public static function init() {
-        //初始化请求类型
-        if(!Response::$formatter) {
-            if (Request::isAjax()) {
-                Response::setFormatter(Response::FORMAT_JSON);
-            } else {
-                Response::setFormatter(Response::FORMAT_HTML);
-            }
+    public static function isCli(){
+        return \Yaf\Application::app()->getDispatcher()->getRequest()->isCli();
+    }
+
+    public static function getControllerName(){
+        if(self::isCli()){
+            return self::$controller_name;
+        } else {
+            return \Yaf\Application::app()->getDispatcher()->getRequest()->getControllerName();
         }
     }
 
-    public static function getCliClass() {
-        return self::$cli_class;
+    public static function setControllerName($controller_name){
+        self::$controller_name = str_replace('\\', '/', $controller_name);
     }
-
-    public static function setCliClass($class) {
-        self::$cli_class = $class;
-        return true;
-    }
-
-    /**
-     * 获取当前环境名称
-     *
-     * @return string dev|test|real_test|product
-     */
-    public static function getEnvName() {
-        $environ = \Yaf\Application::app()->environ();
-
-        return $environ;
-    }
-
-    /**
-     * 判断是否生产环境
-     *
-     * 包括: 仿真和线上正式集群
-     *
-     * @return bool true-生产环境 false-开发环境
-     */
-    public static function isProductEnv() {
-        if (self::getEnvName() === APP_ENVIRON_PRODUCT || self::getEnvName() === APP_ENVIRON_REAL_TEST) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 判断仿真环境
-     *
-     * @return bool
-     */
-    public static function isRealTest() {
-        if (self::getEnvName() === APP_ENVIRON_REAL_TEST) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 判断是否cli模式
-     *
-     * cli模式定义
-     *
-     * @link http://php.net/manual/en/features.commandline.introduction.php
-     *
-     * @return bool true-cli模式 false-非cli模式
-     */
-    public static function isCli() {
-        return php_sapi_name() === 'cli' ? true : false;
-    }
-
 }

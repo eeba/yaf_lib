@@ -30,7 +30,7 @@ class Node {
             }
             $class = new \ReflectionClass($class_name);
             $class_doc = $class->getDocComment();
-            if ($class_doc && preg_match('/\@name\s+(.+)/i', $class_doc, $match)) {
+            if ($class_doc && preg_match('/\@funcname\s+(.+)/i', $class_doc, $match)) {
                 $class_name = trim($match[1]);
             }
             $node[$node_key]['controller_name'] = $class_name;
@@ -42,7 +42,7 @@ class Node {
                     continue;
                 }
                 $method_doc = $value->getDocComment();
-                if ($method_doc && preg_match('/\@name\s+(.+)/i', $method_doc, $match)) {
+                if ($method_doc && preg_match('/\@funcname\s+(.+)/i', $method_doc, $match)) {
                     $method_name = trim($match[1]);
                 }
                 $node[$node_key]['method'][] = [

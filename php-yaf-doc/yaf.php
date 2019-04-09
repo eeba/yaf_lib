@@ -743,7 +743,7 @@ final class Yaf_Registry {
  * @link http://www.php.net/manual/en/class.yaf-session.php
  * @version 2.2.9
  */
-final class Yaf_Session implements Iterator, Traversable, ArrayAccess, Countable {
+final class Yaf_Session implements Iterator, ArrayAccess, Countable {
 
 	/**
 	 * @var Yaf_Session
@@ -2203,7 +2203,7 @@ class Yaf_Request_Simple extends Yaf_Request_Abstract {
  * <p>Yaf_Config_Ini utilizes the » parse_ini_file() PHP function. Please review this documentation to be aware of its specific behaviors, which propagate to Yaf_Config_Ini, such as how the special values of "TRUE", "FALSE", "yes", "no", and "NULL" are handled.</p>
  * @link http://www.php.net/manual/en/class.yaf-config-ini.php
  */
-class Yaf_Config_Ini extends Yaf_Config_Abstract implements Iterator, Traversable, ArrayAccess, Countable {
+class Yaf_Config_Ini extends Yaf_Config_Abstract implements Iterator, ArrayAccess, Countable {
 
 	/**
 	 * @see Yaf_Config_Abstract::get
@@ -2307,7 +2307,7 @@ class Yaf_Config_Ini extends Yaf_Config_Abstract implements Iterator, Traversabl
 /**
  * @link http://www.php.net/manual/en/class.yaf-config-simple.php
  */
-class Yaf_Config_Simple extends Yaf_Config_Abstract implements Iterator, Traversable, ArrayAccess, Countable {
+class Yaf_Config_Simple extends Yaf_Config_Abstract implements Iterator, ArrayAccess, Countable {
 
 	/**
 	 * @see Yaf_Config_Abstract::get
