@@ -99,7 +99,7 @@ class Http extends \Yaf\Request_Abstract {
 	 * @param string $base_uri
 	 *
 	 */
-	public function __construct($request_uri, $base_uri){ }
+	public function __construct($request_uri = '', $base_uri = ''){ }
 
 	/**
 	 * @link http://www.php.net/manual/en/yaf-request-http.clone.php

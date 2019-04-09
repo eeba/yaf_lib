@@ -10,8 +10,8 @@ class Cache {
     ///定义支持的缓存操作
     protected static $_functions = array('get', 'set', 'del', 'mget', 'mset', 'mdel');
 
-    protected $pool_type = \Cache\Cache::TYPE_DEFAULT;  //缓存类型, 参考\S\Cache\Cache缓存类型常量定义
-    protected $pool_name = \Cache\Cache::NAME_DEFAULT; //缓存配置名称, 参考\S\Cache\Cache常量定义
+    protected $pool_type = \S\Cache\Cache::TYPE_DEFAULT;  //缓存类型, 参考\S\Cache\Cache缓存类型常量定义
+    protected $pool_name = \S\Cache\Cache::NAME_DEFAULT; //缓存配置名称, 参考\S\Cache\Cache常量定义
 
     public function __call($name, $arguments) {
         $function = null;
@@ -32,7 +32,7 @@ class Cache {
             throw new Exception("class need set pool_name and pool_type");
         }
 
-        $cache = \Cache\Cache::pool($this->pool_type, $this->pool_name);
+        $cache = \S\Cache\Cache::pool($this->pool_type, $this->pool_name);
 
         if ('get' == $function) {
 

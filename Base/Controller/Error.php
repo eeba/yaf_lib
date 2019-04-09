@@ -19,12 +19,12 @@ namespace Base\Controller;
      * api请求异常给返回json信息
      */
 use Base\Logger;
-use Http\Response;
+use S\Http\Response;
 
 /**
  * 当有未捕获的异常, 则控制流会流到这里
  */
-class Error extends Controller {
+class Error extends ControllerAbstract {
 
     /**
      * 错误页面
@@ -50,7 +50,7 @@ class Error extends Controller {
             $this->response['msg'] = $exception->getMessage();
         }
 
-        if(Response::getFormatter() == Response::FORMAT_PLAIN){
+        if(\S\Http\Response::getFormatter() == \S\Http\Response::FORMAT_PLAIN){
             $this->response = $this->response['msg'];
         }
 

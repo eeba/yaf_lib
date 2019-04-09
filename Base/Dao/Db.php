@@ -10,7 +10,7 @@ class Db {
 
     public static function getInstance($db_name) {
         if (!isset(self::$db[$db_name])) {
-            self::$db[$db_name] = new \Db\Mysql($db_name);
+            self::$db[$db_name] = new \S\Db\Mysql($db_name);
             //读写分离
             self::$db[$db_name]->setModeFlag(true);
         }
