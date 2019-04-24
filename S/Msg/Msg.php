@@ -1,6 +1,11 @@
 <?php
 namespace S\Msg;
 
+/**
+ * Class Msg
+ * @method send($mail, $object, $msg, $files = []);
+ * @package S\Msg
+ */
 class Msg {
 
     const SEND_TYPE_EMAIL = "email";  //邮件消息
@@ -14,7 +19,7 @@ class Msg {
      * @param string $config 发送账户(system, alert)
      * @return object Handler
      */
-    public static function getInstance($type = self::SEND_TYPE_MAIL, $config = 'system') {
+    public static function getInstance($type = self::SEND_TYPE_EMAIL, $config = 'system') {
         if (self::$instance === null) {
             $handler = __NAMESPACE__ . "\\Handler\\" . ucfirst($type);
             self::$instance = new $handler($config);

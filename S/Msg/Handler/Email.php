@@ -9,7 +9,7 @@ use Swift_Mailer;
 use Swift_Message;
 use Swift_Attachment;
 
-class Mail {
+class Email {
     protected $config = array();
     protected $need_config = array(
         'host',
