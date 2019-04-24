@@ -3,7 +3,7 @@ namespace S\Msg;
 
 class Msg {
 
-    const SEND_TYPE_MAIL = "mail";  //邮件消息
+    const SEND_TYPE_EMAIL = "email";  //邮件消息
     const SEND_TYPE_FT = "ft";      //方糖 http://sc.ftqq.com/3.version
 
     private static $instance = null;
