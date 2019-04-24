@@ -19,7 +19,7 @@ class Config {
         $names = explode('.', $name);
         $file_path = CONF_PATH;
         $file = '';
-        while (!file_exists($file) && $names) {
+        while (!file_exists($file) && !is_file($file) && $names) {
             $file_name = array_shift($names);
             $file_path .= DIRECTORY_SEPARATOR . $file_name;
             $file = $file_path . ".php";
