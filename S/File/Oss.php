@@ -88,6 +88,6 @@ class Oss extends Abstraction {
             throw new Exception($e->getMessage(), 5100004);
         }
 
-        return $ret ? false : true;
+        return $local ? ($ret ? false : true) : $ret;
     }
 }
