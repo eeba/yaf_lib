@@ -39,27 +39,49 @@ class Oss extends Abstraction {
     }
 
     /**
-     * @param     $local
-     * @param     $target
+     * @param string    $local  源
+     * @param string    $target 目标
      * @param int $type 1:上传文件，2:上传内容
      *
      * @return mixed
-     * @throws Exception
      */
     public function put($local, $target, $type = 1) {
         try {
             if ($type == 1) {
                 $this->instance_obj->uploadFile($this->config['bucket'], $target, $local);
-                $ret = $this->config['domain'] . $target;
             } else {
                 $this->instance_obj->putObject($this->config['bucket'], $target, $local);
-                $ret = $target;
             }
+            $ret = str_replace('//','/', $this->config['domain'] .'/'. $target);
         } catch (\Exception $e){
-            throw new Exception($e->getMessage(), 5100003);
+            $ret = '';
+            Logger::getInstance()->error(['local'=>$local, 'target'=>$local, $e->getMessage()]);
         }
 
         return $ret;
+    }
+
+    /**
+     * form表单上传文件，单个文件
+     * @param        $file
+     * @param int    $type
+     *
+     * @return mixed|string
+     */
+    public function upload($file, $type = 1){
+        if($file['error']){
+            return '';
+        }
+
+        $root_path  = isset($this->config['root_path']) && $this->config['root_path']?$this->config['root_path']:APP;
+        $local = $file['tmp_name'];
+        if($type == 1) {
+            $target = $root_path . '/' . date('Ym') . '/' . md5($file['name']) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+        }else{
+            $target = $root_path . '/' . date('Ym') . '/' . $file['name'];
+        }
+        $target = strtolower(trim(str_replace('//', '/', $target), '/'));
+        return $this->put($local, $target);
     }
 
 
