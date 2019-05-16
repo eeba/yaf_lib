@@ -43,9 +43,15 @@ abstract class ControllerAbstract extends \Yaf\Controller_Abstract {
     public function displayJson($data) {
         $msg = isset($data['msg']) ?: 'success';
         $code = isset($data['code']) ?: 2000000;
-        Response::outJson($code, $msg, $data);
+        $params['data'] = $data;
+        Response::outJson($code, $msg, $params);
     }
 
+    /**
+     * @param $tpl_vars
+     *
+     * @throws Exception
+     */
     public function displayView($tpl_vars) {
 
         $controller = $this->getRequest()->getControllerName();

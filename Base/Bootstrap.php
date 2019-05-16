@@ -3,6 +3,27 @@ namespace Base;
 
 class Bootstrap extends \Yaf\Bootstrap_Abstract {
 
+    public function _initCheckDefined(){
+        $define_list = array(
+            'ROOT_PATH',
+            'CONF_PATH',
+            'LIB_PATH',
+            'LOG_PATH',
+            'APP',
+            'APP_NAME',
+            'APP_PATH',
+            'APP_HOST',
+            'STATIC_HOST',
+            'SESSION_TYPE',
+            'DEBUG'
+        );
+        foreach ($define_list as $define){
+            if(!defined($define)){
+                exit("没有定义常量`{$define}`");
+            }
+        }
+    }
+
     /**
      * 请求响应的格式
      */
@@ -43,10 +64,12 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
      * @param string $ori
      * @param string $new
      */
-    public function changeRoute(\Yaf\Dispatcher $dispatcher, $ori = '', $new = '') {
-        $request_uri = $dispatcher->getRequest()->getRequestUri();
-        $new_request_uri = str_ireplace('//','/',str_ireplace($ori, $new, $request_uri));
-        $yaf_request = new \Yaf\Request\Http($new_request_uri);
-        $dispatcher->setRequest($yaf_request);
+    public function _initDebug(\Yaf\Dispatcher $dispatcher) {
+        if(DEBUG) {
+            ini_set('display_errors', true);
+            error_reporting(E_ALL);
+        }else{
+            error_reporting(0);
+        }
     }
 }
