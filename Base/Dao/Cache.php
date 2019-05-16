@@ -13,6 +13,13 @@ class Cache {
     protected $pool_type = \S\Cache\Cache::TYPE_DEFAULT;  //缓存类型, 参考\S\Cache\Cache缓存类型常量定义
     protected $pool_name = \S\Cache\Cache::NAME_DEFAULT; //缓存配置名称, 参考\S\Cache\Cache常量定义
 
+    /**
+     * @param $name
+     * @param $arguments
+     *
+     * @return array|bool|mixed
+     * @throws Exception
+     */
     public function __call($name, $arguments) {
         $function = null;
         foreach (self::$_functions as $need_function) {

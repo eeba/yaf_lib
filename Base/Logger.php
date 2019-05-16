@@ -59,6 +59,8 @@ class Logger {
         $data = array_merge(
             [
                 'log_time' => Request::getRequestDataTime(),
+                'client_ip' => \Util\Ip::getClientIp(),
+                'user_agent' => $_SERVER['HTTP_USER_AGENT']
             ],
             $data
         );
