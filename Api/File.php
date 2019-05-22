@@ -15,7 +15,7 @@ class File{
      * @throws \Base\Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function upload($file, $category = '', $filename = '', $timeout = 30){
+    public function upload($file, $category, $filename, $timeout = 30){
         $params = array(
                     array(
                         'name'     => 'file',

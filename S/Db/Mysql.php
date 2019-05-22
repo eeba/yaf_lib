@@ -288,7 +288,7 @@ class Mysql {
             foreach ($order as $key => $value) {
                 $order_arr[] = "`{$key}` {$value}";
             }
-            $sql .= ' order by ' . implode(' and ', $order_arr);
+            $sql .= ' order by ' . implode(' , ', $order_arr);
         }
 
         if ($limit) {
