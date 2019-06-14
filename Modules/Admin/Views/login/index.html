@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="{{APP_STATIC_HOST}}/admin/css/style.css">
+    <title>后台管理</title>
+</head>
+
+<body style="background: #f6f8f9">
+
+<div style="margin: 120px auto 0; width: 400px;">
+    <div class="panel panel-primary" style="border:none;">
+        <div class="panel-heading" style="border-top-left-radius: 3px; border-top-right-radius: 3px;">{{APP_NAME}} - 后台登录</div>
+        <div class="panel-body login">
+            <form action="" class="form-horizontal" onsubmit="return false;">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">账号</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="username" id="username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">密码</label>
+                    <div class="col-md-9">
+                        <input type="password" class="form-control" name="password" id="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">验证码</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="verify_code" id="verify_code" style="width: 50%;float: left">
+                        <img src="{{APP_ADMIN_HOST}}/login/captcha"  style="width: 40%;height:34px;float: right;cursor: pointer;" id="code-img">
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <label class="col-md-3 control-label"></label>
+                    <button class="btn btn-primary" id="submit" style="width: 30%;float: right;margin-right: 15px;">登录</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{{APP_STATIC_HOST}}/admin/lib/jquery.js"></script>
+<script src="{{APP_STATIC_HOST}}/admin/js/common.js"></script>
+<script>
+
+    $('#submit').click(function () {
+        var username = $.trim($('#username').val());
+        var password = $.trim($('#password').val());
+        var verify_code = $.trim($('#verify_code').val());
+        $.trim($('#verify_code').val());
+        if (!username) {
+            alert('请输入账号');
+            $('#username').focus();
+            return false;
+        }
+        if (!password) {
+            alert('请输入密码');
+            $('#password').focus();
+            return false;
+        }
+        if (!verify_code) {
+            alert('请输入验证码');
+            $('#verify_code').focus();
+            return false;
+        }
+        ajax('post', '{{APP_ADMIN_HOST}}/login/doLogin', {
+            username: username,
+            password: password,
+            verify_code: verify_code
+        }, function (data) {
+            if (data.code != 2000000) {
+                alert(data.msg);
+                return false;
+            } else {
+                location.href = '{{APP_ADMIN_HOST}}/index/index';
+            }
+        });
+    });
+
+    /*切验证码*/
+    $('#code-img').click(function () {
+        var obj = $(this);
+        obj.attr('src', "{{APP_ADMIN_HOST}}/login/captcha?" + Math.random());
+    });
+
+    $(document).keydown(function (event) {
+        if (event.keyCode == 13) {
+            $('#submit').trigger('click');
+        }
+    });
+
+</script>
+</body>
+</html>
