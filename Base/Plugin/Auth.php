@@ -17,7 +17,8 @@ class Auth extends \Yaf\Plugin_Abstract{
      */
     public function dispatchLoopStartup(\Yaf\Request_Abstract $request, \Yaf\Response_Abstract $response) {
         $uri = $request->getRequestUri();
-        if(!in_array($uri, $_SESSION['admin_acl'])){
+        $admin_acl = isset($_SESSION['admin_acl']) ? $_SESSION['admin_acl'] : [];
+        if(!in_array($uri, $admin_acl)){
             throw new Exception("您没有<code>{$uri}</code>访问权限");
         }
     }
