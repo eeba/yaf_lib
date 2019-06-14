@@ -37,9 +37,11 @@ class Menu {
         }
 
         //去除没有子菜单的父级菜单
-        foreach ($menu as $key => $value) {
-            if(!$value['child']){
-                unset($menu[$key]);
+        if($session) {
+            foreach ($menu as $key => $value) {
+                if (!$value['child']) {
+                    unset($menu[$key]);
+                }
             }
         }
 
