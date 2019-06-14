@@ -1,3 +1,9 @@
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `admin_menu`
+--
+
 CREATE TABLE `admin_menu` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` char(16) NOT NULL,
@@ -29,9 +35,10 @@ CREATE TABLE `admin_menu_controller` (
 -- 转存表中的数据 `admin_menu_controller`
 --
 
-INSERT INTO `admin_menu_controller` (`id`, `mid`, `controller`, `action`, `name`, `order`) VALUES(1, 3, 'Controller_Menu', 'indexAction', '菜单配置', 1);
-INSERT INTO `admin_menu_controller` (`id`, `mid`, `controller`, `action`, `name`, `order`) VALUES(2, 3, 'Controller_User', 'indexAction', '管理员列表', 2);
-INSERT INTO `admin_menu_controller` (`id`, `mid`, `controller`, `action`, `name`, `order`) VALUES(3, 3, 'Controller_Role', 'indexAction', '角色列表', 3);
+INSERT INTO `admin_menu_controller` (`id`, `mid`, `controller`, `action`, `name`, `order`) VALUES
+(1, 1, 'Controller_Menu', 'indexAction', '菜单配置', 1),
+(2, 1, 'Controller_User', 'indexAction', '管理员列表', 2),
+(3, 1, 'Controller_Role', 'indexAction', '角色列表', 3);
 
 -- --------------------------------------------------------
 
@@ -49,8 +56,9 @@ CREATE TABLE `admin_role` (
 -- 转存表中的数据 `admin_role`
 --
 
-INSERT INTO `admin_role` (`id`, `name`, `status`) VALUES(1, '开发', 1);
-INSERT INTO `admin_role` (`id`, `name`, `status`) VALUES(2, '超级管理员', 1);
+INSERT INTO `admin_role` (`id`, `name`, `status`) VALUES
+(1, '开发', 1),
+(2, '超级管理员', 1);
 
 -- --------------------------------------------------------
 
@@ -68,7 +76,8 @@ CREATE TABLE `admin_role_acl` (
 -- 转存表中的数据 `admin_role_acl`
 --
 
-INSERT INTO `admin_role_acl` (`id`, `rid`, `uri`) VALUES(1, 1, '[\"\\/admin\\/role\\/index\",\"\\/admin\\/role\\/save\",\"\\/admin\\/role\\/detail\",\"\\/admin\\/login\\/index\",\"\\/admin\\/login\\/dologin\",\"\\/admin\\/login\\/logout\",\"\\/admin\\/login\\/captcha\",\"\\/admin\\/util\\/upload\",\"\\/admin\\/user\\/index\",\"\\/admin\\/user\\/save\",\"\\/admin\\/user\\/detail\",\"\\/admin\\/user\\/resetpassword\",\"\\/admin\\/acl\\/index\",\"\\/admin\\/acl\\/save\",\"\\/admin\\/index\\/index\",\"\\/admin\\/index\\/welcome\",\"\\/admin\\/menu\\/index\",\"\\/admin\\/menu\\/savemenu\",\"\\/admin\\/menu\\/savechildmenu\",\"\\/admin\\/menu\\/del\",\"\\/admin\\/menu\\/delchild\",\"\\/admin\\/error\\/error\"]');
+INSERT INTO `admin_role_acl` (`id`, `rid`, `uri`) VALUES
+(1, 1, '[\"\\/admin\\/role\\/index\",\"\\/admin\\/role\\/save\",\"\\/admin\\/role\\/detail\",\"\\/admin\\/login\\/index\",\"\\/admin\\/login\\/dologin\",\"\\/admin\\/login\\/logout\",\"\\/admin\\/login\\/captcha\",\"\\/admin\\/util\\/upload\",\"\\/admin\\/user\\/index\",\"\\/admin\\/user\\/save\",\"\\/admin\\/user\\/detail\",\"\\/admin\\/user\\/resetpassword\",\"\\/admin\\/acl\\/index\",\"\\/admin\\/acl\\/save\",\"\\/admin\\/index\\/index\",\"\\/admin\\/index\\/welcome\",\"\\/admin\\/menu\\/index\",\"\\/admin\\/menu\\/savemenu\",\"\\/admin\\/menu\\/savechildmenu\",\"\\/admin\\/menu\\/del\",\"\\/admin\\/menu\\/delchild\",\"\\/admin\\/error\\/error\"]');
 
 -- --------------------------------------------------------
 
@@ -92,11 +101,10 @@ CREATE TABLE `admin_user` (
 
 --
 -- 转存表中的数据 `admin_user`
--- 账号：admin@admin.com
--- 密码：123456
 --
 
-INSERT INTO `admin_user` (`id`, `rid`, `email`, `phone`, `password`, `salt`, `nickname`, `avatar`, `register_time`, `register_ip`, `status`) VALUES(1, 1, 'admin@admin.com', '15900000000', '9207cea894f92ea9309701abd643bb16', '5i7B', 'admin', '', '2018-08-02 03:37:29', '', 1);
+INSERT INTO `admin_user` (`id`, `rid`, `email`, `phone`, `password`, `salt`, `nickname`, `avatar`, `register_time`, `register_ip`, `status`) VALUES
+(1, 1, 'admin@admin.com', '15900000000', '9207cea894f92ea9309701abd643bb16', '5i7B', 'admin', '', '2018-08-01 19:37:29', '', 1);
 
 -- --------------------------------------------------------
 
@@ -117,29 +125,36 @@ CREATE TABLE `admin_user_acl` (
 --
 -- 表的索引 `admin_menu`
 --
-ALTER TABLE `admin_menu`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `admin_menu`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `admin_menu_controller`
 --
-ALTER TABLE `admin_menu_controller`  ADD PRIMARY KEY (`id`),  ADD KEY `mid` (`mid`);
+ALTER TABLE `admin_menu_controller`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `mid` (`mid`);
 
 --
 -- 表的索引 `admin_role`
 --
-ALTER TABLE `admin_role`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `admin_role`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `admin_role_acl`
 --
-ALTER TABLE `admin_role_acl`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `admin_role_acl`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `admin_user`
 --
-ALTER TABLE `admin_user`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `admin_user`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `admin_user_acl`
 --
-ALTER TABLE `admin_user_acl`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `admin_user_acl`
+  ADD PRIMARY KEY (`id`);

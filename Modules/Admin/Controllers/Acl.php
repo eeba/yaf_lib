@@ -24,6 +24,9 @@ class Acl extends Common {
         $action_list = (new \Base\Node(APP_PATH . '/modules/Admin/controllers'))->nodeList();
         $data = [];
         foreach ($action_list as $action){
+            if(!isset($action['method'])){
+                continue;
+            }
             foreach ($action['method'] as $method){
                 $data[$action['controller']]['controller'] = array(
                     'controller' => $action['controller'],
