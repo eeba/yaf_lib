@@ -13,7 +13,8 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
             'APP_NAME',
             'APP_PATH',
             'APP_HOST',
-            'STATIC_HOST',
+            'APP_ADMIN_HOST',
+            'APP_STATIC_HOST',
             'SESSION_TYPE',
             'DEBUG'
         );

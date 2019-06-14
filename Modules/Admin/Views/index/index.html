@@ -1,0 +1,104 @@
+{{extends file="inc/base.html"}}
+{{block head}}
+<style>
+    body {
+        overflow: hidden;
+    }
+</style>
+{{/block}}
+
+{{block body}}
+<div class="side">
+    <div class="logo">
+        <div class="logo-title">{{APP_NAME}}</div>
+    </div>
+    <div class="menu">
+        <ul>
+            <li>
+                <p data-href="{{APP_ADMIN_HOST}}/index/welcome" class="menu-item"><i class="fa fa-dashboard"></i>主页</p>
+            </li>
+            {{foreach $list as $menu}}
+            <li>
+                <p href="javascript:;" class="menu-item">
+                    <i class="fa fa-cube"></i>{{$menu.name}}
+                    <i class="fa fa-angle-down menu-more"></i>
+                </p>
+                {{if $menu['child']}}
+                <ul class="menu-child">
+                    {{foreach $menu['child'] as $child}}
+                    <li><p href="javascript:;" data-href="{{APP_ADMIN_HOST}}{{$child.uri}}" class="menu-item">{{$child.name}}</p></li>
+                    {{/foreach}}
+                </ul>
+                {{/if}}
+            </li>
+            {{/foreach}}
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="main">
+    <div class="tool-tabs">
+        <div class="dropdown tool-tabs-user">
+            <div class="" data-toggle="dropdown">
+                <i class="fa fa-user-circle-o"></i> {{$admin_info.nickname}} <i class="fa fa-angle-down"></i>
+            </div>
+            <div class="dropdown-menu">
+                <a href="javascript:;" data-href="{{APP_ADMIN_HOST}}/user/resetpassword" class="resetpassword">修改密码</a>
+                <div class="divider"></div>
+                <a href="{{APP_ADMIN_HOST}}/login/logout">退出登录</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <iframe src="{{APP_ADMIN_HOST}}/index/welcome" frameborder="0"></iframe>
+    </div>
+
+
+</div>
+
+{{/block}}
+
+
+{{block "script"}}
+<script>
+    $(function () {
+        $(window).on('resize', function () {
+            var win_height = $(window).height();
+            var menu_height = $('.menu').height();
+            var win_width = $(window).width();
+            var page_tabs_height = $('.tool-tabs').height();
+            var menu_width = $('.side').width();
+            $('.side').height(win_height);
+            $('.content iframe').height(win_height - page_tabs_height).width(win_width - menu_width);
+            scroll('.menu', {width: menu_width, height: win_height - page_tabs_height,color:'#f7f7f7',railColor:'#f7f7f7'});
+        }).trigger('resize');
+
+        /*菜单折叠*/
+        $('.menu-item').on('click', function () {
+            $('.menu-item').removeClass('menu-active');
+            $(this).addClass('menu-active');
+            var obj_child = $(this).siblings('.menu-child');
+            if (obj_child.length) {
+                var display = obj_child.css('display');
+                if (display === 'block') {
+                    $('.menu-item').removeClass('menu-active');
+                    obj_child.slideUp(100);
+                } else {
+                    $('.menu-child').slideUp(100);
+                    obj_child.slideDown(100);
+                }
+            }
+        });
+
+        /*打开菜单链接*/
+        $('.menu p, .resetpassword').click(function () {
+            var href = $(this).data('href');
+            if (href) {
+                $('iframe').attr('src', href);
+            }
+        });
+    });
+</script>
+{{/block}}

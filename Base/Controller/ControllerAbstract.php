@@ -41,9 +41,15 @@ abstract class ControllerAbstract extends \Yaf\Controller_Abstract {
     }
 
     public function displayJson($data) {
-        $msg = isset($data['msg']) ?: 'success';
-        $code = isset($data['code']) ?: 2000000;
-        $params['data'] = $data;
+        $msg = isset($data['msg']) ?$data['msg']: 'success';
+        $code = isset($data['code']) ?$data['code']: 2000000;
+        unset($data['code'], $data['msg']);
+        if(isset($data['data'])){
+            $params = $data;
+        }else {
+            $params['data'] = $data;
+        }
+
         Response::outJson($code, $msg, $params);
     }
 
