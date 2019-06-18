@@ -44,10 +44,12 @@ abstract class ControllerAbstract extends \Yaf\Controller_Abstract {
         $msg = isset($data['msg']) ?$data['msg']: 'success';
         $code = isset($data['code']) ?$data['code']: 2000000;
         unset($data['code'], $data['msg']);
-        if(isset($data['data'])){
+        if(isset($data['data'])) {
             $params = $data;
-        }else {
+        } elseif ($data) {
             $params['data'] = $data;
+        } else {
+            $params = [];
         }
 
         Response::outJson($code, $msg, $params);
