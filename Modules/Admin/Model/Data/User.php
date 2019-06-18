@@ -2,7 +2,7 @@
 namespace Modules\Admin\Model\Data;
 
 use Base\Exception;
-use Dao\Db\Admin\User as DbAdminUser;
+use Modules\Admin\Model\Dao\Db\User as DbAdminUser;
 use Util\Guid;
 use Util\Ip;
 
