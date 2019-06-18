@@ -254,11 +254,11 @@ class Mysql {
             foreach ($param as $key => $value) {
                 if (is_array($value)) {
                     if (isset($value['start']) || isset($value['end'])) {
-                        if ($value['start']) {
+                        if (isset($value['start']) && $value['start']) {
                             $where[] = "`{$key}` >= ?";
                             $params[] = $value['start'];
                         }
-                        if ($value['end']) {
+                        if (isset($value['end']) && $value['end']) {
                             $where[] = "`{$key}` <= ?";
                             $params[] = $value['end'];
                         }
