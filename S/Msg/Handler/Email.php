@@ -21,7 +21,11 @@ class Email {
     );
 
     public function __construct($key = 'system') {
-        $config = Config::get('server.mail.' . $key);
+        if(is_array($key)){
+            $config = $key;
+        }else {
+            $config = Config::get('server.mail.' . $key);
+        }
         if (!$config) {
             throw new Exception("mail $key config not find");
         }
