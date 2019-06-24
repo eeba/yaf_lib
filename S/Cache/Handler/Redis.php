@@ -17,7 +17,7 @@ class Redis extends Abstraction {
      * @return mixed
      */
     public function get($key) {
-        $ret = $this->redis->get($key);
+        $ret = $this->getInstance()->get($key);
 
         return $ret;
     }
@@ -34,9 +34,9 @@ class Redis extends Abstraction {
      */
     public function set($key, $value, $expire = 60) {
         if ($expire == 0) {
-            $ret = $this->redis->set($key, $value);
+            $ret = $this->getInstance()->set($key, $value);
         } else {
-            $ret = $this->redis->setex($key, $expire, $value);
+            $ret = $this->getInstance()->setex($key, $expire, $value);
         }
 
         return $ret;
@@ -47,10 +47,11 @@ class Redis extends Abstraction {
      *
      * @param string $key key值
      *
-     * @return bool
+     * @return bool|int
+     * @throws Exception
      */
     public function del($key) {
-        $ret = $this->redis->del($key);
+        $ret = $this->getInstance()->del($key);
 
         return $ret;
     }
@@ -60,16 +61,17 @@ class Redis extends Abstraction {
      *
      * @param array $keys 包含key值的数组
      *
-     * @return array
+     * @return array|false
+     * @throws Exception
      */
     public function mget(array $keys) {
-        $ret = $this->redis->mget($keys);
+        $ret = $this->getInstance()->mget($keys);
 
         return $ret;
     }
 
     public function close() {
-        $this->redis->close();
+        $this->getInstance()->close();
 
         return true;
     }
@@ -98,16 +100,16 @@ class Redis extends Abstraction {
         $config = $this->config[$this->name];
         if (isset($config['persistent']) && $config['persistent']) {
             $this->_persistent = true;
-            $conn = $this->redis->pconnect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
+            $conn = $this->getInstance()->pconnect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
             //重连一次
             if ($conn === false) {
-                $conn = $this->redis->pconnect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
+                $conn = $this->getInstance()->pconnect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
             }
         } else {
-            $conn = $this->redis->connect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
+            $conn = $this->getInstance()->connect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
             //重连一次
             if ($conn === false) {
-                $conn = $this->redis->connect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
+                $conn = $this->getInstance()->connect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
             }
         }
 
@@ -124,12 +126,12 @@ class Redis extends Abstraction {
     protected function setOptions() {
         $config = $this->config[$this->name];
         if (isset($config['user']) && $config['user'] && $config['auth']) {
-            if ($this->redis->auth($config['user'] . ":" . $config['auth']) == false) {
+            if ($this->getInstance()->auth($config['user'] . ":" . $config['auth']) == false) {
                 throw new Exception("redis auth " . $config['host'] . " fail");
             }
         }
         if (isset($config['db']) && $config['db']) {
-            $this->redis->select($config['db']);
+            $this->getInstance()->select($config['db']);
         }
     }
 }
