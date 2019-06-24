@@ -105,7 +105,7 @@ class Cache {
             return $key;
         }
 
-        return $prefix . '_' . $key;
+        return 'CACHE' . $prefix . '_' . $key;
     }
 
     /**
