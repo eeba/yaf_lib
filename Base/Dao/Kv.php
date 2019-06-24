@@ -4,14 +4,10 @@ namespace Base\Dao;
 use Base\Exception as Exception;
 
 class Kv {
-    const NAME_DEFAULT = 'common';
+    public $name = 'common';
 
     ///定义支持的操作
     protected static $_functions = array('get', 'set', 'del', 'mget', 'mset', 'mdel');
-
-    public function __construct($name = self::NAME_DEFAULT) {
-        $this->name = $name;
-    }
 
     /**
      * @param $name
@@ -92,7 +88,7 @@ class Kv {
             return $key;
         }
 
-        return $prefix . '_' . $key;
+        return 'KV' . $prefix . '_' . $key;
     }
 
     /**
