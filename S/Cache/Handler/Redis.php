@@ -95,23 +95,24 @@ class Redis extends Abstraction {
      * @throws Exception
      */
     protected function connect() {
-        if (isset($this->config['persistent']) && $this->config['persistent']) {
+        $config = $this->config[$this->name];
+        if (isset($config['persistent']) && $config['persistent']) {
             $this->_persistent = true;
-            $conn = $this->redis->pconnect($this->config['host'], $this->config['port'], $this->config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
+            $conn = $this->redis->pconnect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
             //重连一次
             if ($conn === false) {
-                $conn = $this->redis->pconnect($this->config['host'], $this->config['port'], $this->config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
+                $conn = $this->redis->pconnect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
             }
         } else {
-            $conn = $this->redis->connect($this->config['host'], $this->config['port'], $this->config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
+            $conn = $this->redis->connect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
             //重连一次
             if ($conn === false) {
-                $conn = $this->redis->connect($this->config['host'], $this->config['port'], $this->config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
+                $conn = $this->redis->connect($config['host'], $config['port'], $config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
             }
         }
 
         if ($conn === false) {
-            throw new Exception("redis connect " . $this->config['host'] . " fail");
+            throw new Exception("redis connect " . $config['host'] . " fail");
         }
 
         return true;
@@ -121,13 +122,14 @@ class Redis extends Abstraction {
      * @throws Exception
      */
     protected function setOptions() {
-        if (isset($this->config['user']) && $this->config['user'] && $this->config['auth']) {
-            if ($this->redis->auth($this->config['user'] . ":" . $this->config['auth']) == false) {
-                throw new Exception("redis auth " . $this->config['host'] . " fail");
+        $config = $this->config[$this->name];
+        if (isset($config['user']) && $config['user'] && $config['auth']) {
+            if ($this->redis->auth($config['user'] . ":" . $config['auth']) == false) {
+                throw new Exception("redis auth " . $config['host'] . " fail");
             }
         }
-        if (isset($this->config['db']) && $this->config['db']) {
-            $this->redis->select($this->config['db']);
+        if (isset($config['db']) && $config['db']) {
+            $this->redis->select($config['db']);
         }
     }
 }
