@@ -73,8 +73,8 @@ abstract class ControllerAbstract extends \Yaf\Controller_Abstract {
         $smarty->left_delimiter = '{{';
         $smarty->right_delimiter = '}}';
         $smarty->setTemplateDir($this->getViewpath());
-        $smarty->setCompileDir(ROOT_PATH . DIRECTORY_SEPARATOR . 'data/compile/' . APP);
-        $smarty->setCacheDir(ROOT_PATH . DIRECTORY_SEPARATOR . 'data/cache/' . APP);
+        $smarty->setCompileDir(ROOT_PATH . DIRECTORY_SEPARATOR . 'data/compile');
+        $smarty->setCacheDir(ROOT_PATH . DIRECTORY_SEPARATOR . 'data/cache');
         $smarty->caching = false;//\Smarty::CACHING_LIFETIME_CURRENT;
         //$smarty->cache_lifetime = 5;
         foreach ($tpl_vars as $key => $value) {
