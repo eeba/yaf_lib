@@ -88,7 +88,7 @@ class Kv {
             return $key;
         }
 
-        return 'KV' . $prefix . '_' . $key;
+        return 'KV_' . $prefix . '_' . $key;
     }
 
     /**
