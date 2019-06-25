@@ -130,6 +130,13 @@ trait TraitDb {
      * @return mixed
      */
     public function dataTable(array $where = [], $cols = '*', array $order = []) {
+        if (is_array($cols) && !empty($cols)) {
+            $cols = implode(',', array_map(function ($v) {
+                return "`{$v}`";
+            }, array_values($cols)));
+        } elseif (!$cols) {
+            $cols = '*';
+        }
         $sql = "select {$cols} from {$this->table} where ";
         $count_sql = "select count(1) num from {$this->table} where ";
 
