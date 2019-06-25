@@ -84,7 +84,7 @@ trait TraitDb {
      * @return bool|int|null
      */
     public function getList(array $where = array(), $cols = '*', array $order = array(), $limit = 0) {
-        return self::db()->select($this->table, array_filter($where), $cols, $order, $limit);
+        return self::db()->select($this->table, $where, $cols, $order, $limit);
     }
 
     /**
