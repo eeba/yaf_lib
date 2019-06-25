@@ -77,7 +77,7 @@ class Logger {
         } else {
             $key = $path;
         }
-        $path = strtolower(LOG_PATH  . DIRECTORY_SEPARATOR . APP . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . date("Ym") . DIRECTORY_SEPARATOR . $level . '.' . date("Ymd") . ".log");
+        $path = strtolower(LOG_PATH  . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . date("Ym") . DIRECTORY_SEPARATOR . $level . '.' . date("Ymd") . ".log");
         return str_replace('//', '/', $path);
     }
 }
