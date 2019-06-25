@@ -137,6 +137,7 @@ trait TraitDb {
         } elseif (!$cols) {
             $cols = '*';
         }
+
         $sql = "select {$cols} from {$this->table} where ";
         $count_sql = "select count(1) num from {$this->table} where ";
 
