@@ -17,7 +17,7 @@ class Ip {
     }
 
     /**
-     * 客户IP地址
+     * 客户端IP地址
      * @return string
      */
     public static function getClientIp() {
@@ -41,8 +41,19 @@ class Ip {
         return $ip;
     }
 
+    /**
+     * 获取客户端IP地理位置信息
+     * @return array
+     */
     public static function getInfo(){
         $city = new City(__DIR__ . '/ipipfree.ipdb');
-        return $city->findMap('116.90.80.160', 'CN');
+        $data = $city->findMap(self::getClientIp(), 'CN');
+        $result = array(
+            'country' => $data['country_name']?:'',
+            'region'  => $data['region_name']?:'',
+            'city'    => $data['city_name']?:'',
+        );
+
+        return $result;
     }
 }
