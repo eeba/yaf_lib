@@ -45,9 +45,10 @@ class Ip {
      * 获取客户端IP地理位置信息
      * @return array
      */
-    public static function getInfo(){
+    public static function getInfo($ip = ''){
         $city = new City(__DIR__ . '/ipipfree.ipdb');
-        $data = $city->findMap(self::getClientIp(), 'CN');
+        $ip = $ip ?:self::getClientIp();
+        $data = $city->findMap($ip, 'CN');
         $result = array(
             'country' => $data['country_name']?:'',
             'region'  => $data['region_name']?:'',
