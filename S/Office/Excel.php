@@ -15,7 +15,7 @@ class Excel {
      * @return array
      * @throws \Base\Exception
      */
-    public function read($file_path) {
+    public static function read($file_path) {
         set_time_limit(0);
         $curr_mem_limit = ini_get("memory_limit");
         $data = [];
