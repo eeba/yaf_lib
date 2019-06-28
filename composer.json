@@ -8,6 +8,7 @@
     "aliyuncs/oss-sdk-php": "^2.3",
     "jaeger/querylist": "^4.1",
     "elasticsearch/elasticsearch": "^6.7",
+    "ipip/db": "^1.0",
     "ext-pdo": "*",
     "ext-json": "*",
     "ext-redis": "*"
