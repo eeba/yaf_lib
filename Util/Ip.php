@@ -1,6 +1,8 @@
 <?php
 namespace Util;
 
+use ipip\db\City;
+
 class Ip {
 
     /**
@@ -37,5 +39,10 @@ class Ip {
             }
         }
         return $ip;
+    }
+
+    public static function getInfo(){
+        $city = new City(__DIR__ . '/ipipfree.ipdb');
+        return $city->findMap('116.90.80.160', 'CN');
     }
 }

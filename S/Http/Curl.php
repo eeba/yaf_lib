@@ -130,7 +130,7 @@ class Curl {
 
         try {
             $response = $this->_client->request($method, $path, $options);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception(self::ERROR_MESSAGE, self::ERROR_CODE, $e);
         }
 
