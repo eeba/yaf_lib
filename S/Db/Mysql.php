@@ -253,24 +253,38 @@ class Mysql {
         if (!empty($param)) {
             foreach ($param as $key => $value) {
                 if (is_array($value)) {
-                    if(isset($value['gt'])){//大于
-                        $where[] = "`{$key}` > ?";
-                        $params[] = $value['gt'];
-                    } elseif(isset($value['gte'])){//大于等于
-                        $where[] = "`{$key}` >= ?";
-                        $params[] = $value['gte'];
-                    } elseif(isset($value['lt'])){//小于
-                        $where[] = "`{$key}` < ?";
-                        $params[] = $value['lt'];
-                    } elseif(isset($value['lte'])){//小于等于
-                        $where[] = "`{$key}` <= ?";
-                        $params[] = $value['lte'];
-                    } elseif (isset($value['like'])) {
-                        $where[] = "`{$key}` like ?";
-                        $params[] = $value['like'];
-                    } elseif (isset($value['neq'])) {
-                        $where[] = "`{$key}` != ?";
-                        $params[] = $value['neq'];
+                    if(
+                        isset($value['gt']) ||
+                        isset($value['gte']) ||
+                        isset($value['lt']) ||
+                        isset($value['lte']) ||
+                        isset($value['neq']) ||
+                        isset($value['like'])
+                    ){
+                        if(isset($value['gt'])){//大于
+                            $where[] = "`{$key}` > ?";
+                            $params[] = $value['gt'];
+                        }
+                        if(isset($value['gte'])){//大于等于
+                            $where[] = "`{$key}` >= ?";
+                            $params[] = $value['gte'];
+                        }
+                        if(isset($value['lt'])){//小于
+                            $where[] = "`{$key}` < ?";
+                            $params[] = $value['lt'];
+                        }
+                        if(isset($value['lte'])){//小于等于
+                            $where[] = "`{$key}` <= ?";
+                            $params[] = $value['lte'];
+                        }
+                        if (isset($value['like'])) {
+                            $where[] = "`{$key}` like ?";
+                            $params[] = $value['like'];
+                        }
+                        if (isset($value['neq'])) {
+                            $where[] = "`{$key}` != ?";
+                            $params[] = $value['neq'];
+                        }
                     } else {
                         $in_sql = implode(array_fill(0, count($value), '?'), ',');
                         $where[] = "`{$key}` in (" . $in_sql . ")";
