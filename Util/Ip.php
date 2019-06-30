@@ -21,6 +21,9 @@ class Ip {
      * @return string
      */
     public static function getClientIp() {
+        if(PHP_SAPI == 'cli'){
+            return self::getServerIp();
+        }
         if (isset($_SERVER)) {
             if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                 $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
