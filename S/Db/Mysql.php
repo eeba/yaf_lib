@@ -256,18 +256,14 @@ class Mysql {
                     if(isset($value['gt'])){//大于
                         $where[] = "`{$key}` > ?";
                         $params[] = $value['gt'];
-                        $params[] = $value['gt'];
                     } elseif(isset($value['gte'])){//大于等于
                         $where[] = "`{$key}` >= ?";
-                        $params[] = $value['gte'];
                         $params[] = $value['gte'];
                     } elseif(isset($value['lt'])){//小于
                         $where[] = "`{$key}` < ?";
                         $params[] = $value['lt'];
-                        $params[] = $value['lt'];
                     } elseif(isset($value['lte'])){//小于等于
                         $where[] = "`{$key}` <= ?";
-                        $params[] = $value['lte'];
                         $params[] = $value['lte'];
                     } elseif (isset($value['like'])) {
                         $where[] = "`{$key}` like ?";
