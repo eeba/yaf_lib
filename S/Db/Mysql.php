@@ -253,15 +253,22 @@ class Mysql {
         if (!empty($param)) {
             foreach ($param as $key => $value) {
                 if (is_array($value)) {
-                    if (isset($value['start']) || isset($value['end'])) {
-                        if (isset($value['start']) && $value['start']) {
-                            $where[] = "`{$key}` >= ?";
-                            $params[] = $value['start'];
-                        }
-                        if (isset($value['end']) && $value['end']) {
-                            $where[] = "`{$key}` <= ?";
-                            $params[] = $value['end'];
-                        }
+                    if(isset($value['gt'])){//大于
+                        $where[] = "`{$key}` > ?";
+                        $params[] = $value['gt'];
+                        $params[] = $value['gt'];
+                    } elseif(isset($value['gte'])){//大于等于
+                        $where[] = "`{$key}` >= ?";
+                        $params[] = $value['gte'];
+                        $params[] = $value['gte'];
+                    } elseif(isset($value['lt'])){//小于
+                        $where[] = "`{$key}` < ?";
+                        $params[] = $value['lt'];
+                        $params[] = $value['lt'];
+                    } elseif(isset($value['lte'])){//小于等于
+                        $where[] = "`{$key}` <= ?";
+                        $params[] = $value['lte'];
+                        $params[] = $value['lte'];
                     } elseif (isset($value['like'])) {
                         $where[] = "`{$key}` like ?";
                         $params[] = $value['like'];
