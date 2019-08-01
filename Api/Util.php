@@ -9,7 +9,6 @@ class Util{
     protected $host = 'https://api.u7c.cn';
     protected $app_key = 'server.api.u7c.app_key';
     protected $app_secret = 'server.api.u7c.app_secret';
-    const DEFAULT_TIMEOUT = 60;  //默认超时时间
 
     /**
      * @param       $uri
@@ -22,7 +21,7 @@ class Util{
      * @throws \Base\Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function request($uri, array $params = array(), $option = array(), $upload_file=false, $timeout = self::DEFAULT_TIMEOUT){
+    public function request($uri, array $params = array(), $option = array(), $upload_file=false, $timeout = 60){
         $timestamp  = time();
 
         $sign_params = $upload_file?[]:$params;
@@ -34,7 +33,7 @@ class Util{
 
         $uri .= (strpos($uri,'?') ? '&':'?') . build_query($get_params);
 
-        $response = (new Curl($this->host, $option))->request("post", $uri, $params, $upload_file);
+        $response = (new Curl($this->host, $option))->request("post", $uri, $params, $upload_file, ['timeout'=>$timeout]);
 
         $result = json_decode($response, true);
         if(!$result){
