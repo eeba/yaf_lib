@@ -6,7 +6,9 @@ use S\Http\Curl;
 use function GuzzleHttp\Psr7\build_query;
 
 class Util{
-    const HOST = 'https://api.u7c.cn';
+    protected $host = 'https://api.u7c.cn';
+    protected $app_key = 'server.api.u7c.app_key';
+    protected $app_secret = 'server.api.u7c.app_secret';
     const DEFAULT_TIMEOUT = 60;  //默认超时时间
 
     /**
@@ -25,14 +27,14 @@ class Util{
 
         $sign_params = $upload_file?[]:$params;
         $get_params = array(
-            "app_key" => Config::get("server.api.u7c.app_key"),
+            "app_key" => Config::get($this->app_key),
             "t"      => $timestamp,
-            "m"      => self::getSign($timestamp, $sign_params),
+            "m"      => $this->getSign($timestamp, $sign_params),
         );
 
         $uri .= (strpos($uri,'?') ? '&':'?') . build_query($get_params);
 
-        $response = (new Curl(self::HOST, $option))->request("post", $uri, $params, $upload_file);
+        $response = (new Curl($this->host, $option))->request("post", $uri, $params, $upload_file);
 
         $result = json_decode($response, true);
         if(!$result){
@@ -59,9 +61,9 @@ class Util{
      * @param array  $params  向接口传输的参数
      * @return array 带签名的参数串
      */
-    public static function getSign($time, array $params = array()){
-        $app_key = Config::get("server.api.u7c.app_key");
-        $app_secret = Config::get("server.api.u7c.app_secret");
+    public function getSign($time, array $params = array()){
+        $app_key = Config::get($this->app_key);
+        $app_secret = Config::get($this->app_secret);
         ksort($params, SORT_STRING);
         $sign = $app_key.$app_secret.$time.implode('', $params);
 
