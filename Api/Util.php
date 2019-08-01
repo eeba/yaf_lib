@@ -28,7 +28,7 @@ class Util{
         $get_params = array(
             "app_key" => Config::get($this->app_key),
             "t"      => $timestamp,
-            "m"      => $this->getSign($timestamp, $sign_params),
+            "m"      => \S\Security\Sign::getSign($this->app_key, $this->app_secret, $timestamp, $sign_params),
         );
 
         $uri .= (strpos($uri,'?') ? '&':'?') . build_query($get_params);
@@ -50,22 +50,5 @@ class Util{
         unset($result["msg"]);
 
         return $result;
-    }
-
-
-    /**
-     * 生成请求时所需的签名串
-     *
-     * @param string $time 接口对应的key值`
-     * @param array  $params  向接口传输的参数
-     * @return array 带签名的参数串
-     */
-    public function getSign($time, array $params = array()){
-        $app_key = Config::get($this->app_key);
-        $app_secret = Config::get($this->app_secret);
-        ksort($params, SORT_STRING);
-        $sign = $app_key.$app_secret.$time.implode('', $params);
-
-        return md5($sign);
     }
 }
