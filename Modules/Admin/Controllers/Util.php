@@ -60,7 +60,7 @@ class Util extends Common {
 
 
     /**
-     * $funcname 下载文件
+     * @funcname 下载文件
      */
     public function downloadFileAction(){
         Response::setFormatter(Response::FORMAT_PLAIN);
