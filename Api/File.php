@@ -7,7 +7,7 @@ class File{
 
     /**
      * @param        $category
-     * @param        $file
+     * @param        $file_path
      * @param string $filename
      * @param int    $timeout
      *
@@ -15,11 +15,11 @@ class File{
      * @throws \Base\Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function upload($file, $category, $filename, $timeout = 30){
+    public function upload($file_path, $category, $filename, $timeout = 30){
         $params = array(
                     array(
                         'name'     => 'file',
-                        'contents' => fopen($file, 'r'),
+                        'contents' => fopen($file_path, 'r'),
                         'filename' => $filename,
                     )
                 );
@@ -31,6 +31,6 @@ class File{
         );
 
         $ret = (new Util())->request(self::UPLOAD_PATH."?category={$category}&filename={$filename}", $params, $options, true, $timeout);
-        return 'https://api.u7c.cn/file/download?index='.$ret['index'];
+        return $ret['index'];
     }
 }
