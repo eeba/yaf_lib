@@ -1,7 +1,10 @@
 <?php
 namespace Modules\Admin\Controllers;
 
+use Base\Config;
 use Base\Controller\AdminAbstract;
+use S\Http\Request;
+use S\Http\Response;
 
 /**
  * @funcname Util
@@ -50,9 +53,23 @@ class Util extends Common {
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function uploadFileAction(){
-
         $result = (new \Api\File())->upload($_FILES['img']['tmp_name'], 'novel', $_FILES['img']['name']);
 
-        $this->response['url'] = $result;
+        $this->response['url'] = "/admin/util/downloadFile?index=" . $result;
+    }
+
+
+    /**
+     * $funcname 下载文件
+     */
+    public function downloadFileAction(){
+        Response::setFormatter(Response::FORMAT_PLAIN);
+        $app_key = Config::get('server.api.u7c.app_key');
+        $app_secret = Config::get('server.api.u7c.app_secret');
+        $index = Request::request('index');
+        $t = time();
+        $m = \S\Security\Sign::getSign($app_key, $app_secret, $t, ['index' => $index]);
+
+        $this->redirect("https://api.u7c.cn/file/download?app_key={$app_key}&t={$t}&m={$m}&index={$index}");
     }
 }
