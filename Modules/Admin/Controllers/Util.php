@@ -42,4 +42,17 @@ class Util extends Common {
         }
         $this->response = $data;
     }
+
+    /**
+     * @funcname ajax上传文件
+     *
+     * @throws \Base\Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function uploadFileAction(){
+
+        $result = (new \Api\File())->upload($_FILES['img']['tmp_name'], 'novel', $_FILES['img']['name']);
+
+        $this->response['url'] = $result;
+    }
 }

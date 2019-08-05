@@ -6,9 +6,9 @@ use S\Http\Curl;
 use function GuzzleHttp\Psr7\build_query;
 
 class Util{
-    protected $host = 'https://api.u7c.cn';
-    protected $app_key = 'server.api.u7c.app_key';
-    protected $app_secret = 'server.api.u7c.app_secret';
+    private $host = 'https://api.u7c.cn';
+    private $app_key = 'server.api.u7c.app_key';
+    private $app_secret = 'server.api.u7c.app_secret';
 
     /**
      * @param       $uri
@@ -28,12 +28,13 @@ class Util{
         $get_params = array(
             "app_key" => Config::get($this->app_key),
             "t"      => $timestamp,
-            "m"      => \S\Security\Sign::getSign($this->app_key, $this->app_secret, $timestamp, $sign_params),
+            "m"      => \S\Security\Sign::getSign(Config::get($this->app_key), Config::get($this->app_secret), $timestamp, $sign_params),
         );
 
         $uri .= (strpos($uri,'?') ? '&':'?') . build_query($get_params);
 
         $response = (new Curl($this->host, $option))->request("post", $uri, $params, $upload_file, ['timeout'=>$timeout]);
+        Logger::getInstance()->debug(['response' => $response]);
 
         $result = json_decode($response, true);
         if(!$result){
@@ -49,6 +50,6 @@ class Util{
         unset($result["code"]);
         unset($result["msg"]);
 
-        return $result;
+        return $result['data'];
     }
 }
