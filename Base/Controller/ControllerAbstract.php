@@ -14,21 +14,6 @@ abstract class ControllerAbstract extends \Yaf\Controller_Abstract {
     protected $response = [];
     protected $route = 'map';
 
-    public function getParam($key, $default='',$type='request'){
-        switch (strtolower($type)) {
-            case 'request':
-                $ret = htmlspecialchars(\S\Http\Request::request($key, $default));
-                break;
-            case 'cookie':
-                $ret = htmlspecialchars(\S\Http\Request::cookie($key, $default));
-                break;
-            default:
-                $ret = '';
-        }
-        return $ret;
-    }
-
-
     protected function render($tpl, array $parameters = null) {
         if (Response::getFormatter() === Response::FORMAT_PLAIN) {
             $this->response = !$this->response ? '' : $this->response;
