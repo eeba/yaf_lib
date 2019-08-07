@@ -1,5 +1,5 @@
 <?php
-namespace S\Msg\Handler;
+namespace S\Msg;
 
 abstract class Abstraction {
     public $config;

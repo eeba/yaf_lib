@@ -1,5 +1,5 @@
 <?php
-namespace S\Cache\Handler;
+namespace S\Cache;
 
 /**
  * Class \Base\Cache\Yac
