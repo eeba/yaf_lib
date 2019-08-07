@@ -2,7 +2,6 @@
 namespace Modules\Admin\Controllers;
 
 use Base\Config;
-use Base\Controller\AdminAbstract;
 use S\Http\Request;
 use S\Http\Response;
 
@@ -19,7 +18,7 @@ class Util extends Common {
      */
     public function uploadAction() {
         \S\Http\Response::setFormatter( \S\Http\Response::FORMAT_JSON);
-        $action = $this->getParam('action');
+        $action = Request::request('action');
         switch ($action){
             case 'config':
                 $data = [

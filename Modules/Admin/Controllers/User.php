@@ -1,7 +1,7 @@
 <?php
 namespace Modules\Admin\Controllers;
 
-use Base\Controller\AdminAbstract;
+use S\Http\Request;
 use Base\Exception;
 use Modules\Admin\Model\Data\User as DataUser;
 use Modules\Admin\Model\Data\Role;
@@ -31,13 +31,13 @@ class User extends Common {
      * @throws Exception
      */
     public function saveAction() {
-        $id = $this->getParam('id');
-        $data['email'] = $this->getParam('email');
-        $data['password'] = $this->getParam('password');
-        $data['nickname'] = $this->getParam('nickname');
-        $data['phone'] = $this->getParam('phone');
-        $data['rid'] = $this->getParam('role');
-        $data['status'] = $this->getParam('status');
+        $id = Request::request('id');
+        $data['email'] = Request::request('email');
+        $data['password'] = Request::request('password');
+        $data['nickname'] = Request::request('nickname');
+        $data['phone'] = Request::request('phone');
+        $data['rid'] = Request::request('role');
+        $data['status'] = Request::request('status');
 
         if(($id && count(array_filter($data)) != 5) || (!$id && count(array_filter($data)) != 6)){
             throw new Exception('缺少参数');
@@ -51,7 +51,7 @@ class User extends Common {
      * @funcname 获取管理员信息
      */
     public function detailAction() {
-        $id = $this->getParam('id');
+        $id = Request::request('id');
         $user_info = (new DataUser())->getInfoById($id);
 
         $this->response['user_info'] = $user_info;
@@ -65,9 +65,9 @@ class User extends Common {
     public function resetPasswordAction(){
         $user_info = $_SESSION['admin_info'];
         if(\S\Http\Request::isAjax()){
-            $ori_password = $this->getParam('ori_password');
-            $new_password = $this->getParam('new_password');
-            $re_new_password = $this->getParam('re_new_password');
+            $ori_password = Request::request('ori_password');
+            $new_password = Request::request('new_password');
+            $re_new_password = Request::request('re_new_password');
             if(!$ori_password){
                 throw new Exception('请输入原密码');
             }

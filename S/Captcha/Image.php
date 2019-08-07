@@ -12,7 +12,7 @@ class Image extends Abstraction {
     protected $content = false; //验证码内容
     protected $id = ''; //验证码id, 同个页面多个验证码时使用
 
-    public function __construct($content, $show_type = false, $id = '') {
+    public function __construct($content = '', $show_type = false, $id = '') {
         $this->content = $content ?: Rand::human();
         $this->show_type = $show_type;
         $this->id = $id;

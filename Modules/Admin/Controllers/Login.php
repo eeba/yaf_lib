@@ -1,8 +1,7 @@
 <?php
 namespace Modules\Admin\Controllers;
 
-use S\Captcha\Captcha;
-use Base\Controller\AdminAbstract;
+use S\Http\Request;
 use Modules\Admin\Model\Service\Access;
 
 /**
@@ -25,9 +24,9 @@ class Login extends Common {
      * @throws \Base\Exception
      */
     public function doLoginAction() {
-        $username = $this->getParam('username');
-        $password = $this->getParam('password');
-        $verify_code = $this->getParam('verify_code');
+        $username = Request::request('username');
+        $password = Request::request('password');
+        $verify_code = Request::request('verify_code');
         if (!$username) {
             throw new \Base\Exception('账号错误');
         }
@@ -54,7 +53,7 @@ class Login extends Common {
      * @funcname 管理员登录验证码
      */
     public function captchaAction(){
-        Captcha::getInstance(Captcha::TYPE_IMAGE)->show();
+        (new \S\Captcha\Image())->show();
     }
 
 }

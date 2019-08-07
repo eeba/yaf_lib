@@ -2,7 +2,6 @@
 namespace Modules\Admin\Controllers;
 
 use S\Http\Request;
-use Base\Controller\AdminAbstract;
 use Base\Exception;
 use Modules\Admin\Model\Data\RoleAcl;
 use Modules\Admin\Model\Data\UserAcl;
@@ -61,9 +60,9 @@ class Acl extends Common {
      * @throws Exception
      */
     public function saveAction() {
-        $user_id = $this->getParam('user_id');
-        $role_id = $this->getParam('role_id');
-        $uri = $this->getParam('uri');
+        $user_id = Request::request('user_id');
+        $role_id = Request::request('role_id');
+        $uri = Request::request('uri');
         if($user_id){
             (new UserAcl())->save($user_id, $uri);
         } elseif ($role_id){

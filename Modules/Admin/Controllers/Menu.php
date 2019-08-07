@@ -1,10 +1,10 @@
 <?php
 namespace Modules\Admin\Controllers;
 
+use S\Http\Request;
 use Modules\Admin\Model\Data\Menu as DataMenu;
 use Modules\Admin\Model\Data\MenuController;
 use Modules\Admin\Model\Service\Menu as ServiceMenu;
-use Base\Controller\AdminAbstract;
 
 /**
  * @funcname 菜单管理
@@ -23,7 +23,7 @@ class Menu extends Common {
         $menu = (new DataMenu())->getList();
         $menu_list = (new ServiceMenu())->getLeftMenu();
 
-        $id = $this->getParam('id');
+        $id = Request::request('id');
         $info = null;
         if($id){
             $info = (new MenuController())->getById($id)?:null;
@@ -40,9 +40,9 @@ class Menu extends Common {
      * @funcname 添加新菜单
      */
     public function saveMenuAction() {
-        $data['id'] = $this->getParam('id');
-        $data['name'] = $this->getParam('name');
-        $data['order'] = (int)$this->getParam('order');
+        $data['id'] = Request::request('id');
+        $data['name'] = Request::request('name');
+        $data['order'] = (int)Request::request('order');
         (new DataMenu())->save($data);
     }
 
@@ -50,12 +50,12 @@ class Menu extends Common {
      * @funcname 添加子菜单
      */
     public function saveChildMenuAction(){
-        $data['id'] = $this->getParam('id');
-        $data['mid'] = $this->getParam('mid');
-        $data['controller'] = $this->getParam('controller');
-        $data['action'] = $this->getParam('action');
-        $data['name'] = $this->getParam('name');
-        $data['order'] = $this->getParam('order');
+        $data['id'] = Request::request('id');
+        $data['mid'] = Request::request('mid');
+        $data['controller'] = Request::request('controller');
+        $data['action'] = Request::request('action');
+        $data['name'] = Request::request('name');
+        $data['order'] = Request::request('order');
         (new MenuController())->add($data);
     }
 
@@ -65,7 +65,7 @@ class Menu extends Common {
      * @throws \Base\Exception
      */
     public function delAction(){
-        $id = $this->getParam('id');
+        $id = Request::request('id');
         (new ServiceMenu())->deleteById($id);
     }
 
@@ -73,7 +73,7 @@ class Menu extends Common {
      * @funcname 删除子菜单
      */
     public function delChildAction() {
-        $id = $this->getParam('id');
+        $id = Request::request('id');
         (new ServiceMenu())->deleteChildById($id);
     }
 

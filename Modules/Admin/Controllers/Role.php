@@ -1,7 +1,7 @@
 <?php
 namespace Modules\Admin\Controllers;
 
-use Base\Controller\AdminAbstract;
+use S\Http\Request;
 use Base\Exception;
 use Modules\Admin\Model\Data\Role as DataRole;
 
@@ -27,9 +27,9 @@ class Role extends Common {
      * @throws Exception
      */
     public function saveAction() {
-        $id = $this->getParam('id', 0);
-        $name = $this->getParam('name');
-        $status = $this->getParam('status');
+        $id = Request::request('id', 0);
+        $name = Request::request('name');
+        $status = Request::request('status');
 
         if(!$name){
             throw new Exception('请输入分组名');
@@ -46,7 +46,7 @@ class Role extends Common {
      * @funcname 获取角色详情
      */
     public function detailAction(){
-        $id = $this->getParam('id');
+        $id = Request::request('id');
         $ret = (new DataRole())->getInfoById($id);
         $this->response = $ret;
     }
