@@ -1,5 +1,5 @@
 <?php
-namespace S\Db;
+namespace S\Data;
 
 use Base\Config;
 use Base\Logger;
@@ -19,7 +19,7 @@ class Mysql {
 
     /**
      * Mysql constructor.
-     * @param $name 数据库名称
+     * @param string $name 数据库名称
      */
     public function __construct($name) {
         $this->db_name = $name;
@@ -57,7 +57,7 @@ class Mysql {
             $option[\PDO::ATTR_PERSISTENT] = true;
         }
         // MYSQL查询缓存
-        //		$option[PDO::MYSQL_ATTR_USE_BUFFERED_QUERY]	= true;
+        $option[\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY]	= true;
 
         // 错误处理方式，使用异常
         $option[\PDO::ATTR_ERRMODE] = \PDO::ERRMODE_EXCEPTION;
@@ -79,7 +79,7 @@ class Mysql {
         return new \PDO($dsn, $config['username'], $config['password'], $option);
     }
 
-    public function getPdo($mode = self::READ){
+    protected function getPdo($mode = self::READ){
         $key = $this->getId($mode);
         if (!isset($this->db[$key])) {
             $this->db[$key] = $this->connect($this->config[$mode]);

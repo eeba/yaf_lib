@@ -1,5 +1,5 @@
 <?php
-namespace S\Msg\Handler;
+namespace S\Msg;
 
 use Base\Exception;
 use Base\Config;
@@ -20,14 +20,12 @@ class Email {
         'nickname'
     );
 
-    public function __construct($key = 'system') {
-        if(is_array($key)){
-            $config = $key;
-        }else {
-            $config = Config::get('server.mail.' . $key);
+    public function __construct($config) {
+        if(!is_array($config)){
+            $config = Config::get($config);
         }
         if (!$config) {
-            throw new Exception("mail $key config not find");
+            throw new Exception("mail {$config} config not find");
         }
 
         foreach ($this->need_config as $key) {
