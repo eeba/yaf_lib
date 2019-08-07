@@ -46,6 +46,9 @@ class Ip {
 
     /**
      * 获取客户端IP地理位置信息
+     *
+     * @param string $ip
+     *
      * @return array
      */
     public static function getInfo($ip = ''){
