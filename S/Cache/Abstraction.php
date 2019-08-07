@@ -1,62 +1,18 @@
 <?php
-namespace S\Cache\Handler;
+namespace S\Cache;
 
 
 /**
  * Class Abstraction
  *
  * @package S\Cache\Handler
- * @description 缓存基类
+ * @description 缓存抽象类
  */
-abstract class Abstraction implements CacheInterface {
-
-    const DEFAULT_CONNECT_TIMEOUT = 1;
-    const DEFAULT_SEND_TIMEOUT = 1;
-    const DEFAULT_RECV_TIMEOUT = 1;
-    /**
-     * 默认缓存时间，单位s
-     */
-    const DEFAULT_EXPIRE = 60;
-
-    /**
-     * 配置信息
-     *
-     * @var array
-     */
-    protected $config = array();
-    /**
-     * 传入的表示信息
-     *
-     * @var string
-     */
-    protected $name = "";
-    /**
-     * 调用的子类
-     *
-     * @var string
-     */
-    protected $type = "";
-
-    public function __construct() {
-        $this->init();
-    }
-
-    /**
-     * 定义缓存的configure接口，用来实现缓存的初始化及配置工作
-     *
-     * @param string $type 缓存类型
-     * @param mixed  $name 配置数据
-     *
-     * @throws \Base\Exception
-     */
-    public function configure($type, $name = '') {
-        $this->type = $type;
-        $this->name = $name;
-        $this->config = \Base\Config::get('server.cache.' . $type);
-        if (!$this->config) {
-            throw new \Base\Exception(get_class($this) . ' need be configured. Config : ' . $name);
-        }
-    }
+abstract class Abstraction {
+    const DEFAULT_EXPIRE = 60;  //默认缓存时间，单位s
+    protected $config = [];     //配置信息
+    protected $name = "";       //缓存配置项
+    protected $type = "";       //缓存类型
 
     /**
      * 定义缓存的批量get接口
@@ -111,8 +67,6 @@ abstract class Abstraction implements CacheInterface {
         return $ret;
     }
 
-    protected function init() {
-    }
 
     /**
      * 关闭缓存连接

@@ -1,11 +1,11 @@
 <?php
-namespace S\Cache\Handler;
+namespace S\Cache;
 
 /**
  * inner process cache
  * 进程内缓存，全局变量的一种实现
  */
-class Ipc implements CacheInterface {
+class Ipc extends Abstraction {
 
     protected $storage = array();
     protected $size = 0;
@@ -117,5 +117,8 @@ class Ipc implements CacheInterface {
 
         return true;
     }
+
+    public function close(){}
+    public function getInstance(){}
 
 }

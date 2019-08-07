@@ -1,7 +1,7 @@
 <?php
-namespace S\Queue\Handler;
+namespace S\Queue;
 
-use S\Db\Redis as DbRedis;
+use S\Data\Redis as DataRedis;
 
 class Redis extends Abstraction {
     /**
@@ -9,8 +9,8 @@ class Redis extends Abstraction {
      */
     protected $redis = null;
 
-    public function __construct() {
-        $this->redis = new DbRedis();
+    public function __construct($config = '') {
+        $this->redis = $config ? new DataRedis($config) : new DataRedis();
     }
 
     public function push($queue_name, $message, $option = array()) {
