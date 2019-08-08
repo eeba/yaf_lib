@@ -1,7 +1,7 @@
 <?php
 namespace S\Security;
 
-use S\Db\Redis;
+use S\Data\Redis;
 /**
  * Class Sfreq
  * 频率限制器

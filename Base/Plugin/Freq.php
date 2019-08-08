@@ -4,7 +4,7 @@ namespace Base\Plugin;
 use Util\Ip;
 use Base\Exception;
 
-class Freq extends \Yaf\Plugin_Abstract{
+abstract class Freq extends \Yaf\Plugin_Abstract{
 
     /**
      * 频率限制
@@ -31,17 +31,6 @@ class Freq extends \Yaf\Plugin_Abstract{
      *             ),
      *       );
      */
-    private function freqConfig(){
-        $key = ip2long(Ip::getClientIp());
-
-        $ret = array(
-            $key => array(
-                'threshold' => 1000,
-                'ttl' => 60,
-            ),
-        );
-
-        return $ret;
-    }
+    abstract function freqConfig();
 
 }

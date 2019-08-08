@@ -1,7 +1,7 @@
 <?php
 namespace S\Security;
 
-use S\Cache\Cache;
+use S\Cache\Redis as Cache;
 /**
  * 生成表单校验用的token
  * 防止CSRF攻击

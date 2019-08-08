@@ -4,7 +4,7 @@ namespace Base\Plugin;
 use Util\Ip;
 use Base\Exception;
 
-class Blacklist extends \Yaf\Plugin_Abstract{
+abstract class Blacklist extends \Yaf\Plugin_Abstract{
 
     /**
      * IP黑名单
@@ -20,7 +20,7 @@ class Blacklist extends \Yaf\Plugin_Abstract{
         $blacklist = $this->blackListConfig();
 
         if(in_array($ip, $blacklist)){
-            throw new Exception('因恶意操作，暂时禁止访问');
+            throw new Exception('你好的IP暂时禁止访问');
         }
 
     }
@@ -29,9 +29,6 @@ class Blacklist extends \Yaf\Plugin_Abstract{
      * ip黑名单列表
      * @return array
      */
-    private function blackListConfig(){
-
-        return [];
-    }
+    abstract function blackListConfig();
 
 }
