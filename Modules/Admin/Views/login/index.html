@@ -10,40 +10,47 @@
     <title>后台管理</title>
 </head>
 
-<body style="background: #f6f8f9">
+<body style="background: #f7fafc">
+<style>
+    .input-lg{font-size: 14px;border: 1px solid #ece8e8;}
+    .input-lg:hover,.input-lg:active,.input-lg:focus,.input-lg:focus-within{border: 1px solid #cacaca;}
+    .login{box-shadow: 0 0 3px #ccc;border-radius: 3px;}
+    #submit{background-color: #2B90DE;border-color: #2B90DE;}
+    #submit:hover,#submit:active,#submit:focus,#submit:focus-within{background-color: #2080cc;border-color: #2080cc;}
+</style>
 
-<div style="margin: 120px auto 0; width: 400px;">
+<div style="margin: 100px auto 0; width: 400px;">
+    <h2 class="text-center" style="margin-bottom: 25px;">{{APP_NAME}}后台管理</h2>
     <div class="panel panel-primary" style="border:none;">
-        <div class="panel-heading" style="border-top-left-radius: 3px; border-top-right-radius: 3px;">{{APP_NAME}} - 后台登录</div>
+        <div class="panel-heading" style="display:none;border-top-left-radius: 3px; border-top-right-radius: 3px;">{{APP_NAME}} - 后台登录</div>
         <div class="panel-body login">
             <form action="" class="form-horizontal" onsubmit="return false;">
                 <div class="form-group">
-                    <label class="col-md-3 control-label">账号</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" name="username" id="username">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control input-lg" placeholder="账号" autocomplete="off" name="username" id="username" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3 control-label">密码</label>
-                    <div class="col-md-9">
-                        <input type="password" class="form-control" name="password" id="password">
+                    <div class="col-md-12">
+                        <input type="password" class="form-control input-lg" placeholder="密码" autocomplete="off" name="password" id="password" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-3 control-label">验证码</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" name="verify_code" id="verify_code" style="width: 50%;float: left">
-                        <img src="{{APP_ADMIN_HOST}}/login/captcha"  style="width: 40%;height:34px;float: right;cursor: pointer;" id="code-img">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control input-lg" placeholder="验证码" name="verify_code" id="verify_code" style="width: 60%;float: left" required>
+                        <img src="{{APP_ADMIN_HOST}}/login/captcha"  style="width: 35%;height:46px;float: right;cursor: pointer;" id="code-img">
                     </div>
                 </div>
-                <div class="form-group text-center">
-                    <label class="col-md-3 control-label"></label>
-                    <button class="btn btn-primary" id="submit" style="width: 30%;float: right;margin-right: 15px;">登录</button>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary btn-lg col-md-12 col-xs-12" id="submit" >登录</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<div class="text-center">&copy;2019 U7C</div>
 <script src="{{APP_STATIC_HOST}}/admin/lib/jquery.js"></script>
 <script src="{{APP_STATIC_HOST}}/admin/js/common.js"></script>
 <script>
