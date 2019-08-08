@@ -5,13 +5,14 @@ use Base\Exception as Exception;
 
 class Cache {
 
-    const DEFAULT_TTL = 86400;  //默认缓存对象过期时间: 1day=3600s * 24
+    //默认缓存对象过期时间: 1day=3600s * 24
+    const DEFAULT_TTL = 86400;
+
+    //缓存类型，支持redis和yac
+    protected $cache_type = 'Redis';
 
     ///定义支持的缓存操作
     protected static $_functions = array('get', 'set', 'del', 'mget', 'mset', 'mdel');
-
-    protected $pool_type = \S\Cache\Cache::TYPE_DEFAULT;  //缓存类型, 参考\S\Cache\Cache缓存类型常量定义
-    protected $pool_name = \S\Cache\Cache::NAME_DEFAULT; //缓存配置名称, 参考\S\Cache\Cache常量定义
 
     /**
      * @param $name
@@ -31,33 +32,32 @@ class Cache {
             throw new Exception("unsupported function: $function");
         }
 
+        $cache_type = ucfirst($this->cache_type);
+        if(in_array($cache_type, ['Redis', 'Yac'])){
+            throw new Exception("unsupported cache type: " . $this->cache_type);
+        }
+
         $cache_id = strtolower(substr($name, strlen($function)));
         if (empty($this->$cache_id)) {
             throw new Exception("$cache_id not configured");
         }
-        if (!($this->pool_name && $this->pool_type)) {
-            throw new Exception("class need set pool_name and pool_type");
-        }
 
-        $cache = \S\Cache\Cache::pool($this->pool_type, $this->pool_name);
+        $cache_class_name = '\\S\\Cache\\' . $cache_type;
+        $cache = new $cache_class_name;
 
         if ('get' == $function) {
-
             $key = $this->getKey($cache_id, $arguments[0]);
             $ret = $cache->get($key);
             $ret = $ret ? json_decode($ret, true) : false;
         } else if ('set' == $function) {
-
             $config = $this->$cache_id;
             $key = $this->getKey($cache_id, $arguments[0]);
             $data = json_encode($arguments[1]);
             $ret = $cache->set($key, $data, $config['ttl']) ? true : false;
         } else if ('del' == $function) {
-
             $key = $this->getKey($cache_id, $arguments[0]);
             $ret = $cache->del($key) ? true : false;
         } else if ("mget" == $function) {
-
             $keys = $this->getKey($cache_id, $arguments[0]);
             $vals = $cache->mget($keys);
 
@@ -67,7 +67,6 @@ class Cache {
                 $ret[$key] = ($val ? json_decode($val, true) : $val);
             }
         } else if ('mset' == $function) {
-
             $config = $this->$cache_id;
             $vals = array();
             foreach ($arguments[0] as $key => $val) {
@@ -75,7 +74,6 @@ class Cache {
             }
             $ret = $cache->mset($vals, $config['ttl']) ? true : false;
         } else if ('mdel' == $function) {
-
             $keys = $this->getKey($cache_id, $arguments[0]);
             $ret = $cache->mdel($keys) ? true : false;
         } else {
