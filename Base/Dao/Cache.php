@@ -33,7 +33,7 @@ class Cache {
         }
 
         $cache_type = ucfirst($this->cache_type);
-        if(in_array($cache_type, ['Redis', 'Yac'])){
+        if(in_array($cache_type, ['Redis', 'Yac', 'Ipc'])){
             throw new Exception("unsupported cache type: " . $this->cache_type);
         }
 
