@@ -5,6 +5,8 @@ use Base\Exception as Exception;
 
 class Cache {
 
+    protected static $cache;
+
     //默认缓存对象过期时间: 1day=3600s * 24
     const DEFAULT_TTL = 86400;
 
@@ -33,7 +35,7 @@ class Cache {
         }
 
         $cache_type = ucfirst($this->cache_type);
-        if(in_array($cache_type, ['Redis', 'Yac', 'Ipc'])){
+        if(!in_array($cache_type, ['Redis', 'Yac', 'Ipc'])){
             throw new Exception("unsupported cache type: " . $this->cache_type);
         }
 
@@ -42,8 +44,11 @@ class Cache {
             throw new Exception("$cache_id not configured");
         }
 
-        $cache_class_name = '\\S\\Cache\\' . $cache_type;
-        $cache = new $cache_class_name;
+        if(!self::$cache[$cache_type]){
+            $cache_class_name = '\\S\\Cache\\' . $cache_type;
+            self::$cache[$cache_type] = new $cache_class_name;
+        }
+        $cache = self::$cache[$cache_type];
 
         if ('get' == $function) {
             $key = $this->getKey($cache_id, $arguments[0]);
