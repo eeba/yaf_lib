@@ -9,7 +9,7 @@ use Modules\Admin\Model\Data\Role as DataRole;
  * @funcname 角色管理
  * Class Role
  */
-class Role extends Common {
+class Role extends Base {
 
     /**
      * @funcname 角色列表

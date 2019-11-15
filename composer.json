@@ -10,9 +10,13 @@
     "elasticsearch/elasticsearch": "^6.7",
     "phpoffice/phpspreadsheet": "^1.2",
     "ipip/db": "^1.0",
+    "overtrue/wechat": "~4.0",
     "ext-pdo": "*",
     "ext-json": "*",
     "ext-redis": "*"
+  },
+  "require-dev": {
+    "shixinke/php-ide-helper":"dev-master"
   },
   "repositories": {
     "packagist": {

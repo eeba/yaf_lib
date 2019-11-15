@@ -7,7 +7,7 @@ use Modules\Admin\Model\Service\Access;
 /**
  * @funcname 登录 /退出
  */
-class Login extends Common {
+class Login extends Base {
 
     /**
      * @funcname 管理员登录页面

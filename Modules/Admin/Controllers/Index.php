@@ -8,7 +8,7 @@ use Base\Controller\AdminAbstract;
  * @funcname 后台总页
  * Class Index
  */
-class Index extends Common {
+class Index extends Base {
 
     /**
      * @funcname 管理后台总页

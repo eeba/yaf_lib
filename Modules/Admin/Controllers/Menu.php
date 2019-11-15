@@ -10,7 +10,7 @@ use Modules\Admin\Model\Service\Menu as ServiceMenu;
  * @funcname 菜单管理
  * Class Menu
  */
-class Menu extends Common {
+class Menu extends Base {
 
     /**
      * @funcname 菜单配置

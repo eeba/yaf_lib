@@ -10,7 +10,7 @@ use Modules\Admin\Model\Service\Access;
 /**
  * @funcname 管理员管理
  */
-class User extends Common {
+class User extends Base {
 
     /**
      * @funcname 管理员列表

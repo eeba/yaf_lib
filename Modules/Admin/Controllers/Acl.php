@@ -11,7 +11,7 @@ use Modules\Admin\Model\Service\Acl as ServiceAcl;
  * @funcname 权限管理
  * Class Acl
  */
-class Acl extends Common {
+class Acl extends Base {
 
     /**
      * @funcname 权限列表

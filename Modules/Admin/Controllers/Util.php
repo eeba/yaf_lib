@@ -8,7 +8,7 @@ use S\Http\Response;
 /**
  * @funcname Util
  */
-class Util extends Common {
+class Util extends Base {
 
 
     /**
@@ -16,8 +16,8 @@ class Util extends Common {
      * @throws \Base\Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function ueditorUploadAction() {
-        Response::setFormatter( Response::FORMAT_JSON);
+    public function uploadAction() {
+        \S\Http\Response::setFormatter( \S\Http\Response::FORMAT_JSON);
         $action = Request::request('action');
         switch ($action){
             case 'config':
@@ -51,7 +51,7 @@ class Util extends Common {
      * @throws \Base\Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function ajaxUploadFileAction(){
+    public function uploadFileAction(){
         $result = (new \Api\File())->upload($_FILES['img']['tmp_name'], 'novel', $_FILES['img']['name']);
 
         $this->response['url'] = "/admin/util/downloadFile?index=" . $result;
