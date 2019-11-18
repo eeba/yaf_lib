@@ -19,7 +19,7 @@ class Node {
         }
         foreach ($this->file_list as $file) {
 
-            \Yaf\Loader::import($file . '.php');
+            \Yaf_Loader::import($file . '.php');
             $tmp_file = explode('controllers', $file);
             $file_name = str_replace('/', '_', trim($tmp_file[1], '/'));
             $class_name = 'Controller_' . $file_name;

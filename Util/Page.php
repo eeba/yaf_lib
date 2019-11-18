@@ -22,8 +22,8 @@ class Page {
 
 
         $uri = explode('?', \S\Http\Request::server('REQUEST_URI'));
-        $uri_path = $uri[0];
-        $uri_query = $uri[1];
+        $uri_path = isset($uri[0]) ? $uri[0] : '/';
+        $uri_query = isset($uri[1]) ? $uri[1] : '';
         parse_str($uri_query, $uri_arr);
 
         $pages = '<nav aria-label="Page navigation"><ul class="pagination">';

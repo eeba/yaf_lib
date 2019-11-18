@@ -4,7 +4,7 @@ namespace Base\Plugin;
 
 use Base\Exception;
 
-class Auth extends \Yaf\Plugin_Abstract{
+class Auth extends \Yaf_Plugin_Abstract{
     private $white_list = [
         '/admin/login/index',
         '/admin/login/dologin',
@@ -14,13 +14,13 @@ class Auth extends \Yaf\Plugin_Abstract{
     /**
      * Admin模块访问权限
      *
-     * @param \Yaf\Request_Abstract  $request
-     * @param \Yaf\Response_Abstract $response
+     * @param \Yaf_Request_Abstract  $request
+     * @param \Yaf_Response_Abstract $response
      *
      * @return bool|void
      * @throws Exception
      */
-    public function dispatchLoopStartup(\Yaf\Request_Abstract $request, \Yaf\Response_Abstract $response) {
+    public function dispatchLoopStartup(\Yaf_Request_Abstract $request, \Yaf_Response_Abstract $response) {
         $uri = strtolower($request->getRequestUri());
         $admin_acl = isset($_SESSION['admin_acl']) ? $_SESSION['admin_acl'] : [];
         if(!in_array($uri, $this->white_list)){

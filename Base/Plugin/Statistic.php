@@ -4,16 +4,16 @@ namespace Base\Plugin;
 use Base\Env;
 use Util\Ip;
 
-class Statistic extends \Yaf\Plugin_Abstract{
+class Statistic extends \Yaf_Plugin_Abstract{
 
     /**
      * 访问量统计
      *
-     * @param \Yaf\Request_Abstract $request
-     * @param \Yaf\Response_Abstract $response
+     * @param \Yaf_Request_Abstract $request
+     * @param \Yaf_Response_Abstract $response
      * @return bool|void
      */
-    public function dispatchLoopStartup(\Yaf\Request_Abstract $request, \Yaf\Response_Abstract $response) {
+    public function dispatchLoopStartup(\Yaf_Request_Abstract $request, \Yaf_Response_Abstract $response) {
         if(Env::isCli()) {
             return ;
         }

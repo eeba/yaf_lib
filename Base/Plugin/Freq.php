@@ -4,17 +4,17 @@ namespace Base\Plugin;
 use Util\Ip;
 use Base\Exception;
 
-class Freq extends \Yaf\Plugin_Abstract{
+class Freq extends \Yaf_Plugin_Abstract{
 
     /**
      * 频率限制
      *
-     * @param \Yaf\Request_Abstract $request
-     * @param \Yaf\Response_Abstract $response
+     * @param \Yaf_Request_Abstract $request
+     * @param \Yaf_Response_Abstract $response
      * @return bool|void
      * @throws Exception
      */
-    public function dispatchLoopStartup(\Yaf\Request_Abstract $request, \Yaf\Response_Abstract $response) {
+    public function dispatchLoopStartup(\Yaf_Request_Abstract $request, \Yaf_Response_Abstract $response) {
         foreach ($this->freqConfig() as $key => $value) {
             $ret = (new \S\Security\Freq())->add('ACCESS_TIMES', $key, $value['threshold'], $value['ttl']);
         }

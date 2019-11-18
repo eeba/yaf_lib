@@ -6,14 +6,14 @@ class Env {
     private static $controller_name = '';
 
     public static function isCli(){
-        return \Yaf\Application::app()->getDispatcher()->getRequest()->isCli();
+        return \Yaf_Application::app()->getDispatcher()->getRequest()->isCli();
     }
 
     public static function getControllerName(){
         if(self::isCli()){
             return self::$controller_name;
         } else {
-            return \Yaf\Application::app()->getDispatcher()->getRequest()->getControllerName();
+            return \Yaf_Application::app()->getDispatcher()->getRequest()->getControllerName();
         }
     }
 

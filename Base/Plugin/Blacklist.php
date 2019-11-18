@@ -4,17 +4,17 @@ namespace Base\Plugin;
 use Util\Ip;
 use Base\Exception;
 
-class Blacklist extends \Yaf\Plugin_Abstract{
+class Blacklist extends \Yaf_Plugin_Abstract{
 
     /**
      * IP黑名单
      *
-     * @param \Yaf\Request_Abstract $request
-     * @param \Yaf\Response_Abstract $response
+     * @param \Yaf_Request_Abstract $request
+     * @param \Yaf_Response_Abstract $response
      * @return bool|void
      * @throws Exception
      */
-    public function dispatchLoopStartup(\Yaf\Request_Abstract $request, \Yaf\Response_Abstract $response) {
+    public function dispatchLoopStartup(\Yaf_Request_Abstract $request, \Yaf_Response_Abstract $response) {
         $ip = Ip::getClientIp();
 
         $blacklist = $this->blackListConfig();

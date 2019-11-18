@@ -2,16 +2,16 @@
 namespace Base\Plugin;
 
 
-class Session extends \Yaf\Plugin_Abstract{
+class Session extends \Yaf_Plugin_Abstract{
 
     /**
      * 启用session
      *
-     * @param \Yaf\Request_Abstract $request
-     * @param \Yaf\Response_Abstract $response
+     * @param \Yaf_Request_Abstract $request
+     * @param \Yaf_Response_Abstract $response
      * @return bool|void
      */
-    public function dispatchLoopStartup(\Yaf\Request_Abstract $request, \Yaf\Response_Abstract $response) {
+    public function dispatchLoopStartup(\Yaf_Request_Abstract $request, \Yaf_Response_Abstract $response) {
         //启用session
         if(defined('APP')) {
             ini_set('session.name', 'id'.substr(md5(APP),0,12));

@@ -9,7 +9,7 @@ use S\Http\Response;
  *
  * 用户端的Controller继承
  */
-abstract class ControllerAbstract extends \Yaf\Controller_Abstract {
+abstract class ControllerAbstract extends \Yaf_Controller_Abstract {
 
     protected $response = [];
     protected $route = 'map';

@@ -1,7 +1,7 @@
 <?php
 namespace Base;
 
-class Bootstrap extends \Yaf\Bootstrap_Abstract {
+class Bootstrap extends \Yaf_Bootstrap_Abstract {
 
     public function _initCheckDefined(){
         $define_list = array(
@@ -29,7 +29,7 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
      * 请求响应的格式
      */
     public function _initResponseFormatter(){
-        if((new \Yaf\Request\Http())->isXmlHttpRequest()){
+        if((new \Yaf_Request_Http())->isXmlHttpRequest()){
             \S\Http\Response::setFormatter(\S\Http\Response::FORMAT_JSON);
         }else{
             \S\Http\Response::setFormatter(\S\Http\Response::FORMAT_HTML);
@@ -39,9 +39,9 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
     /**
      * 三方类库
      *
-     * @param \Yaf\Dispatcher $dispatcher
+     * @param \Yaf_Dispatcher $dispatcher
      */
-    public function _initVendor(\Yaf\Dispatcher $dispatcher){
+    public function _initVendor(\Yaf_Dispatcher $dispatcher){
         $loader = include(LIB_PATH . '/vendor/autoload.php');
         $loader->addPsr4('Script\\', APP_PATH . '/script');
 
@@ -50,22 +50,20 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
     /**
      * 注册本地命名空间
      *
-     * @param \Yaf\Dispatcher $dispatcher
+     * @param \Yaf_Dispatcher $dispatcher
      */
-    public function _initRegisterLocalNameSpace(\Yaf\Dispatcher $dispatcher) {
-        \Yaf\Loader::getInstance()->registerLocalNamespace('Service');
-        \Yaf\Loader::getInstance()->registerLocalNamespace('Data');
-        \Yaf\Loader::getInstance()->registerLocalNamespace('Dao');
+    public function _initRegisterLocalNameSpace(\Yaf_Dispatcher $dispatcher) {
+        \Yaf_Loader::getInstance()->registerLocalNamespace('Service');
+        \Yaf_Loader::getInstance()->registerLocalNamespace('Data');
+        \Yaf_Loader::getInstance()->registerLocalNamespace('Dao');
     }
 
 
     /**
      * 默认web模块， 其它模块用uri区分时启用
-     * @param \Yaf\Dispatcher $dispatcher
-     * @param string $ori
-     * @param string $new
+     * @param \Yaf_Dispatcher $dispatcher
      */
-    public function _initDebug(\Yaf\Dispatcher $dispatcher) {
+    public function _initDebug(\Yaf_Dispatcher $dispatcher) {
         if(DEBUG) {
             ini_set('display_errors', true);
             error_reporting(E_ALL);
