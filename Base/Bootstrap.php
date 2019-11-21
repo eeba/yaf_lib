@@ -68,6 +68,7 @@ class Bootstrap extends \Yaf_Bootstrap_Abstract {
             ini_set('display_errors', true);
             error_reporting(E_ALL);
         }else{
+            ini_set('display_errors', false);
             error_reporting(0);
         }
     }
