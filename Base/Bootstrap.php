@@ -57,19 +57,4 @@ class Bootstrap extends \Yaf_Bootstrap_Abstract {
         \Yaf_Loader::getInstance()->registerLocalNamespace('Data');
         \Yaf_Loader::getInstance()->registerLocalNamespace('Dao');
     }
-
-
-    /**
-     * 默认web模块， 其它模块用uri区分时启用
-     * @param \Yaf_Dispatcher $dispatcher
-     */
-    public function _initDebug(\Yaf_Dispatcher $dispatcher) {
-        if(DEBUG) {
-            ini_set('display_errors', true);
-            error_reporting(E_ALL);
-        }else{
-            ini_set('display_errors', false);
-            error_reporting(0);
-        }
-    }
 }
