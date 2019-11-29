@@ -16,7 +16,6 @@ class Bootstrap extends \Yaf_Bootstrap_Abstract {
             'APP_ADMIN_HOST',
             'APP_STATIC_HOST',
             'SESSION_TYPE',
-            'DEBUG'
         );
         foreach ($define_list as $define){
             if(!defined($define)){

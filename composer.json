@@ -1,15 +1,15 @@
 {
   "require": {
     "smarty/smarty": "^3.1",
-    "swiftmailer/swiftmailer": "^5.4",
+    "swiftmailer/swiftmailer": "^6.2",
     "guzzlehttp/guzzle": "^6.4",
     "gregwar/captcha": "^1.1",
     "aliyuncs/oss-sdk-php": "^2.3",
-    "jaeger/querylist": "^3.2",
-    "elasticsearch/elasticsearch": "^5.5",
-    "phpoffice/phpspreadsheet": "^1.8",
+    "jaeger/querylist": "^4.1",
+    "elasticsearch/elasticsearch": "^6.7",
     "ipip/db": "^1.0",
-    "overtrue/wechat": "^3.3",
+    "overtrue/wechat": "^4.1",
+    "phpoffice/phpspreadsheet": "^1.8",
     "ext-pdo": "*",
     "ext-json": "*",
     "ext-redis": "*"

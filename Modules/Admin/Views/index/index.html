@@ -39,15 +39,9 @@
 
 <div class="main">
     <div class="tool-tabs">
-        <div class="dropdown tool-tabs-user">
-            <div class="" data-toggle="dropdown">
-                <i class="fa fa-user-circle-o"></i> {{$admin_info.nickname}} <i class="fa fa-angle-down"></i>
-            </div>
-            <div class="dropdown-menu">
-                <a href="javascript:;" data-href="{{APP_ADMIN_HOST}}/user/resetpassword" class="resetpassword">修改密码</a>
-                <div class="divider"></div>
-                <a href="{{APP_ADMIN_HOST}}/login/logout">退出登录</a>
-            </div>
+        <div class="pull-right tool-tabs-right">
+            <a href="javascript:;" data-href="{{APP_ADMIN_HOST}}/user/resetpassword" class="tool-tabs-user"><i class="fa fa-user-circle-o"></i> {{$admin_info.nickname}}</a>
+            <a href="{{APP_ADMIN_HOST}}/login/logout" class="tool-tabs-out"><i class="fa fa-sign-out" aria-hidden="true"></i> 退出</a>
         </div>
     </div>
 
