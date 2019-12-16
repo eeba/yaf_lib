@@ -108,8 +108,9 @@ class Redis {
      * @throws Exception
      */
     protected function setOptions() {
-        if (isset($this->config['user']) && isset($this->config['auth']) && $this->config['user'] && $this->config['auth']) {
-            if (self::$res[$this->config_name]->auth($this->config['user'] . ":" . $this->config['auth']) == false) {
+        if (isset($this->config['auth']) && $this->config['auth']) {
+            $password = isset($this->config['user']) && $this->config['user'] ? $this->config['user'] . ':' . $this->config['auth'] : $this->config['auth'];
+            if (self::$res[$this->config_name]->auth($password) == false) {
                 throw new Exception("redis auth " . $this->config['host'] . " fail");
             }
         }
