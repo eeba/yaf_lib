@@ -9,7 +9,9 @@
         "elasticsearch/elasticsearch": "^7.4",
         "ipip/db": "^1.0",
         "overtrue/wechat": "^4.2",
-        "phpoffice/phpspreadsheet": "^1.10"
+        "phpoffice/phpspreadsheet": "^1.10",
+        "illuminate/support": "^6.7",
+        "illuminate/contracts": "^6.7"
     },
     "require-dev": {
         "shixinke/php-ide-helper":"dev-master"

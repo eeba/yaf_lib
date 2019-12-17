@@ -20,4 +20,11 @@ class Env {
     public static function setControllerName($controller_name){
         self::$controller_name = str_replace('\\', '/', $controller_name);
     }
+
+    public static function isProduct() {
+        $environ = \Yaf_Application::app()->environ();
+
+        return strtolower($environ) == 'product';
+    }
+
 }
