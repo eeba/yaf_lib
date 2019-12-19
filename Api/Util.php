@@ -6,9 +6,9 @@ use S\Http\Curl;
 use function GuzzleHttp\Psr7\build_query;
 
 class Util{
-    private $host = 'https://api.u7c.cn';
-    private $app_key = 'server.api.u7c.app_key';
-    private $app_secret = 'server.api.u7c.app_secret';
+    private $host = 'https://mp.u7c.cn';
+    private $app_key = 'server.mp.u7c.app_key';
+    private $app_secret = 'server.mp.u7c.app_secret';
 
     /**
      * @param       $uri
