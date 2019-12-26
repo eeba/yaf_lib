@@ -6,9 +6,19 @@ use S\Http\Curl;
 use function GuzzleHttp\Psr7\build_query;
 
 class Util{
-    private $host = 'https://mp.u7c.cn';
-    private $app_key = 'server.mp.u7c.app_key';
-    private $app_secret = 'server.mp.u7c.app_secret';
+    const HOST = 'server.api.u7c.host';
+    const APP_KEY = 'server.api.u7c.app_key';
+    const APP_SECRET = 'server.api.u7c.app_secret';
+
+    private $host;
+    private $app_key;
+    private $app_secret;
+
+    public function __construct() {
+        $this->host = Config::get(self::HOST);
+        $this->app_key = Config::get(self::APP_KEY);
+        $this->app_secret = Config::get(self::APP_SECRET);
+    }
 
     /**
      * @param       $uri
@@ -26,9 +36,9 @@ class Util{
 
         $sign_params = $upload_file?[]:$params;
         $get_params = array(
-            "app_key" => Config::get($this->app_key),
+            "app_key" =>$this->app_key,
             "t"      => $timestamp,
-            "m"      => \S\Security\Sign::getSign(Config::get($this->app_key), Config::get($this->app_secret), $timestamp, $sign_params),
+            "m"      => $this->getSign($timestamp, $sign_params),
         );
 
         $uri .= (strpos($uri,'?') ? '&':'?') . build_query($get_params);
@@ -51,5 +61,9 @@ class Util{
         unset($result["msg"]);
 
         return $result['data'];
+    }
+
+    public function getSign($timestamp, $sign_params){
+        return \S\Security\Sign::getSign($this->app_key, $this->app_secret, $timestamp, $sign_params);
     }
 }
