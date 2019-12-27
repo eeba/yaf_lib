@@ -3,6 +3,10 @@ namespace Base;
 
 class Bootstrap extends \Yaf_Bootstrap_Abstract {
 
+    public function _initEnv() {
+        require CONF_PATH . "/env.php";
+    }
+
     public function _initCheckDefined(){
         $define_list = array(
             'ROOT_PATH',
