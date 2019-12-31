@@ -9,7 +9,7 @@ class Config {
      * 获取配置
      *
      * @param string $name
-     * @return string
+     * @return string|array
      */
     public static function get($name = '') {
         $value = '';

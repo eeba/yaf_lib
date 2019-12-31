@@ -81,7 +81,7 @@ trait TraitDb {
      * @param string $cols
      * @param array  $order
      * @param int    $limit
-     * @return bool|int|null
+     * @return bool|int|array|null
      */
     public function getList(array $where = array(), $cols = '*', array $order = array(), $limit = 0) {
         return self::db()->select($this->table, $where, $cols, $order, $limit);
@@ -104,7 +104,7 @@ trait TraitDb {
      *
      * @param       $sql
      * @param array $params
-     * @return bool|int|null
+     * @return bool|int|array|null
      */
     public function query($sql, $params = []) {
         return self::db()->query($sql, $params);
