@@ -19,7 +19,7 @@ class Session extends \Yaf_Plugin_Abstract{
         if(defined('SESSION_TYPE') && strtolower(SESSION_TYPE) == 'redis') {
             ini_set('session.save_handler', 'redis');
 
-            $session_config = \Base\Config::get('server.cache.redis');
+            $session_config = \Base\Config::get('server.redis.session');
             $session_path = 'tcp://' . $session_config['host'] . ':' . $session_config['port'];
             if (!empty($session_config['auth'])) {
                 $password = isset($session_config['user']) ? "{$session_config['user']}:{$session_config['auth']}" : $session_config['auth'];
