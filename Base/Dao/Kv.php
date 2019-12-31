@@ -4,7 +4,7 @@ namespace Base\Dao;
 use Base\Exception as Exception;
 
 class Kv {
-    public $name = 'common';
+    public $name = 'kv';
 
     ///定义支持的操作
     protected static $_functions = array('get', 'set', 'del', 'mget', 'mset', 'mdel');
