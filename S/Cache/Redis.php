@@ -77,7 +77,7 @@ class Redis extends Abstraction {
 
     public function getInstance() {
         if (!$this->redis) {
-            $this->redis = new \S\Data\Redis('server.cache.redis');
+            $this->redis = new \S\Data\Redis('server.redis.cache');
         }
         return $this->redis;
     }
