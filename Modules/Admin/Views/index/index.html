@@ -96,11 +96,12 @@
     });
 
     document.onkeydown = function (e) {
-        var ev = window.event || e;
-        var code = ev.keyCode || ev.which;
-        if (code == 116) {
-            ev.keyCode ? ev.keyCode = 0 : ev.which = 0;
-            cancelBubble = true;
+        e = window.event || e;
+        var k = e.keyCode;
+        //屏蔽ctrl+R，F5键，ctrl+F5键  F3键！验证
+        if ((e.ctrlKey == true && k == 82) || (k == 116) || (e.ctrlKey == true && k == 116)||k==114) {
+            e.returnValue = false;
+            e.cancelBubble = true;
             return false;
         }
     } //禁止f5刷新
