@@ -20,9 +20,8 @@
 </style>
 
 <div style="margin: 100px auto 0; width: 400px;">
-    <h2 class="text-center" style="margin-bottom: 25px;">{{APP_NAME}}后台管理</h2>
+    <h2 class="text-center" style="margin-bottom: 25px;"><span style="color: #2B90DE">{{strtoupper(APP_NAME)}}</span>后台管理</h2>
     <div class="panel panel-primary" style="border:none;">
-        <div class="panel-heading" style="display:none;border-top-left-radius: 3px; border-top-right-radius: 3px;">{{APP_NAME}} - 后台登录</div>
         <div class="panel-body login">
             <form action="" class="form-horizontal" onsubmit="return false;">
                 <div class="form-group">
@@ -50,7 +49,7 @@
         </div>
     </div>
 </div>
-<div class="text-center">&copy;2019 {{strtoupper(APP_NAME)}}</div>
+<div class="text-center">&copy;{{date('Y')}} {{strtoupper(APP_NAME)}}</div>
 <script src="{{APP_STATIC_HOST}}/lib/jquery.js"></script>
 <script src="{{APP_STATIC_HOST}}/js/common.js"></script>
 <script>
