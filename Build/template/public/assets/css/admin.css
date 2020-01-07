@@ -1,6 +1,6 @@
-@import "../admin/css/bootstrap.min.css";
+@import "../lib/bootstrap.min.css";
 /*@import "bootstrap.theme.min.css";*/
-@import "../admin/css/font-awesome.min.css";
+@import "../lib/font-awesome.min.css";
 .panel{
     border-radius: 3px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
