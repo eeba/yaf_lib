@@ -116,3 +116,23 @@ function render(tpl_ele, data, show_ele) {
     var html    = template(data);
     $(show_ele).html(html)
 }
+
+//图片预览
+function preview(showId, changeId) {
+    var image = document.getElementById(showId);
+    var imageChange = document.getElementById(changeId);
+    function readUrl(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                image.setAttribute('src', e.target.result)
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    imageChange.onchange = function () {
+        readUrl(this);
+    }
+}
