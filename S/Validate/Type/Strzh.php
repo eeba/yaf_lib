@@ -7,7 +7,7 @@ use S\Validate\Abstraction;
 class Strzh extends Abstraction {
 
     public function action($param) {
-        if (preg_match('/^([\u4e00-\u9fa5·]{2,16})$/', $param['value'])) {
+        if (preg_match('/^([\x{4e00}-\x{9fa5}·]{2,16})$/u', $param['value'])) {
             return $param['value'];
         }
 
