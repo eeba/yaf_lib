@@ -94,7 +94,7 @@ class Curl {
      * @throws Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function request($method, $path, $data = array(), $upload_file = false, array $options = array()) {
+    public function request($method, $path, $data = array(), array $options = array()) {
         $method = strtolower($method);
 
         if (!$this->checkMethod($method)) {
@@ -104,14 +104,12 @@ class Curl {
             throw new Exception('invalid options');
         }
 
-        if($upload_file){
-            $options['multipart'] = $data; //上传文件
-        }else{
-            if (self::METHOD_POST == $method && $data && is_array($data)) {
-                $options['form_params'] = $data;
-            } elseif (self::METHOD_GET == $method) {
-                $options['query'] = $data;
-            }
+        if (self::METHOD_POST == $method && $data && is_array($data)) {
+            $options['form_params'] = $data;
+        } elseif (self::METHOD_GET == $method) {
+            $options['query'] = $data;
+        } else {
+            $options['body'] = $data;
         }
 
         $headers = [

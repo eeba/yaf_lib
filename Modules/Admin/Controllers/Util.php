@@ -71,4 +71,12 @@ class Util extends Base {
 
         $this->redirect("https://api.u7c.cn/file/download?app_key={$app_key}&t={$t}&m={$m}&index={$index}");
     }
+
+
+    public function wordAction(){
+        $app_key = Config::get('server.api.u7c.app_key');
+        $app_key = Config::get('server.api.u7c.app_key');
+        $app_secret = Config::get('server.api.u7c.app_secret');
+
+    }
 }
