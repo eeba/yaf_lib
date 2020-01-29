@@ -1,5 +1,10 @@
 {
     "require": {
+        "php": ">=7.3.0",
+        "ext-PDO": "*",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-redis": "*",
         "smarty/smarty": "^3.1",
         "swiftmailer/swiftmailer": "^6.2",
         "guzzlehttp/guzzle": "^6.5",
