@@ -58,7 +58,7 @@ class Logger {
         $ret = true;
         $data = array_merge(
             [
-                'log_time' => Request::getRequestDataTime(),
+                'log_time' => date('Y-m-d H:i:s'),
                 'client_ip' => \Util\Ip::getClientIp()
             ],
             $data
