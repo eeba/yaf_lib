@@ -24,7 +24,7 @@ class Util{
     /**
      * @param       $method
      * @param       $uri
-     * @param array $params
+     * @param array|null $params
      * @param array $option
      * @param bool $upload_file
      * @param int   $timeout
@@ -33,7 +33,7 @@ class Util{
      * @throws \Base\Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function request($method, $uri, array $params = array(), $option = array(), $timeout = 60){
+    public function request($method, $uri, array $params = null, $option = array(), $timeout = 60){
         $timestamp  = time();
 
         $sign_params = array(
@@ -42,9 +42,9 @@ class Util{
             "m"      => $this->getSign($timestamp, $params),
         );
 
-        $params = array_merge($params, $sign_params);
         $option['timeout'] =  $timeout;
 
+        $uri .= (strpos($uri, '?') === false ? '?' : '&') . http_build_query($sign_params);
         Logger::getInstance()->debug(['host' => $this->app_host, 'uri' => $uri, 'params' => $params, 'option' => $option]);
         $response = (new Curl($this->app_host, $option))->request($method, $uri, $params, $option);
         Logger::getInstance()->debug(['response' => $response]);

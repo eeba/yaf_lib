@@ -30,7 +30,7 @@ class File{
         );
 
         try{
-            $ret = (new Util())->request('post', self::UPLOAD_PATH."?category={$category}&filename={$filename}", [], $options, $timeout);
+            $ret = (new Util())->request('post', self::UPLOAD_PATH."?category={$category}&filename={$filename}", null, $options, $timeout);
             return $ret['index'];
         }catch (\Exception $e){
             Logger::getInstance()->error([$e->getCode(), $e->getMessage()]);
