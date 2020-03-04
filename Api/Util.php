@@ -63,6 +63,7 @@ class Util{
     }
 
     public function getSign($timestamp, $sign_params){
+        $sign_params = is_null($sign_params) ? [] : $sign_params;
         return \S\Security\Sign::getSign($this->app_key, $this->app_secret, $timestamp, $sign_params);
     }
 }
