@@ -16,6 +16,6 @@ class Word{
     public function analysis($word, $timeout = Util::TIME_OUT){
         $params = ['word' => $word];
 
-        return (new Util())->request("get",self::PATH, $params, [], $timeout);
+        return (new Util())->request("post",self::PATH, $params, [], $timeout);
     }
 }

@@ -18,7 +18,7 @@ class File{
      * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function upload($file_path, $category, $filename, $timeout = 30){
+    public function upload($file_path, $category, $filename, $timeout = 60){
         $options = array(
             'multipart' => array(
                 array(
