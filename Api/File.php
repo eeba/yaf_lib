@@ -18,13 +18,13 @@ class File{
      * @return string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function upload($file_path, $category, $filename, $timeout = 60){
+    public function upload($file_path, $category = '', $filename = '', $timeout = 60){
         $options = array(
             'multipart' => array(
                 array(
                     'name'     => 'file',
                     'contents' => fopen($file_path, 'r'),
-                    'filename' => $filename,
+                    'filename' => $filename?:'',
                 )
             )
         );
