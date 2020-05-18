@@ -1,12 +1,11 @@
 <?php
 
 namespace S\Office;
-//define('PHPAES_ROOT', dirname(__FILE__));
-//
-//include PHPAES_ROOT . '/Classes/PHPExcel.php';
 
-//include PHPAES_ROOT . '/PhpSpreadsheet/Spreadsheet.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Exception as PhpOfficeException;
+use PhpOffice\PhpSpreadsheet\Writer\Exception as PhpOfficeWriterException;
 
 class Excel {
     /**
@@ -29,5 +28,38 @@ class Excel {
         }
 
         return $data;
+    }
+
+    /**
+     * @param $data
+     * @param $path
+     * @throws PhpOfficeException
+     * @throws PhpOfficeWriterException
+     * @throws \Base\Exception
+     */
+    public static function write($data, $path){
+        $client = (new \S\Data\Redis())->getInstance();
+        $pool = new \Cache\Adapter\Redis\RedisCachePool($client);
+        $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
+        \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
+
+        $spreadsheet = new Spreadsheet();var_dump($spreadsheet);
+        $spreadsheet->getProperties()->setCreator('kbone.net')->setTitle('kbone.net');
+        $spreadsheet->setActiveSheetIndex(0);
+
+        foreach ($data as $key => $value){
+            $position_y = $key + 1;
+            foreach ($value as $index => $item){
+                $position_x = chr(65 + $index);
+                $position =  $position_x . $position_y;
+                $spreadsheet->getActiveSheet()->setCellValue($position, $item);
+            }
+        }
+
+        $spreadsheet->setActiveSheetIndex(0);
+        $spreadsheet->getActiveSheet()->setTitle('sheet1');
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save($path);
     }
 }
