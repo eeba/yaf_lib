@@ -49,6 +49,7 @@ class Excel {
 
         foreach ($data as $key => $value){
             $position_y = $key + 1;
+            $value = array_values($value);
             foreach ($value as $index => $item){
                 $position_x = chr(65 + $index);
                 $position =  $position_x . $position_y;
