@@ -1,8 +1,8 @@
 <?php
 namespace S\File;
 
+use S\Logger;
 use Base\Exception;
-use Base\Logger;
 use OSS\OssClient;
 use OSS\Core\OssException;
 
@@ -19,7 +19,7 @@ class Oss extends Abstraction {
      */
     public function __construct($name){
         if(!$this->instance_obj) {
-            $config = \Base\Config::get('server.file.'.$name);
+            $config = \S\Config::get('server.file.'.$name);
 
             foreach ($this->check_key as $key) {
                 if(!isset($config[$key])){

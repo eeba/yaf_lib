@@ -1,7 +1,7 @@
 <?php
 namespace S\Security;
 
-use Base\Logger;
+use S\Logger;
 
 class Sign {
     /**

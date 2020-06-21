@@ -1,8 +1,8 @@
 <?php
 namespace S\Crypt;
 
+use S\Config;
 use Base\Exception;
-use Base\Config;
 
 /**
  * ***默认加密秘钥会定期更换，涉及到存储的时候，请不要使用默认秘钥***

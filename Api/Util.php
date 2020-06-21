@@ -1,9 +1,8 @@
 <?php
 namespace Api;
-use Base\Config;
-use Base\Logger;
+use S\Config;
+use S\Logger;
 use S\Http\Curl;
-use function GuzzleHttp\Psr7\build_query;
 
 class Util{
     const TIME_OUT = 10;

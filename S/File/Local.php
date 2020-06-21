@@ -1,8 +1,8 @@
 <?php
 namespace S\File;
 
+use S\Logger;
 use Base\Exception;
-use Base\Logger;
 
 class Local extends Abstraction {
     private $config = null;
@@ -16,7 +16,7 @@ class Local extends Abstraction {
      */
     public function __construct(){
         if(!$this->instance_obj) {
-            $config = \Base\Config::get('server.file.local');
+            $config = \S\Config::get('server.file.local');
 
             foreach ($this->check_key as $key) {
                 if(!isset($config[$key])){

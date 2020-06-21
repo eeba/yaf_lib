@@ -1,6 +1,7 @@
 <?php
-namespace Base;
+namespace S;
 
+use Modules\Admin\Controllers\Base;
 use S\Http\Request;
 
 class Logger {
@@ -71,7 +72,7 @@ class Logger {
 
     private function getPath($level, $path) {
         if (!$path) {
-            $cli_class_name = Env::getControllerName();
+            $cli_class_name = \Base\Env::getControllerName();
             $key = strtolower(str_replace('_', '/', $cli_class_name));
         } else {
             $key = $path;

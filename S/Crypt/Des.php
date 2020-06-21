@@ -1,8 +1,8 @@
 <?php
 namespace S\Crypt;
 
+use S\Config;
 use Base\Exception;
-use Base\Config;
 
 /**
  * Class Des

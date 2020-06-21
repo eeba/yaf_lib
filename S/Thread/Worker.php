@@ -1,8 +1,6 @@
 <?php
 namespace S\Thread;
 
-//use Base\Logger;
-
 /**
  * 工作进程基类
  *

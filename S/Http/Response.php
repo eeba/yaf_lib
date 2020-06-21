@@ -2,7 +2,6 @@
 namespace S\Http;
 
 use Base\Exception;
-use Base\Logger;
 
 class Response {
     const FORMAT_JSON = 'json';

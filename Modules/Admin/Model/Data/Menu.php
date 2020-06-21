@@ -1,7 +1,6 @@
 <?php
 namespace Modules\Admin\Model\Data;
 
-use Base\Logger;
 use Modules\Admin\Model\Dao\Db\Menu as DaoAdminMenu;
 
 class Menu {

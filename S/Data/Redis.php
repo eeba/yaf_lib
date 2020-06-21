@@ -2,8 +2,8 @@
 
 namespace S\Data;
 
+use S\Config;
 use Base\Exception;
-use Base\Config;
 
 /**
  * Class Redis

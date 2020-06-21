@@ -18,7 +18,7 @@ namespace Base\Controller;
      * ajax请求异常给返回json信息
      * api请求异常给返回json信息
      */
-use Base\Logger;
+use S\Logger;
 use S\Http\Response;
 
 /**

@@ -1,5 +1,5 @@
 <?php
-namespace Base;
+namespace S;
 
 class Config {
 

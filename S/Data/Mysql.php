@@ -1,8 +1,8 @@
 <?php
 namespace S\Data;
 
-use Base\Config;
-use Base\Logger;
+use S\Config;
+use S\Logger;
 use Base\Exception;
 
 class Mysql {

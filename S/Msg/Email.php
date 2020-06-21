@@ -1,9 +1,9 @@
 <?php
 namespace S\Msg;
 
+use S\Config;
+use S\Logger;
 use Base\Exception;
-use Base\Config;
-use Base\Logger;
 use Swift_SmtpTransport;
 use Swift_Mailer;
 use Swift_Message;
