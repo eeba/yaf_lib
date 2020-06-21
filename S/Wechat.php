@@ -13,7 +13,7 @@ class WeChat
      */
     public static function app($account = '') {
         if(!self::$apps[$account]) {
-            $config = Config::get('wechat.' . $account);
+            $config = Config::get('server.wechat.' . $account);
             $config['http']['proxy'] = Config::get('proxy.default');
             self::$apps[$account] = Factory::officialAccount($config);
         }
