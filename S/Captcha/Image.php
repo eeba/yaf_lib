@@ -27,7 +27,7 @@ class Image extends Abstraction {
 
         Response::setFormatter(Response::FORMAT_PLAIN);
         header('Content-type: image/jpeg');
-        CaptchaBuilder::create($this->content)->build()->output();
+        CaptchaBuilder::create($this->content)->build(80, 30)->output();
 
         return true;
     }

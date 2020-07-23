@@ -46,7 +46,7 @@ class Kv {
             $key = $this->getKey($cache_id, $arguments[0]);
             $ret = $kv->del($key) ? true : false;
         } else if ("mget" == $function) {
-            $keys = $this->getKey($cache_id, $arguments[0]);
+            $keys = $this->getKey($cache_id,  $arguments[0]);
             $vals = $kv->mget($keys);
             $ret = array();
             foreach ($keys as $idx => $key) {

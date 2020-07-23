@@ -43,7 +43,7 @@ class Excel {
         $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
         \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
 
-        $spreadsheet = new Spreadsheet();var_dump($spreadsheet);
+        $spreadsheet = new Spreadsheet();
         $spreadsheet->getProperties()->setCreator('kbone.net')->setTitle('kbone.net');
         $spreadsheet->setActiveSheetIndex(0);
 
