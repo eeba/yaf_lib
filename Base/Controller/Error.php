@@ -24,7 +24,7 @@ use S\Http\Response;
 /**
  * 当有未捕获的异常, 则控制流会流到这里
  */
-class Error extends ControllerAbstract {
+class Error extends Abstraction {
 
     /**
      * 错误页面

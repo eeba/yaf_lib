@@ -10,16 +10,8 @@ use \S\Validate\Handler;
  *
  * Api接口类的Controller继承
  */
-abstract class WebAbstract extends ControllerAbstract {
+abstract class WebAbstract extends Abstraction {
     protected $params = [];
-
-    public function init() {
-        if(Request::isAjax()) {
-            Response::setFormatter(Response::FORMAT_JSON);
-        }else{
-            Response::setFormatter(Response::FORMAT_HTML);
-        }
-    }
 
     public function before() {}
 
