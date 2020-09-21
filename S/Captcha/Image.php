@@ -18,7 +18,7 @@ class Image extends Abstraction {
         $this->id = $id;
     }
 
-    public function show() {
+    public function show($width = 80, $height = 30) {
         $_SESSION['verify_code' . $this->id] = strtolower($this->content);
 
         if ($this->show_type) {
@@ -27,7 +27,7 @@ class Image extends Abstraction {
 
         Response::setFormatter(Response::FORMAT_PLAIN);
         header('Content-type: image/jpeg');
-        CaptchaBuilder::create($this->content)->build(80, 30)->output();
+        CaptchaBuilder::create($this->content)->build($width, $height)->output();
 
         return true;
     }
