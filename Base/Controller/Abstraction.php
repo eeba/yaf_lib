@@ -4,7 +4,6 @@ namespace Base\Controller;
 use Base\Exception;
 use S\Http\Request;
 use S\Http\Response;
-use Yaf_Controller_Abstract;
 
 /**
  * Class WebAbstract
@@ -17,22 +16,20 @@ abstract class Abstraction extends \Yaf_Controller_Abstract {
 
     public function init() {
         \Yaf_Dispatcher::getInstance()->disableView();
-        public function init() {
-            if(Request::isAjax()) {
-                Response::setFormatter(Response::FORMAT_JSON);
-            }else{
-                Response::setFormatter(Response::FORMAT_HTML);
-            }
+        if(Request::isAjax()) {
+            Response::setFormatter(Response::FORMAT_JSON);
+        }else{
+            Response::setFormatter(Response::FORMAT_HTML);
         }
     }
 
     /**
      * @param string $action_name
      * @param array $var_array
-     * @return Yaf_Controller_Abstract
+     * @return mixed|Yaf_Controller_Abstract
      * @throws Exception
      */
-    protected function render(string $action_name, array $var_array = []): Yaf_Controller_Abstract
+    protected function render(string $action_name, array $var_array = []): \Yaf_Controller_Abstract
     {
         switch (Response::getFormatter()){
             case Response::FORMAT_PLAIN:
