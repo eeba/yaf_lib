@@ -2,6 +2,7 @@
 namespace S;
 
 use EasyWeChat\Factory;
+use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 class WeChat
 {
@@ -14,8 +15,18 @@ class WeChat
     public static function app($account = '') {
         if(!self::$apps[$account]) {
             $config = Config::get('server.wechat.' . $account);
+
+            //添加代理
             $config['http']['proxy'] = Config::get('proxy.default');
-            self::$apps[$account] = Factory::officialAccount($config);
+            //关闭ssl验证
+            $config['http']['verify'] = false;
+            $app = Factory::officialAccount($config);
+
+            //替换应用中的缓存为redis
+            $redis = (new \S\Data\Redis())->getInstance();
+            $cache = new RedisAdapter($redis);
+            $app->rebind('cache', $cache);
+            self::$apps[$account] = $app;
         }
         return self::$apps[$account];
     }

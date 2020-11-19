@@ -37,6 +37,14 @@ class Email {
         $this->config = $config;
     }
 
+    /**
+     * @param $mail
+     * @param $object
+     * @param $msg
+     * @param array $files
+     * @return bool
+     * @throws Exception
+     */
     public function send($mail, $object, $msg, $files = []) {
         if(!is_array($mail)){
             $mail_list[] = $mail;
