@@ -26,7 +26,7 @@ class Ip {
         }
         if (isset($_SERVER)) {
             if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                $ip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0];
             } else if (isset($_SERVER['HTTP_CLIENT_IP'])) {
                 $ip = $_SERVER['HTTP_CLIENT_IP'];
             } else {

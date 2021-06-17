@@ -1,7 +1,7 @@
 <?php
 namespace Base\Dao;
 
-use S\Http\Request;
+use Base\Request;
 
 trait TraitDb {
 
@@ -141,8 +141,9 @@ trait TraitDb {
         $sql = "select {$cols} from {$this->table} where ";
         $count_sql = "select count(1) num from {$this->table} where ";
 
-        $start = Request::request('start', 0);
-        $length = Request::request('length', 10);
+        $request = new Request();
+        $start = $request->getRequest('start', 0);
+        $length = $request->getRequest('length', 10);
         $sql_arr = self::db()->toSql($where, $order, [$start, $length]);
         $content_sql_arr = self::db()->toSql($where, $order);
 

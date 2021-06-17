@@ -1,10 +1,9 @@
 <?php
 namespace Util;
 
-
 class Ua {
 
-    public function isWeiXin() {
+    public static function isWeiXin() {
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
             return true;
         } else {
@@ -12,7 +11,7 @@ class Ua {
         }
     }
 
-    public function isMobile() {
+    public static function isMobile() {
         // 如果有HTTP_X_WAP_PROFILE则一定是移动设备
         if (isset($_SERVER['HTTP_X_WAP_PROFILE'])) {
             return true;

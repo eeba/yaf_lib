@@ -20,7 +20,7 @@ class Statistic extends \Yaf_Plugin_Abstract{
 
         $uri = $request->getRequestUri();
         $ip = Ip::getClientIp();
-        $redis = new \S\Data\Redis();
+        $redis = new \Base\Dao\Redis('server.redis.statistic');
         $redis->hIncrBy(APP . '_STATISTICS_URI_'.date('Ymd'), $uri, 1);
         $redis->hIncrBy(APP . '_STATISTICS_IP_'.date('Ymd'), $ip, 1);
     }

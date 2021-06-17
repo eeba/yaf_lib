@@ -16,7 +16,7 @@ class Freq extends \Yaf_Plugin_Abstract{
      */
     public function dispatchLoopStartup(\Yaf_Request_Abstract $request, \Yaf_Response_Abstract $response) {
         foreach ($this->freqConfig() as $key => $value) {
-            $ret = (new \S\Security\Freq())->add('ACCESS_TIMES', $key, $value['threshold'], $value['ttl']);
+            $ret = (new \Security\Freq())->add('ACCESS_TIMES', $key, $value['threshold'], $value['ttl']);
         }
         if (!$ret) {
             throw new Exception('访问速度太快，请稍后再试', 9999999);

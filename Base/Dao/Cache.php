@@ -45,7 +45,7 @@ class Cache {
         }
 
         if(!self::$cache[$cache_type]){
-            $cache_class_name = '\\S\\Cache\\' . $cache_type;
+            $cache_class_name = '\\Cache\\' . $cache_type;
             self::$cache[$cache_type] = new $cache_class_name;
         }
         $cache = self::$cache[$cache_type];

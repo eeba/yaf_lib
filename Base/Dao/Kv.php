@@ -32,7 +32,7 @@ class Kv {
             throw new Exception("$cache_id not configured");
         }
 
-        $kv = new \S\Data\Redis($this->name);
+        $kv = new \Base\Dao\Redis($this->name);
 
         if ('get' == $function) {
             $key = $this->getKey($cache_id, $arguments[0]);
