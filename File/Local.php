@@ -70,7 +70,7 @@ class Local extends Abstraction {
         $target = $this->config['bucket'] . '/' .$path;
         $target = str_replace('//', '/', $target);
         if(!is_readable($target)){
-            Logger::getInstance()->error(["file '$target' is not found or can't be read"]);
+            Logger::error('目录不存在/不可读', ["file '$target' is not found or can't be read"]);
             throw new Exception("file '$target' is not found or can't be read");
         }
 

@@ -1,7 +1,31 @@
 <?php
-
 namespace Log;
 
+use Monolog\Formatter\HtmlFormatter;
+use Monolog\Formatter\JsonFormatter;
+use Monolog\Formatter\NormalizerFormatter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\FirePHPHandler;
+use Monolog\Processor\HostnameProcessor;
+use Monolog\Processor\IntrospectionProcessor;
+use Monolog\Processor\MemoryPeakUsageProcessor;
+use Monolog\Processor\MemoryUsageProcessor;
+use Monolog\Processor\MercurialProcessor;
+use Monolog\Processor\ProcessIdProcessor;
+use Monolog\Processor\PsrLogMessageProcessor;
+use Monolog\Processor\UidProcessor;
+use Monolog\Processor\WebProcessor;
+
+/**
+ * @method static debug(string $message, array $context = []) 详细的debug信息
+ * @method static info(string $message, array $context = []) 关键事件
+ * @method static notice(string $message, array $context = []) 普通但是重要的事件
+ * @method static warning(string $message, array $context = []) 出现非错误的异常
+ * @method static error(string $message, array $context = []) 运行时错误，但是不需要立刻处理
+ * @method static critical(string $message, array $context = []) 严重错误
+ * @method static alert(string $message, array $context = []) 整个网站关闭，数据库不可用等
+ * @method static emergency(string $message, array $context = []) 系统不可用
+ */
 class Logger
 {
     private static $_instance;
@@ -10,95 +34,34 @@ class Logger
     {
     }
 
-    public static function getInstance()
+    private static function getInstance()
     {
         if (is_null(self::$_instance)) {
-            self::$_instance = new self();
+            $logger = new \Monolog\Logger(APP);
+            $logger->pushHandler(new StreamHandler(self::getPath(), \Monolog\Logger::DEBUG));
+            $logger->pushProcessor(new WebProcessor());
+            $logger->pushProcessor(new MemoryPeakUsageProcessor());
+            $logger->pushProcessor(new MemoryUsageProcessor());
+            self::$_instance = $logger;
         }
         return self::$_instance;
     }
 
-    public function debug(array $data = [], $path = "")
+    public static function __callStatic($name, $arguments)
     {
-        $this->addRecord('debug', $data, $path);
-    }
-
-    public function info(array $data = [], $path = "")
-    {
-        $this->addRecord('info', $data, $path);
-    }
-
-    public function notice(array $data = [], $path = "")
-    {
-        $this->addRecord('notice', $data, $path);
-    }
-
-    public function warning(array $data = [], $path = "")
-    {
-        $this->addRecord('warning', $data, $path);
-    }
-
-    public function error(array $data = [], $path = "")
-    {
-        $this->addRecord('error', $data, $path);
-    }
-
-    public function critical(array $data = [], $path = "")
-    {
-        $this->addRecord('critical', $data, $path);
-    }
-
-    public function alert(array $data = [], $path = "")
-    {
-        $this->addRecord('alert', $data, $path);
-    }
-
-    public function emergency(array $data = [], $path = "")
-    {
-        $this->addRecord('emergency', $data, $path);
-    }
-
-    private function addRecord($level, $data, $path)
-    {
-        $file_path = self::getPath($level, $path);
-        $dir_path = dirname($file_path);
-        if (!is_dir($dir_path)) {
-            @mkdir($dir_path, 0777, true);
-            @chmod($dir_path, 0777);
+        $function_num = strtolower($name);
+        if(!in_array(strtoupper($name), \Monolog\Logger::getLevels())){
+            $function_num = 'debug';
         }
-
-        $ret = true;
-        $data = array_merge(
-            [
-                'request_id'   => $_SERVER['HTTP_REQUEST_ID'],
-                'request_time' => date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']),
-                'current_time' => date('Y-m-d H:i:s'),
-                'exec_time'    => microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],
-                'client_ip'    => \Util\Ip::getClientIp(),
-                'server_ip'    => \Util\Ip::getServerIp(),
-            ],
-            $data
-        );
-
-        $data = array_map(function ($item){
-            return is_array($item) ? json_encode($item, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : $item;
-        }, $data);
-
-        if (false === file_put_contents($file_path, implode(' | ', $data) . "\n", FILE_APPEND | LOCK_EX)) {
-            $ret = false;
-        }
-        return $ret;
+        $message = $arguments[0];
+        $context = $arguments[1] ? : [];
+        self::getInstance()->$function_num($message, $context);
     }
 
-    private function getPath($level, $path)
+    private static function getPath()
     {
-        if (!$path) {
-            $cli_class_name = \Base\Env::getControllerName();//todo
-            $key = strtolower(str_replace('_', '/', $cli_class_name));
-        } else {
-            $key = $path;
-        }
-        $path = strtolower(LOG_PATH . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . date("Ym") . DIRECTORY_SEPARATOR . $level . '.' . date("Ymd") . ".log");
+        $controller_name = strtolower(\Base\Env::getControllerName());
+        $path = strtolower(LOG_PATH . DIRECTORY_SEPARATOR . $controller_name . DIRECTORY_SEPARATOR . date("Ym") . DIRECTORY_SEPARATOR . date("Ymd") . ".log");
         return str_replace('//', '/', $path);
     }
 }

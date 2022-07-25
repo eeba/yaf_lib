@@ -349,7 +349,7 @@ class Mysql {
             foreach ($params as $param) {
                 $debug_sql = substr_replace($debug_sql, $param, strpos($debug_sql, "?"), 1);
             }
-            Logger::getInstance()->debug([$_start, $_end, $_end - $_start, $debug_sql], 'sql');
+            Logger::debug('sql', [$_start, $_end, $_end - $_start, $debug_sql]);
         }
 
         return $this->stmt;

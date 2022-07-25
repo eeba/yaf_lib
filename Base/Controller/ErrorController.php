@@ -6,7 +6,7 @@ class ErrorController extends Abstraction
 {
     public function errorAction($exception)
     {
-        \Log\Logger::getInstance()->error([
+        \Log\Logger::error("errorAction", [
             $exception->getCode(),
             $exception->getMessage(),
             $exception->getFile(),
@@ -14,7 +14,7 @@ class ErrorController extends Abstraction
             $exception->getTraceAsString(),
             $exception->getLine(),
             $exception->getPrevious(),
-        ], 'error');
+        ]);
 
         $is_not_found = $this->isNotFound($exception->getCode());
         if ($is_not_found) {

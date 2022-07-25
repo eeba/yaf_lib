@@ -74,7 +74,7 @@ class Email {
         try {
             $ret = $mailer->send($message);
         } catch (\Exception $e) {
-            Logger::getInstance()->error([$e->getCode(), $e->getMessage(), $e]);
+            Logger::error('邮件发送失败错误信息', [$e->getCode(), $e->getMessage(), $e]);
             throw new Exception($e->getMessage());
         }
         return $ret ? true : false;

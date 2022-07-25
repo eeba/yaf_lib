@@ -13,7 +13,7 @@ class WeChat
      * @return mixed
      */
     public static function app($account = '') {
-        if(!self::$apps[$account]) {
+        if(!isset(self::$apps[$account]) || !self::$apps[$account]) {
             $config = \Base\Config::get('server.wechat.' . $account);
 
             //添加代理

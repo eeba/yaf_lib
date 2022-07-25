@@ -55,7 +55,7 @@ class Oss extends Abstraction {
             $ret = str_replace('//','/', $this->config['domain'] .'/'. $target);
         } catch (\Exception $e){
             $ret = '';
-            Logger::getInstance()->error(['local'=>$local, 'target'=>$local, $e->getMessage()]);
+            Logger::error('上传失败', ['local'=>$local, 'target'=>$local, $e->getMessage()]);
         }
 
         return $ret;
@@ -106,7 +106,7 @@ class Oss extends Abstraction {
                 $ret = $this->instance_obj->getObject($this->config['bucket'], $target);
             }
         } catch (\Exception $e){
-            Logger::getInstance()->warning([$e->getMessage()]);
+            Logger::warning('下载失败', [$e->getMessage()]);
             throw new Exception($e->getMessage(), 5100004);
         }
 
