@@ -18,8 +18,8 @@
         "illuminate/support": "^8.19",
         "illuminate/contracts": "^8.19",
         "cache/simple-cache-bridge": "^1.1",
-        "cache/redis-adapter": "^1.1"
-        "monolog/monolog": "^2.2",
+        "cache/redis-adapter": "^1.1",
+        "monolog/monolog": "^2.2"
     },
     "require-dev": {
         "shixinke/php-ide-helper":"dev-master"
