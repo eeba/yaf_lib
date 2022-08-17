@@ -1,4 +1,5 @@
 <?php
+
 namespace Crypt;
 
 use Base\Config;
@@ -38,41 +39,44 @@ use Base\Exception;
  *      OPENSSL_RAW_DATA: 密文使用原编码输出
  *      OPENSSL_ZERO_PADDING: 不采用默认的数据补齐方式 即需要由我们来实现数据的补齐 会对密文使用base64进行编码后输出
  */
-class Aes implements CryptInterface {
+class Aes implements CryptInterface
+{
 
-    const ARRAY_PREFIX  = "`ARRAY`\n";
-    const DEFAULT_KEY   = "common";
+    const ARRAY_PREFIX = "`ARRAY`\n";
+    const DEFAULT_KEY = "common";
 
     /**
      * @param string $plain 明文  支持数组形式
-     * @param string $key   指定加密配置 默认采用common的配置加密
+     * @param string $key 指定加密配置 默认采用common的配置加密
      * @return string       密文
      * @throws \Base\Exception
      */
-    public static function encrypt($plain, $key=self::DEFAULT_KEY) {
+    public static function encrypt($plain, $key = self::DEFAULT_KEY): string
+    {
 
-        $config = Config::get('aes.'.$key);
-        if(!$config){
+        $config = Config::get('aes.' . $key);
+        if (!$config) {
             throw new Exception("aes $key config not find");
         }
 
         if (is_array($plain)) {
-            $plain = self::ARRAY_PREFIX.self::serialize($plain);
+            $plain = self::ARRAY_PREFIX . self::serialize($plain);
         }
 
         return openssl_encrypt($plain, $config['method'], $config['password'], $config['options'], $config['iv']);
     }
 
     /**
-     * @param string $enplain  密文
-     * @param string $key      指定解密的配置 默认采用common的配置解密
+     * @param string $enplain 密文
+     * @param string $key 指定解密的配置 默认采用common的配置解密
      * @return array|string    明文
      * @throws Exception
      */
-    public static function decrypt($enplain, $key=self::DEFAULT_KEY) {
+    public static function decrypt($enplain, $key = self::DEFAULT_KEY)
+    {
 
-        $config = Config::get('aes.'.$key);
-        if(!$config){
+        $config = Config::get('aes.' . $key);
+        if (!$config) {
             throw new Exception("aes $key config not find");
         }
 
@@ -88,7 +92,8 @@ class Aes implements CryptInterface {
      * @param array $data
      * @return string
      */
-    protected static function serialize(array $data) {
+    protected static function serialize(array $data): string
+    {
         return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
@@ -97,7 +102,8 @@ class Aes implements CryptInterface {
      * @param $string
      * @return array
      */
-    protected static function unserialize($string) {
+    protected static function unserialize($string): array
+    {
         return json_decode($string, true);
     }
 

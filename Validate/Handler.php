@@ -1,4 +1,5 @@
 <?php
+
 namespace Validate;
 
 /**
@@ -28,7 +29,8 @@ namespace Validate;
  *
  * </code>
  */
-class Handler {
+class Handler
+{
 
     private static $_default_validator = array(
         'date' => 'Type\\Date',
@@ -51,7 +53,8 @@ class Handler {
      * @param array $params
      * @return null
      */
-    public static function check(array $params) {
+    public static function check(array $params): ?array
+    {
         $ret = array();
         foreach ($params as $key => $value) {
             $rule = $value['rule'];

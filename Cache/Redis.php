@@ -7,7 +7,8 @@ use Base\Exception;
 /**
  * Class \Cache\Redis
  */
-class Redis extends Abstraction {
+class Redis extends Abstraction
+{
     protected $redis = null;
 
 
@@ -17,7 +18,8 @@ class Redis extends Abstraction {
      * @return bool|string
      * @throws Exception
      */
-    public function get($key) {
+    public function get($key)
+    {
         $ret = $this->getInstance()->get($key);
 
         return $ret;
@@ -25,13 +27,14 @@ class Redis extends Abstraction {
 
     /**
      * @param string $key
-     * @param mixed  $value
-     * @param int    $expire
+     * @param mixed $value
+     * @param int $expire
      *
      * @return bool
      * @throws \Base\Exception
      */
-    public function set($key, $value, $expire = 60) {
+    public function set($key, $value, $expire = 60)
+    {
         if ($expire == 0) {
             $ret = $this->getInstance()->set($key, $value);
         } else {
@@ -47,12 +50,10 @@ class Redis extends Abstraction {
      * @param string $key key值
      *
      * @return bool|int
-     * @throws Exception
      */
-    public function del($key) {
-        $ret = $this->getInstance()->del($key);
-
-        return $ret;
+    public function del($key)
+    {
+        return $this->getInstance()->del($key);
     }
 
     /**
@@ -63,19 +64,22 @@ class Redis extends Abstraction {
      * @return array|false
      * @throws Exception
      */
-    public function mget(array $keys) {
+    public function mget(array $keys)
+    {
         $ret = $this->getInstance()->mget($keys);
 
         return $ret;
     }
 
-    public function close() {
+    public function close()
+    {
         $this->getInstance()->close();
 
         return true;
     }
 
-    public function getInstance() {
+    public function getInstance()
+    {
         if (!$this->redis) {
             $this->redis = new \Base\Dao\Redis('server.redis.cache');
         }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Cache;
 
 
@@ -8,7 +9,8 @@ namespace Cache;
  * @package Cache\Handler
  * @description 缓存抽象类
  */
-abstract class Abstraction {
+abstract class Abstraction
+{
     const DEFAULT_EXPIRE = 60;  //默认缓存时间，单位s
     protected $config = [];     //配置信息
     protected $name = "";       //缓存配置项
@@ -21,7 +23,8 @@ abstract class Abstraction {
      *
      * @return array|false  只有查询错误才会返回false
      */
-    public function mget(array $keys) {
+    public function mget(array $keys)
+    {
         $ret = array();
         foreach ($keys as $key) {
             $ret[$key] = $this->get($key);
@@ -34,11 +37,12 @@ abstract class Abstraction {
      * 定义缓存的批量set接口
      *
      * @param array $values 包含key=>value的数组
-     * @param int   $expire 过期时间
+     * @param int $expire 过期时间
      *
      * @return bool
      */
-    public function mset(array $values, $expire = 60) {
+    public function mset(array $values, int $expire = 60): bool
+    {
         $ret = true;
         foreach ($values as $key => $value) {
             if (!$this->set($key, $value, $expire)) {
@@ -56,7 +60,8 @@ abstract class Abstraction {
      *
      * @return bool
      */
-    public function mdel(array $keys) {
+    public function mdel(array $keys): bool
+    {
         $ret = true;
         foreach ($keys as $key) {
             if (!$this->del($key)) {

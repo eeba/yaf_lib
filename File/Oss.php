@@ -1,4 +1,5 @@
 <?php
+
 namespace File;
 
 use Log\Logger;
@@ -6,7 +7,8 @@ use Base\Exception;
 use OSS\OssClient;
 use OSS\Core\OssException;
 
-class Oss extends Abstraction {
+class Oss extends Abstraction
+{
     private $config = null;
     private $instance_obj = null;
     private $check_key = ['endpoint', 'key_id', 'key_secret', 'bucket', 'domain'];
@@ -17,13 +19,14 @@ class Oss extends Abstraction {
      * @return OssClient|null
      * @throws Exception
      */
-    public function __construct($name){
-        if(!$this->instance_obj) {
-            $config = \Base\Config::get('server.file.'.$name);
+    public function __construct($name)
+    {
+        if (!$this->instance_obj) {
+            $config = \Base\Config::get('server.file.' . $name);
 
             foreach ($this->check_key as $key) {
-                if(!isset($config[$key])){
-                    throw new Exception('配置缺少：'.$key, 5100001);
+                if (!isset($config[$key])) {
+                    throw new Exception('配置缺少：' . $key, 5100001);
                 }
             }
 
@@ -39,23 +42,24 @@ class Oss extends Abstraction {
     }
 
     /**
-     * @param string    $local  源
-     * @param string    $target 目标
+     * @param string $local 源
+     * @param string $target 目标
      * @param int $type 1:上传文件，2:上传内容
      *
      * @return mixed
      */
-    public function put($local, $target, $type = 1) {
+    public function put($local, $target, $type = 1)
+    {
         try {
             if ($type == 1) {
                 $this->instance_obj->uploadFile($this->config['bucket'], $target, $local);
             } else {
                 $this->instance_obj->putObject($this->config['bucket'], $target, $local);
             }
-            $ret = str_replace('//','/', $this->config['domain'] .'/'. $target);
-        } catch (\Exception $e){
+            $ret = str_replace('//', '/', $this->config['domain'] . '/' . $target);
+        } catch (\Exception $e) {
             $ret = '';
-            Logger::error('上传失败', ['local'=>$local, 'target'=>$local, $e->getMessage()]);
+            Logger::error('上传失败', ['local' => $local, 'target' => $local, $e->getMessage()]);
         }
 
         return $ret;
@@ -64,20 +68,21 @@ class Oss extends Abstraction {
     /**
      * form表单上传文件，单个文件
      * @param        $file
-     * @param int    $type
+     * @param int $type
      *
      * @return mixed|string
      */
-    public function upload($file, $type = 1){
-        if($file['error']){
+    public function upload($file, int $type = 1)
+    {
+        if ($file['error']) {
             return '';
         }
 
-        $root_path  = isset($this->config['root_path']) && $this->config['root_path']?$this->config['root_path']:APP;
+        $root_path = isset($this->config['root_path']) && $this->config['root_path'] ? $this->config['root_path'] : APP;
         $local = $file['tmp_name'];
-        if($type == 1) {
+        if ($type == 1) {
             $target = $root_path . '/' . date('Ym') . '/' . md5($file['name']) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
-        }else{
+        } else {
             $target = $root_path . '/' . date('Ym') . '/' . $file['name'];
         }
         $target = strtolower(trim(str_replace('//', '/', $target), '/'));
@@ -94,9 +99,10 @@ class Oss extends Abstraction {
      * @return string
      * @throws Exception
      */
-    public function get($target, $local = '') {
-        try{
-            if($local){
+    public function get($target, $local = '')
+    {
+        try {
+            if ($local) {
                 $options = array(
                     OssClient::OSS_FILE_DOWNLOAD => $local
                 );
@@ -105,11 +111,11 @@ class Oss extends Abstraction {
             } else {
                 $ret = $this->instance_obj->getObject($this->config['bucket'], $target);
             }
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             Logger::warning('下载失败', [$e->getMessage()]);
             throw new Exception($e->getMessage(), 5100004);
         }
 
-        return $local ? ($ret ? false : true) : $ret;
+        return $local ? !$ret : $ret;
     }
 }

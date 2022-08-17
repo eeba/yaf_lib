@@ -1,11 +1,14 @@
 <?php
+
 namespace Util;
 
 /**
  * 字符串处理
  */
-class Str {
-    public static function convert($value, $to_encoding, $from_encoding) {
+class Str
+{
+    public static function convert($value, $to_encoding, $from_encoding)
+    {
         if (empty($value)) {
             return $value;
         }

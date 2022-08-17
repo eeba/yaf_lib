@@ -1,9 +1,11 @@
 <?php
+
 namespace Base\Dao;
 
 use Base\Exception as Exception;
 
-class Cache {
+class Cache
+{
 
     protected static $cache;
 
@@ -23,7 +25,8 @@ class Cache {
      * @return array|bool|mixed
      * @throws Exception
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $function = null;
         foreach (self::$_functions as $need_function) {
             if (0 === stripos($name, $need_function)) {
@@ -35,7 +38,7 @@ class Cache {
         }
 
         $cache_type = ucfirst($this->cache_type);
-        if(!in_array($cache_type, ['Redis', 'Yac', 'Ipc'])){
+        if (!in_array($cache_type, ['Redis', 'Yac', 'Ipc'])) {
             throw new Exception("unsupported cache type: " . $this->cache_type);
         }
 
@@ -44,7 +47,7 @@ class Cache {
             throw new Exception("$cache_id not configured");
         }
 
-        if(!self::$cache[$cache_type]){
+        if (!self::$cache[$cache_type]) {
             $cache_class_name = '\\Cache\\' . $cache_type;
             self::$cache[$cache_type] = new $cache_class_name;
         }
@@ -91,12 +94,13 @@ class Cache {
     /**
      * 获取键
      *
-     * @param string       $cache_id 缓存标识
+     * @param string $cache_id 缓存标识
      * @param string|array $key 键
      *
      * @return string|array 添加前缀后的键
      */
-    protected function getKey($cache_id, $key) {
+    protected function getKey($cache_id, $key)
+    {
         $prefix = $this->$cache_id;
         $prefix = $prefix['prefix'];
 
@@ -116,9 +120,10 @@ class Cache {
      *
      * @param string $cache_id 缓存标识
      * @param string $prefix 键前缀
-     * @param int    $ttl default 86400 缓存时效, 默认1天
+     * @param int $ttl default 86400 缓存时效, 默认1天
      */
-    protected function setConfig($cache_id, $prefix, $ttl = self::DEFAULT_TTL) {
+    protected function setConfig($cache_id, $prefix, $ttl = self::DEFAULT_TTL)
+    {
         $cache_id = strtolower($cache_id);
         $this->$cache_id = array(
             'prefix' => $prefix,

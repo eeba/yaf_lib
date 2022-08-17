@@ -1,6 +1,8 @@
 <?php
+
 namespace Wechat;
 
+use Base\Exception;
 use EasyWeChat\Factory;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
@@ -11,9 +13,11 @@ class WeChat
     /**
      * @param string $account
      * @return mixed
+     * @throws Exception
      */
-    public static function app($account = '') {
-        if(!isset(self::$apps[$account]) || !self::$apps[$account]) {
+    public static function app(string $account = '')
+    {
+        if (!isset(self::$apps[$account]) || !self::$apps[$account]) {
             $config = \Base\Config::get('server.wechat.' . $account);
 
             //添加代理
@@ -30,6 +34,4 @@ class WeChat
         }
         return self::$apps[$account];
     }
-
-
 }

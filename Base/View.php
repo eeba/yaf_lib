@@ -42,7 +42,7 @@ class View implements \Yaf_View_Interface
         }
 
         //移动模板
-        if(defined('M') && M){
+        if (defined('M') && M) {
             $tpl = '/m' . $tpl;
         }
 

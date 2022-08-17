@@ -10,7 +10,7 @@ class Request extends \Yaf_Request_Http
         $data = json_decode($params_string, true);
         $data = is_array($data) ? $data : [];
         $data = array_merge($data, $_REQUEST); // 优先使用post参数
-        if($name){
+        if ($name) {
             return $data[$name] ?? $default;
         }
         return $data;

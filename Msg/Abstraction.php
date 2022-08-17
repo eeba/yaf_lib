@@ -1,10 +1,13 @@
 <?php
+
 namespace Msg;
 
-abstract class Abstraction {
+abstract class Abstraction
+{
     public $config;
 
-    public function __construct($config = '') {
+    public function __construct($config = '')
+    {
 
     }
 

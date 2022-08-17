@@ -1,5 +1,8 @@
 <?php
+
 namespace Thread;
+
+use Exception;
 
 /**
  * Class Master
@@ -22,7 +25,8 @@ namespace Thread;
  * 当进程数不足时, 会启动新的进程
  * 当进程数超过时, 按启动时间依次停止工作进程直到进程数符合要求
  */
-class Master {
+class Master
+{
 
     const MASTER_PID_FILE_PREFIX = "/var/run/PHP_THREAD_MASTER_PID.";
     const MASTER_SLEEP = 10;
@@ -33,7 +37,8 @@ class Master {
     protected $pids = array();
     protected $work_proc = array();
 
-    public function __construct() {
+    public function __construct()
+    {
         self::$_master_pid_file = self::MASTER_PID_FILE_PREFIX . APP;
 
         //进程组和回话组组长
@@ -61,7 +66,8 @@ class Master {
     /**
      * 启动并且实时监控工作进程
      */
-    public function main() {
+    public function main()
+    {
         Utils::echoInfo("master start");
         $this->registerSigHandler();
 
@@ -70,10 +76,9 @@ class Master {
         while (true) {
             $this->manageWorkers();
             pcntl_signal_dispatch();
-            if (!$this->isRunning)break;
+            if (!$this->isRunning) break;
             sleep(self::MASTER_SLEEP);
             pcntl_signal_dispatch();
-            if (!$this->isRunning)break;
         }
 
         //如果收到退出信号
@@ -93,7 +98,8 @@ class Master {
      * @access private
      * @return void
      */
-    public function sigHandler($sig) {
+    public function sigHandler(int $sig)
+    {
         Utils::echoInfo("master receive $sig");
         switch (intval($sig)) {
             case SIGCHLD:
@@ -124,7 +130,8 @@ class Master {
      * @access protected
      * @return void
      */
-    protected function registerSigHandler() {
+    protected function registerSigHandler()
+    {
         pcntl_signal(SIGTERM, array($this, 'sigHandler'));
         pcntl_signal(SIGHUP, array($this, 'sigHandler'));
         pcntl_signal(SIGCHLD, array($this, 'sigHandler'));
@@ -137,7 +144,8 @@ class Master {
      * @access protected
      * @return void
      */
-    protected function waitChild() {
+    protected function waitChild()
+    {
         while (($pid = pcntl_waitpid(-1, $status, WNOHANG)) > 0) {
             Utils::echoInfo("master waitpid $pid");
             unset($this->pids[$pid]);
@@ -149,7 +157,8 @@ class Master {
      *
      * @param null $pid
      */
-    protected function cleanup($pid = null) {
+    protected function cleanup($pid = null)
+    {
         Utils::echoInfo("clean up $pid");
         if (!$pid) {
             if (count($this->pids)) {
@@ -172,12 +181,13 @@ class Master {
      * @param string $class_name 子进程类名
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function fork($class_name) {
+    protected function fork(string $class_name): bool
+    {
         $pid = pcntl_fork();
         if ($pid == -1) {
-            throw new \Exception("can not fork new process");
+            throw new Exception("can not fork new process");
         } elseif ($pid) {
             $this->pids[$pid] = array(
                 'class_name' => $class_name,
@@ -193,8 +203,10 @@ class Master {
 
     /**
      * 管理进程
+     * @throws Exception
      */
-    protected function manageWorkers() {
+    protected function manageWorkers()
+    {
         $obj_thread_config = new Config();
         $thread_config = $obj_thread_config->getWorkerConfig();
         $this->work_proc = Utils::getWorkerProcessInfo($this->pids);

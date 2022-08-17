@@ -1,4 +1,5 @@
 <?php
+
 namespace Msg;
 
 use Base\Config;
@@ -9,7 +10,8 @@ use Swift_Mailer;
 use Swift_Message;
 use Swift_Attachment;
 
-class Email {
+class Email
+{
     protected $config = array();
     protected $need_config = array(
         'host',
@@ -20,8 +22,12 @@ class Email {
         'nickname'
     );
 
-    public function __construct($config) {
-        if(!is_array($config)){
+    /**
+     * @throws Exception
+     */
+    public function __construct($config)
+    {
+        if (!is_array($config)) {
             $config = Config::get($config);
         }
         if (!$config) {
@@ -45,10 +51,11 @@ class Email {
      * @return bool
      * @throws Exception
      */
-    public function send($mail, $object, $msg, $files = []) {
-        if(!is_array($mail)){
+    public function send($mail, $object, $msg, array $files = []): bool
+    {
+        if (!is_array($mail)) {
             $mail_list[] = $mail;
-        }else{
+        } else {
             $mail_list = $mail;
         }
 
@@ -77,6 +84,6 @@ class Email {
             Logger::error('邮件发送失败错误信息', [$e->getCode(), $e->getMessage(), $e]);
             throw new Exception($e->getMessage());
         }
-        return $ret ? true : false;
+        return (bool)$ret;
     }
 }

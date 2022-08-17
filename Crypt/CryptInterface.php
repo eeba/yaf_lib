@@ -1,7 +1,9 @@
 <?php
+
 namespace Crypt;
 
-interface CryptInterface {
+interface CryptInterface
+{
     /**
      * 统一加密
      * @param $plain

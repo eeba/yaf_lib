@@ -1,4 +1,5 @@
 <?php
+
 namespace Log;
 
 use Monolog\Formatter\HtmlFormatter;
@@ -50,11 +51,11 @@ class Logger
     public static function __callStatic($name, $arguments)
     {
         $function_num = strtolower($name);
-        if(!in_array(strtoupper($name), \Monolog\Logger::getLevels())){
+        if (!in_array(strtoupper($name), \Monolog\Logger::getLevels())) {
             $function_num = 'debug';
         }
         $message = $arguments[0];
-        $context = $arguments[1] ? : [];
+        $context = $arguments[1] ?: [];
         self::getInstance()->$function_num($message, $context);
     }
 

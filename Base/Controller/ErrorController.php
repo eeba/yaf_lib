@@ -25,7 +25,7 @@ class ErrorController extends Abstraction
             $this->res['msg'] = $exception->getMessage();
         }
 
-        if(\Base\Response::getFormatter() == \Base\Response::FORMAT_PLAIN){
+        if (\Base\Response::getFormatter() == \Base\Response::FORMAT_PLAIN) {
             $this->res = $this->res['msg'];
         }
 

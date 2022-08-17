@@ -1,5 +1,8 @@
 <?php
+
 namespace Cache;
+
+use Base\Exception;
 
 /**
  * Class \Base\Cache\Yac
@@ -12,7 +15,8 @@ namespace Cache;
  * there is 1/10000000 chance you will get a wrong data, but in the real application, this chance must be less.
  *
  */
-class Yac extends Abstraction {
+class Yac extends Abstraction
+{
     /**
      * @var \Yac $yac
      */
@@ -22,21 +26,23 @@ class Yac extends Abstraction {
      * @param string $key
      *
      * @return mixed
-     * @throws \Base\Exception
+     * @throws Exception
      */
-    public function get($key) {
+    public function get(string $key)
+    {
         return $this->getInstance()->get($this->hashKey($key));
     }
 
     /**
      * @param string $key
-     * @param mixed  $value
-     * @param int    $expire
+     * @param mixed $value
+     * @param int $expire
      *
      * @return bool
-     * @throws \Base\Exception
+     * @throws Exception
      */
-    public function set($key, $value, $expire = 60) {
+    public function set(string $key, $value, int $expire = 60): bool
+    {
         return $this->getInstance()->set($this->hashKey($key), $value, $expire);
     }
 
@@ -44,9 +50,10 @@ class Yac extends Abstraction {
      * @param string $key
      *
      * @return bool
-     * @throws \Base\Exception
+     * @throws Exception
      */
-    public function del($key) {
+    public function del(string $key): bool
+    {
         return $this->getInstance()->delete($this->hashKey($key));
     }
 
@@ -55,24 +62,28 @@ class Yac extends Abstraction {
      *
      * @return bool
      */
-    public function flush() {
+    public function flush(): bool
+    {
         return false;
     }
 
-    public function close() {
+    public function close()
+    {
         $this->yac = null;
 
         return true;
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->close();
     }
 
     /**
      * @return \Yac
      */
-    public function getInstance() {
+    public function getInstance()
+    {
         if (!$this->yac) {
             $this->yac = new \Yac(substr(APP . "_", 0, 16));
         }
@@ -87,7 +98,8 @@ class Yac extends Abstraction {
      *
      * @return string
      */
-    private function hashKey($key) {
+    private function hashKey(string $key): string
+    {
         return md5($key);
     }
 

@@ -1,17 +1,23 @@
 <?php
+
 namespace Validate\Type;
 
 use Base\Exception;
 use Validate\Abstraction;
 
-class Ip extends Abstraction {
+class Ip extends Abstraction
+{
 
-    public function action($param) {
-        $ret = filter_var($param['value'], FILTER_VALIDATE_IP);
-        if ($ret != false) {
-            return $param['value'];
+    /**
+     * @throws Exception
+     */
+    public function action($value)
+    {
+        $ret = filter_var($value['value'], FILTER_VALIDATE_IP);
+        if ($ret) {
+            return $value['value'];
         }
 
-        throw new Exception($param['msg']);
+        throw new Exception($value['msg']);
     }
 }

@@ -1,28 +1,33 @@
 <?php
+
 namespace Base\Dao;
 
 use Base\Request;
 
-trait TraitDb {
+trait TraitDb
+{
 
     /**
      * 事务开始
      */
-    public function begin() {
+    public function begin()
+    {
         self::db()->begin();
     }
 
     /**
      * 提交事务
      */
-    public function commit() {
+    public function commit()
+    {
         self::db()->commit();
     }
 
     /**
      * 回滚
      */
-    public function rollback() {
+    public function rollback()
+    {
         self::db()->rollback();
     }
 
@@ -33,7 +38,8 @@ trait TraitDb {
      * @return bool|int|null
      * @throws \Exception
      */
-    public function add($data) {
+    public function add($data)
+    {
         return self::db()->insert($this->table, $data);
     }
 
@@ -43,10 +49,11 @@ trait TraitDb {
      * @param array $data
      * @param array $where
      * @param array $order
-     * @param int   $limit
+     * @param int $limit
      * @return bool|int|null
      */
-    public function update(array $data = array(), array $where = array(), array $order = array(), $limit = 0) {
+    public function update(array $data = array(), array $where = array(), array $order = array(), $limit = 0)
+    {
         return self::db()->update($this->table, $data, $where, $order, $limit);
     }
 
@@ -55,35 +62,38 @@ trait TraitDb {
      *
      * @param        $id
      * @param string $cols
-     * @param array  $order
+     * @param array $order
      * @return array
      */
-    public function findById($id, $cols = '*', array $order = array()) {
+    public function findById($id, $cols = '*', array $order = array())
+    {
         return self::db()->find($this->table, ['id' => $id], $cols, $order);
     }
 
     /**
      * 查一条数据
      *
-     * @param array  $where
+     * @param array $where
      * @param string $cols
-     * @param array  $order
+     * @param array $order
      * @return array
      */
-    public function find($where = [], $cols = '*', array $order = array()) {
+    public function find($where = [], $cols = '*', array $order = array())
+    {
         return self::db()->find($this->table, $where, $cols, $order);
     }
 
     /**
      * 查多条数据
      *
-     * @param array  $where
+     * @param array $where
      * @param string $cols
-     * @param array  $order
-     * @param int    $limit
+     * @param array $order
+     * @param int $limit
      * @return bool|int|array|null
      */
-    public function getList(array $where = array(), $cols = '*', array $order = array(), $limit = 0) {
+    public function getList(array $where = array(), $cols = '*', array $order = array(), $limit = 0)
+    {
         return self::db()->select($this->table, $where, $cols, $order, $limit);
     }
 
@@ -92,10 +102,11 @@ trait TraitDb {
      *
      * @param array $where
      * @param array $order
-     * @param int   $limit
+     * @param int $limit
      * @return bool|int|null
      */
-    public function delete(array $where = array(), array $order = array(), $limit = 1){
+    public function delete(array $where = array(), array $order = array(), $limit = 1)
+    {
         return self::db()->delete($this->table, $where, $order, $limit);
     }
 
@@ -106,7 +117,8 @@ trait TraitDb {
      * @param array $params
      * @return bool|int|array|null
      */
-    public function query($sql, $params = []) {
+    public function query($sql, $params = [])
+    {
         return self::db()->query($sql, $params);
     }
 
@@ -116,7 +128,8 @@ trait TraitDb {
      * @param array $where
      * @return mixed
      */
-    public function count($where = []) {
+    public function count($where = [])
+    {
         $ret = $this->find($where, 'count(1) num');
         return $ret['num'];
     }
@@ -124,12 +137,13 @@ trait TraitDb {
     /**
      * 和JQuery DataTables插件配合使用
      *
-     * @param array  $where
+     * @param array $where
      * @param string $cols
-     * @param array  $order
+     * @param array $order
      * @return mixed
      */
-    public function dataTable(array $where = [], $cols = '*', array $order = []) {
+    public function dataTable(array $where = [], $cols = '*', array $order = [])
+    {
         if (is_array($cols) && !empty($cols)) {
             $cols = implode(',', array_map(function ($v) {
                 return "`{$v}`";

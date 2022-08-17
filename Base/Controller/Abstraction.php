@@ -12,7 +12,7 @@ class Abstraction extends \Yaf_Controller_Abstract
     protected function init()
     {
         \Yaf_Dispatcher::getInstance()->disableView();
-        if(!Response::getFormatter()){
+        if (!Response::getFormatter()) {
             if ($this->isAjax()) {
                 Response::setFormatter(Response::FORMAT_JSON);
             } else {

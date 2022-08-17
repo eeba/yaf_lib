@@ -1,17 +1,21 @@
 <?php
+
 namespace Base;
 
-class Node {
+class Node
+{
 
     private $path = '';
     private $file_list = [];
 
-    public function __construct($path, $filter = []) {
+    public function __construct($path, $filter = [])
+    {
         $this->path = rtrim($path);
         $this->filter = $filter;
     }
 
-    public function nodeList() {
+    public function nodeList()
+    {
         $this->fileList($this->path);
         $node = [];
         if (!$this->file_list) {
@@ -52,7 +56,8 @@ class Node {
         return $node;
     }
 
-    private function fileList($path) {
+    private function fileList($path)
+    {
         $dir_handler = opendir($path);
         while ($file = readdir($dir_handler)) {
             if ($file == '.' || $file == '..') {

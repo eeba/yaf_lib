@@ -1,7 +1,9 @@
 <?php
+
 namespace Queue;
 
-abstract class Abstraction {
+abstract class Abstraction
+{
     /**
      * 队列的入队操作
      * @param       $queue_name
@@ -9,7 +11,7 @@ abstract class Abstraction {
      * @param array $option
      * @return mixed
      */
-    abstract function push($queue_name, $value, $option = array());
+    abstract function push($queue_name, $value, array $option = array());
 
     /**
      * 队列的出队操作
@@ -17,7 +19,7 @@ abstract class Abstraction {
      * @param array $option
      * @return mixed
      */
-    abstract function pop($queue_name, $option = array());
+    abstract function pop($queue_name, array $option = array());
 
     /**
      * 队列的长度

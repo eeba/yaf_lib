@@ -1,11 +1,13 @@
 <?php
+
 namespace Base\Dao;
 
 use Base\Config;
 use Base\Exception;
 use Log\Logger;
 
-class Mysql {
+class Mysql
+{
     private $db_name = '';
     private $db = [];
     private $stmt = null;
@@ -21,18 +23,21 @@ class Mysql {
      * Mysql constructor.
      * @param string $name 数据库名称
      */
-    public function __construct($name) {
+    public function __construct($name)
+    {
         $this->db_name = $name;
-        if(!$this->config) {
+        if (!$this->config) {
             $this->config = Config::get('server.mysql.' . $name);
         }
     }
 
-    protected function getId($mode) {
+    protected function getId($mode)
+    {
         return $mode . $this->db_name;
     }
 
-    protected function getDbMode($sql) {
+    protected function getDbMode($sql)
+    {
         //不区分读写模式时，直接用写模式，连接master
         if (!$this->mode_flag) {
             return self::WRITE;
@@ -51,13 +56,14 @@ class Mysql {
         return $mode;
     }
 
-    private function connect($config) {
+    private function connect($config)
+    {
         $option = array();
         if (isset($config['pconnect']) && $config['pconnect'] === true) {
             $option[\PDO::ATTR_PERSISTENT] = true;
         }
         // MYSQL查询缓存
-        $option[\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY]	= true;
+        $option[\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY] = true;
 
         // 错误处理方式，使用异常
         $option[\PDO::ATTR_ERRMODE] = \PDO::ERRMODE_EXCEPTION;
@@ -79,7 +85,8 @@ class Mysql {
         return new \PDO($dsn, $config['username'], $config['password'], $option);
     }
 
-    protected function getPdo($mode = self::READ){
+    protected function getPdo($mode = self::READ)
+    {
         $key = $this->getId($mode);
         if (!isset($this->db[$key])) {
             $this->db[$key] = $this->connect($this->config[$mode]);
@@ -87,7 +94,8 @@ class Mysql {
         return $this->db[$key];
     }
 
-    public function setModeFlag($flag){
+    public function setModeFlag($flag)
+    {
         $this->mode_flag = $flag;
     }
 
@@ -99,7 +107,8 @@ class Mysql {
      * @return bool|int|null
      * @throws \Exception
      */
-    public function query($sql, $params = array()) {
+    public function query($sql, $params = array())
+    {
         $this->exec($sql, $params);
         $tags = explode(' ', trim($sql), 2);
         switch (strtoupper($tags[0])) {
@@ -127,7 +136,8 @@ class Mysql {
      * @return bool|int|null
      * @throws \Exception
      */
-    public function insert($table_name, $data) {
+    public function insert($table_name, $data)
+    {
         $cols = implode(',', array_map(function ($v) {
             return "`{$v}`";
         }, array_keys($data)));
@@ -144,11 +154,12 @@ class Mysql {
      * @param array $data
      * @param array $where
      * @param array $order
-     * @param int   $limit
+     * @param int $limit
      * @return bool|int|null
      * @throws \Exception
      */
-    public function update($table_name, array $data = array(), array $where = array(), array $order = array(), $limit = 0) {
+    public function update($table_name, array $data = array(), array $where = array(), array $order = array(), $limit = 0)
+    {
         $params = array();
         foreach ($data as $key => $value) {
             $set_sql[] = "`{$key}` = ?";
@@ -165,11 +176,12 @@ class Mysql {
      * @param       $table_name
      * @param array $where
      * @param array $order
-     * @param int   $limit
+     * @param int $limit
      * @return bool|int|null
      * @throws \Exception
      */
-    public function delete($table_name, array $where = array(), array $order = array(), $limit = 1) {
+    public function delete($table_name, array $where = array(), array $order = array(), $limit = 1)
+    {
         $where_sql = $this->toSql($where, $order, $limit);
         $sql = "delete from {$table_name} where {$where_sql['sql']}";
         return $this->query($sql, $where_sql['params']);
@@ -179,14 +191,15 @@ class Mysql {
      * 查询多条数据
      *
      * @param        $table_name
-     * @param array  $where
+     * @param array $where
      * @param string $cols
-     * @param array  $order
-     * @param int    $limit
+     * @param array $order
+     * @param int $limit
      * @return bool|int|null
      * @throws \Exception
      */
-    public function select($table_name, array $where = array(), $cols = '*', array $order = array(), $limit = 0) {
+    public function select($table_name, array $where = array(), $cols = '*', array $order = array(), $limit = 0)
+    {
         if (is_array($cols) && !empty($cols)) {
             $cols = implode(',', array_map(function ($v) {
                 return "`{$v}`";
@@ -203,13 +216,14 @@ class Mysql {
      * 查打单条数据
      *
      * @param        $table_name
-     * @param array  $where
+     * @param array $where
      * @param string $cols
-     * @param array  $order
+     * @param array $order
      * @return array
      * @throws \Exception
      */
-    public function find($table_name, array $where = array(), $cols = '*', array $order = array()) {
+    public function find($table_name, array $where = array(), $cols = '*', array $order = array())
+    {
         $result = $this->select($table_name, $where, $cols, $order, 1);
         return $result ? $result[0] : [];
     }
@@ -217,7 +231,8 @@ class Mysql {
     /**
      * 开启
      */
-    public function begin() {
+    public function begin()
+    {
         $this->in_transaction = true;
         $this->getPdo(self::WRITE)->beginTransaction();
     }
@@ -225,7 +240,8 @@ class Mysql {
     /**
      * 提交
      */
-    public function commit() {
+    public function commit()
+    {
         $this->in_transaction = false;
         $this->getPdo(self::WRITE)->commit();
     }
@@ -233,7 +249,8 @@ class Mysql {
     /**
      * 回滚
      */
-    public function rollback() {
+    public function rollback()
+    {
         $this->in_transaction = false;
         $this->getPdo(self::WRITE)->rollBack();
     }
@@ -243,37 +260,38 @@ class Mysql {
      *
      * @param array $param
      * @param array $order
-     * @param int   $limit
+     * @param int $limit
      * @return array
      */
-    public function toSql(array $param = array(), array $order = array(), $limit = 0) {
+    public function toSql(array $param = array(), array $order = array(), $limit = 0)
+    {
         $sql = '';
         $where = array();
         $params = array();
         if (!empty($param)) {
             foreach ($param as $key => $value) {
                 if (is_array($value)) {
-                    if(
+                    if (
                         isset($value['gt']) ||
                         isset($value['gte']) ||
                         isset($value['lt']) ||
                         isset($value['lte']) ||
                         isset($value['neq']) ||
                         isset($value['like'])
-                    ){
-                        if(isset($value['gt'])){//大于
+                    ) {
+                        if (isset($value['gt'])) {//大于
                             $where[] = "`{$key}` > ?";
                             $params[] = $value['gt'];
                         }
-                        if(isset($value['gte'])){//大于等于
+                        if (isset($value['gte'])) {//大于等于
                             $where[] = "`{$key}` >= ?";
                             $params[] = $value['gte'];
                         }
-                        if(isset($value['lt'])){//小于
+                        if (isset($value['lt'])) {//小于
                             $where[] = "`{$key}` < ?";
                             $params[] = $value['lt'];
                         }
-                        if(isset($value['lte'])){//小于等于
+                        if (isset($value['lte'])) {//小于等于
                             $where[] = "`{$key}` <= ?";
                             $params[] = $value['lte'];
                         }
@@ -327,7 +345,8 @@ class Mysql {
      * @return null|\PDOStatement
      * @throws \Exception
      */
-    private function exec($sql, $params) {
+    private function exec($sql, $params)
+    {
         //执行
         $_start = microtime(true);
         $mode = $this->getDbMode($sql);
@@ -344,7 +363,7 @@ class Mysql {
         $_end = microtime(true);
 
         //记录执行的sql
-        if(defined('DEBUG') && DEBUG){
+        if (defined('DEBUG') && DEBUG) {
             $debug_sql = $sql;
             foreach ($params as $param) {
                 $debug_sql = substr_replace($debug_sql, $param, strpos($debug_sql, "?"), 1);
@@ -360,7 +379,8 @@ class Mysql {
      * @param null $name
      * @return bool|int
      */
-    public function lastInsertId($name = null) {
+    public function lastInsertId($name = null)
+    {
         $last = $this->getPdo(self::WRITE)->lastInsertId($name);
         if (false === $last) {
             return false;
@@ -374,7 +394,8 @@ class Mysql {
     /**
      * 关闭数据库连接
      */
-    public function __destruct() {
+    public function __destruct()
+    {
         $read_id = $this->getId(self::READ);
         if (isset($this->db[$read_id])) {
             $this->db[$read_id] = null;

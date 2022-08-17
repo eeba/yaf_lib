@@ -1,4 +1,5 @@
 <?php
+
 namespace Util;
 
 /**
@@ -11,7 +12,8 @@ namespace Util;
  * prefix有连续性方便DB顺序存储
  * 体积小，8字节为佳
  */
-class Guid {
+class Guid
+{
     protected static $while = 0;
 
 
@@ -29,7 +31,8 @@ class Guid {
      * @param string $flag
      * @return string
      */
-    public static function getUid($flag = "") {
+    public static function getUid(string $flag = ""): string
+    {
         self::$while++;
         $num = '';
         $num .= microtime(true) * 10000;//14位 时间戳
@@ -43,10 +46,11 @@ class Guid {
     /**
      * 进制转换
      * @param $num
-     * @param $flag
+     * @param string $flag
      * @return string
      */
-    public static function Hex($num, $flag=''){
+    public static function Hex($num, string $flag = ''): string
+    {
         $dict = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $ret = '';
         $hex = 62;

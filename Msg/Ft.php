@@ -1,9 +1,12 @@
 <?php
+
 namespace Msg;
 
-class Ft extends Abstraction {
+class Ft extends Abstraction
+{
 
-    public function send($to, $title, $msg, $files = []) {
+    public function send($to, $title, $msg, $files = [])
+    {
         $post_data = http_build_query(
             array(
                 'text' => $title,

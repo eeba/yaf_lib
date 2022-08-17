@@ -1,4 +1,5 @@
 <?php
+
 namespace Security;
 
 use Base\Dao\Redis;
@@ -54,7 +55,7 @@ class Freq
      * @param $key
      * @return int
      */
-    public function get($rule_name, $key)
+    public function get($rule_name, $key): int
     {
         return (int)self::$_redis->get($rule_name . '_' . $key);
     }
@@ -66,7 +67,7 @@ class Freq
      * @param $key
      * @return int
      */
-    public function clear($rule_name, $key)
+    public function clear($rule_name, $key): int
     {
         return self::$_redis->del($rule_name . '_' . $key);
     }
@@ -79,7 +80,7 @@ class Freq
      * @param $threshold
      * @return bool
      */
-    public function check($rule_name, $key, $threshold)
+    public function check($rule_name, $key, $threshold): bool
     {
         return $threshold > $this->get($rule_name, $key);
     }
@@ -93,7 +94,7 @@ class Freq
      * @param $increment
      * @return int
      */
-    public function incr($rule_name, $key, $ttl, $increment)
+    public function incr($rule_name, $key, $ttl, $increment): int
     {
         $key = $rule_name . '_' . $key;
         $result = self::$_redis->incrBy($key, $increment);
@@ -114,7 +115,7 @@ class Freq
      * @param int $increment
      * @return false|int
      */
-    public function add($rule_name, $key, $threshold, $ttl, $increment = 1)
+    public function add($rule_name, $key, $threshold, $ttl, int $increment = 1)
     {
         if (!$this->check($rule_name, $key, $threshold)) {
             return false;
@@ -133,9 +134,9 @@ class Freq
      * @param int $freqDesc 自然周期 0-每自然日 1-每自然周 2-每自然月 3-每自然年
      * @param int $increment default 1 单次增加频率数量
      *
-     * @return bool|string
+     * @return bool
      */
-    public function addByNaturalTime($rule_name, $key, $threshold, $freqDesc, $increment = 1)
+    public function addByNaturalTime(string $rule_name, string $key, int $threshold, int $freqDesc, int $increment = 1)
     {
         return $this->add($rule_name, $key, $threshold, self::getTTL($freqDesc), $increment);
     }
@@ -144,9 +145,9 @@ class Freq
      * 根据频率描述符获取对应过期时间
      *
      * @param $freqDesc 1-每自然日 2-每自然周 3-每自然月 4-每自然年
-     * @return false|int
+     * @return int
      */
-    public static function getTTL($freqDesc)
+    public static function getTTL($freqDesc): int
     {
         $timestamp = time();
         switch ($freqDesc) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Thread;
 
 /**
@@ -20,7 +21,8 @@ namespace Thread;
  *
  * process方法中的异常不会影响当前进程的中断退出
  */
-abstract class Worker {
+abstract class Worker
+{
 
     protected $isRunning = false;
     protected $includedFile = null;
@@ -34,7 +36,8 @@ abstract class Worker {
      * @access public
      * @return void
      */
-    public function doTask() {
+    public function doTask()
+    {
         $this->runStartTime = time();
         $this->isRunning = true;
         $this->registerSigHandler();
@@ -80,8 +83,6 @@ abstract class Worker {
                 sleep($this->whileSleep);
             }
             pcntl_signal_dispatch();
-            if (!$this->isRunning)
-                break;
         }
         exit;
     }
@@ -92,7 +93,8 @@ abstract class Worker {
      * @access public
      * @return void
      */
-    public function stop() {
+    public function stop()
+    {
         Utils::echoInfo(cli_get_process_title() . " revice stop sign");
         $this->isRunning = false;
     }
@@ -103,7 +105,8 @@ abstract class Worker {
      * @access protected
      * @return void
      */
-    protected function registerSigHandler() {
+    protected function registerSigHandler()
+    {
         pcntl_signal(SIGINT, SIG_IGN);
         pcntl_signal(SIGHUP, SIG_IGN);
         pcntl_signal(SIGQUIT, SIG_IGN);
@@ -118,8 +121,9 @@ abstract class Worker {
      * @access protected
      * @return void
      */
-    protected function sigHandler($sig) {
-        switch (intval($sig)) {
+    protected function sigHandler(int $sig)
+    {
+        switch ($sig) {
             case SIGTERM:
                 $this->stop();
                 break;
@@ -131,7 +135,8 @@ abstract class Worker {
     /**
      * 检查文件变更
      */
-    protected function checkIncludedFiles() {
+    protected function checkIncludedFiles(): bool
+    {
         if (!$this->includedFile) {
             $this->includedFile = Utils::getIncludedFilesMd5();
 
@@ -148,7 +153,8 @@ abstract class Worker {
     /**
      * 检查循环次数
      */
-    protected function checkRunNum() {
+    protected function checkRunNum(): bool
+    {
         $thread_config = new Config();
         $class_name = "\\" . get_class($this);
         if ($this->runNum >= $thread_config->getWorkerDealNum($class_name)) {
@@ -161,7 +167,8 @@ abstract class Worker {
     /**
      * 检查生存时长
      */
-    protected function checkRunTtl() {
+    protected function checkRunTtl(): bool
+    {
         $thread_config = new Config();
         $class_name = "\\" . get_class($this);
         if ((time() - $this->runStartTime) >= $thread_config->getWorkerTtl($class_name)) {

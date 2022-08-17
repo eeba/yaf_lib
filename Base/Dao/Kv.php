@@ -1,9 +1,11 @@
 <?php
+
 namespace Base\Dao;
 
 use Base\Exception as Exception;
 
-class Kv {
+class Kv
+{
     public $name = 'server.redis.kv';
 
     ///定义支持的操作
@@ -16,7 +18,8 @@ class Kv {
      * @return array|bool|mixed
      * @throws Exception
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $function = null;
         foreach (self::$_functions as $need_function) {
             if (0 === stripos($name, $need_function)) {
@@ -46,7 +49,7 @@ class Kv {
             $key = $this->getKey($cache_id, $arguments[0]);
             $ret = $kv->del($key) ? true : false;
         } else if ("mget" == $function) {
-            $keys = $this->getKey($cache_id,  $arguments[0]);
+            $keys = $this->getKey($cache_id, $arguments[0]);
             $vals = $kv->mget($keys);
             $ret = array();
             foreach ($keys as $idx => $key) {
@@ -72,12 +75,13 @@ class Kv {
     /**
      * 获取键
      *
-     * @param string       $cache_id 缓存标识
+     * @param string $cache_id 缓存标识
      * @param string|array $key 键
      *
      * @return string|array 添加前缀后的键
      */
-    protected function getKey($cache_id, $key) {
+    protected function getKey($cache_id, $key)
+    {
         $prefix = $this->$cache_id;
 
         if (is_array($key)) {
@@ -97,7 +101,8 @@ class Kv {
      * @param string $cache_id 缓存标识
      * @param string $prefix 键前缀
      */
-    protected function setConfig($cache_id, $prefix) {
+    protected function setConfig($cache_id, $prefix)
+    {
         $cache_id = strtolower($cache_id);
         $this->$cache_id = $prefix;
     }

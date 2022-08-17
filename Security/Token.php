@@ -1,12 +1,15 @@
 <?php
+
 namespace Security;
 
 use Cache\Redis as Cache;
+
 /**
  * 生成表单校验用的token
  * 防止CSRF攻击
  */
-class Token {
+class Token
+{
     const RANDOM = "8b6e0b17a6ba914482dfd942fc389cc5";
     const REDIS_KEY = "SECURITY_TOKEN_";
     const REDIS_VALUE = 1;
@@ -16,26 +19,27 @@ class Token {
      * 生成表单token
      *
      * @param array $data 表单上的既定项
-     * @param bool  $uniq token是否具有唯一性
+     * @param bool $uniq token是否具有唯一性
      * @return string
      */
-    public static function getFormToken(array $data = array(), $uniq = false) {
+    public static function getFormToken(array $data = array(), bool $uniq = false): string
+    {
         $controller = (new \Yaf\Request\Http())->getControllerName();
         $time = microtime(true);
-        $token = $time . "|" . $controller . "|" . $uniq . "|" . md5($time . $controller . $uniq . serialize($data) . self::RANDOM);
-        return $token;
+        return $time . "|" . $controller . "|" . $uniq . "|" . md5($time . $controller . $uniq . serialize($data) . self::RANDOM);
     }
 
     /**
      * 校验token
      *
      * @param        $token
-     * @param array  $data 表单上的既定项
-     * @param bool   $ttl token有效时间 单位秒
-     * @param string $controller default null token来源控制器, 默认不校验
+     * @param array $data 表单上的既定项
+     * @param bool $ttl token有效时间 单位秒
+     * @param string|null $controller default null token来源控制器, 默认不校验
      * @return bool
      */
-    public static function checkFormToken($token, array $data = array(), $ttl = false, $controller = null) {
+    public static function checkFormToken($token, array $data = array(), bool $ttl = false, string $controller = null): bool
+    {
         $ret = explode("|", $token);
         $time = $ret[0];
         $name = $ret[1];

@@ -1,17 +1,23 @@
 <?php
+
 namespace Validate\Type;
 
 use Base\Exception;
 use Validate\Abstraction;
 
-class In extends Abstraction {
+class In extends Abstraction
+{
 
-    public function action($param) {
-        if (in_array($param['value'], $param['in_list'])) {
-            return $param['value'];
+    /**
+     * @throws Exception
+     */
+    public function action($value)
+    {
+        if (in_array($value['value'], $value['in_list'])) {
+            return $value['value'];
         }
 
-        throw new Exception($param['msg']);
+        throw new Exception($value['msg']);
     }
 
 }

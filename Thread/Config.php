@@ -1,4 +1,5 @@
 <?php
+
 namespace Thread;
 
 /**
@@ -24,7 +25,8 @@ namespace Thread;
  *
  * $master->main();
  */
-class Config {
+class Config
+{
 
     const THREAD_CONFIG_FILE_PREFIX = "/tmp/thread_config_file."; //子进程配置文件默认存放路径前缀
     const WORK_TTL = 8640;  //子进程1小时，回收
@@ -34,7 +36,8 @@ class Config {
 
     protected $_config = array();
 
-    public function __construct() {
+    public function __construct()
+    {
         self::$_thread_config_file = self::THREAD_CONFIG_FILE_PREFIX . APP . ".conf";
     }
 
@@ -42,14 +45,15 @@ class Config {
      * 设置工作进程的配置
      *
      * @param string $class_name 类名(包括命名空间)
-     * @param int    $work_num 工作进程数
-     * @param int    $ttl 进程工作多少时间会被回收     默认一天
-     * @param int    $deal_num 进程循环处理多少次会被回收   默认1000000次
+     * @param int $work_num 工作进程数
+     * @param int $ttl 进程工作多少时间会被回收     默认一天
+     * @param int $deal_num 进程循环处理多少次会被回收   默认1000000次
      *
      * @return bool
      *
      */
-    public function setWorkerConfig($class_name, $work_num, $ttl = 0, $deal_num = 0) {
+    public function setWorkerConfig(string $class_name, int $work_num, int $ttl = 0, int $deal_num = 0): bool
+    {
         if ($ttl === 0) {
             $ttl = rand(self::WORK_TTL, self::WORK_TTL + 1000);
         }
@@ -74,7 +78,8 @@ class Config {
      *
      * @return array
      */
-    public function getWorkerConfig() {
+    public function getWorkerConfig(): array
+    {
         $this->_getConfigByFile();
 
         return $this->_config;
@@ -87,7 +92,8 @@ class Config {
      *
      * @return int
      */
-    public function getWorkerTtl($class_name) {
+    public function getWorkerTtl(string $class_name): int
+    {
         $this->_getConfigByFile();
 
         return $this->_config[$class_name]['ttl'];
@@ -100,7 +106,8 @@ class Config {
      *
      * @return int
      */
-    public function getWorkerNum($class_name) {
+    public function getWorkerNum(string $class_name): int
+    {
         $this->_getConfigByFile();
 
         return $this->_config[$class_name]['work_num'];
@@ -113,7 +120,8 @@ class Config {
      *
      * @return int
      */
-    public function getWorkerDealNum($class_name) {
+    public function getWorkerDealNum(string $class_name): int
+    {
         $this->_getConfigByFile();
 
         return $this->_config[$class_name]['deal_num'];
@@ -122,29 +130,28 @@ class Config {
     /**
      * 从配置文件中加载进程配置
      *
-     * @return bool
+     * @return void
      */
-    private function _getConfigByFile() {
+    private function _getConfigByFile(): void
+    {
         $config = file_get_contents(self::$_thread_config_file);
         if ($config) {
             $this->_config = json_decode($config, true);
         } else {
             $this->_config = array();
         }
-
-        return true;
     }
 
     /**
      * 更新进程配置文件
      *
-     * @return bool
+     * @return void
      */
-    private function _setConfigByFile() {
+    private function _setConfigByFile(): void
+    {
         if (!file_exists(self::$_thread_config_file) || md5(json_encode($this->_config)) !== md5_file(self::$_thread_config_file)) {
             file_put_contents(self::$_thread_config_file, json_encode($this->_config));
         }
-        return true;
     }
 
 }

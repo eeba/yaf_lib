@@ -1,29 +1,33 @@
 <?php
+
 namespace Base\Plugin;
 
 
 use Base\Exception;
 
-class Auth extends \Yaf_Plugin_Abstract{
+class Auth extends \Yaf_Plugin_Abstract
+{
     private $white_list = [
         '/admin/login/index',
         '/admin/login/dologin',
         '/admin/login/captcha',
         '/admin/index/index',
     ];
+
     /**
      * Admin模块访问权限
      *
-     * @param \Yaf_Request_Abstract  $request
+     * @param \Yaf_Request_Abstract $request
      * @param \Yaf_Response_Abstract $response
      *
      * @return bool|void
      * @throws Exception
      */
-    public function dispatchLoopStartup(\Yaf_Request_Abstract $request, \Yaf_Response_Abstract $response) {
+    public function dispatchLoopStartup(\Yaf_Request_Abstract $request, \Yaf_Response_Abstract $response)
+    {
         $uri = strtolower($request->getRequestUri());
-        $admin_acl = isset($_SESSION['admin_acl']) ? $_SESSION['admin_acl'] : [];
-        if(!in_array($uri, $this->white_list)){
+        $admin_acl = $_SESSION['admin_acl'] ?? [];
+        if (!in_array($uri, $this->white_list)) {
             if (!isset($_SESSION['admin_info'])) {
                 throw new Exception("您已退出，请先<a onclick='parent.window.location.reload();' style='cursor: pointer;'>登录</a>");
             }
@@ -34,10 +38,10 @@ class Auth extends \Yaf_Plugin_Abstract{
         }
     }
 
-    protected function setWhiteList($white_list = []){
+    protected function setWhiteList($white_list = [])
+    {
         $this->white_list = array_merge($this->white_list, $white_list);
     }
-
 
 
 }

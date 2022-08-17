@@ -1,4 +1,5 @@
 <?php
+
 namespace Validate\Type;
 
 use Base\Exception;
@@ -7,13 +8,18 @@ use Validate\Abstraction;
 /**
  * 身份证号码验证（18位，15位数字或17位数字+X|x）
  */
-class Identify extends Abstraction {
-    public function action($param) {
-        if (preg_match('/(^\d{15}$)|(^\d{17}[0-9Xx]$)/', $param['value']) && self::checkIdentity($param['value'])) {
-            return $param['value'];
+class Identify extends Abstraction
+{
+    /**
+     * @throws Exception
+     */
+    public function action($value)
+    {
+        if (preg_match('/(^\d{15}$)|(^\d{17}[0-9Xx]$)/', $value['value']) && self::checkIdentity($value['value'])) {
+            return $value['value'];
         }
 
-        throw new Exception($param['msg']);
+        throw new Exception($value['msg']);
     }
 
     /**
@@ -21,7 +27,8 @@ class Identify extends Abstraction {
      * @param $id_num
      * @return bool
      */
-    private static function checkIdentity($id_num) {
+    private static function checkIdentity($id_num): bool
+    {
         //15位无校验位
         if (strlen($id_num) == 15) {
             return true;

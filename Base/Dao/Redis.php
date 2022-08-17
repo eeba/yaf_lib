@@ -30,7 +30,8 @@ use Base\Exception;
  * @method hIncrBy($key, $hashKey, $value)
  * @package Db
  */
-class Redis {
+class Redis
+{
 
     const DEFAULT_CONNECT_TIMEOUT = 5;
     const NAME_DEFAULT = 'server.redis.common';
@@ -41,7 +42,8 @@ class Redis {
 
     private $_persistent = false;   //用于判断是否使用持久连接
 
-    public function __construct($config_name = self::NAME_DEFAULT) {
+    public function __construct($config_name = self::NAME_DEFAULT)
+    {
         $this->config_name = $config_name;
     }
 
@@ -49,7 +51,8 @@ class Redis {
      * @return mixed
      * @throws Exception
      */
-    public function getInstance() {
+    public function getInstance()
+    {
         if (!isset(self::$res[$this->config_name])) {
             self::$res[$this->config_name] = new \Redis();
             $this->configure();
@@ -63,7 +66,8 @@ class Redis {
      * 获取配置
      * @throws Exception
      */
-    protected function configure() {
+    protected function configure()
+    {
         $this->config = Config::get($this->config_name);
         if (!$this->config) {
             throw new Exception(get_class($this) . " need be configured. Config : `{$this->config_name}`");
@@ -79,7 +83,8 @@ class Redis {
      * @return mixed
      * @throws Exception
      */
-    protected function connect() {
+    protected function connect()
+    {
         try {
             if (isset($this->config['persistent']) && $this->config['persistent']) {
                 $this->_persistent = true;
@@ -95,7 +100,7 @@ class Redis {
                     self::$res[$this->config_name]->connect($this->config['host'], $this->config['port'], $this->config['timeout'] ?: self::DEFAULT_CONNECT_TIMEOUT);
                 }
             }
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new Exception("redis connect " . $this->config['host'] . " fail");
         }
 
@@ -107,7 +112,8 @@ class Redis {
      *
      * @throws Exception
      */
-    protected function setOptions() {
+    protected function setOptions()
+    {
         if (isset($this->config['auth']) && $this->config['auth']) {
             $password = isset($this->config['user']) && $this->config['user'] ? $this->config['user'] . ':' . $this->config['auth'] : $this->config['auth'];
             if (self::$res[$this->config_name]->auth($password) == false) {
@@ -129,7 +135,8 @@ class Redis {
      * @return mixed
      * @throws Exception
      */
-    public function __call($name, $args = array()) {
+    public function __call($name, $args = array())
+    {
         try {
             $ret = call_user_func_array(array($this->getInstance(), $name), $args);
         } catch (\Exception $e) {
@@ -151,7 +158,8 @@ class Redis {
      *
      * @return bool
      */
-    public function flush() {
+    public function flush()
+    {
         return false;
     }
 
@@ -160,7 +168,8 @@ class Redis {
      *
      * @return bool
      */
-    public function close() {
+    public function close()
+    {
         (self::$res[$this->config_name] && isset(self::$res[$this->config_name]->socket)) && self::$res[$this->config_name]->close();
         self::$res[$this->config_name] = null;
 
@@ -170,7 +179,8 @@ class Redis {
     /**
      * 销毁链接
      */
-    public function __destruct() {
+    public function __destruct()
+    {
         if (!$this->_persistent) {
             $this->close();
         }

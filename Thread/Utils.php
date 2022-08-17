@@ -1,4 +1,5 @@
 <?php
+
 namespace Thread;
 
 /**
@@ -13,14 +14,16 @@ namespace Thread;
  *     获取worker进程的讯息，包括：worker进程数量，处理任务数量上限，生命周期
  *     打印带有时间戳的讯息到标准输出流
  */
-class Utils {
+class Utils
+{
 
     /**
      * 获取所有相关文件的md5
      *
      * @return array
      */
-    public static function getIncludedFilesMd5() {
+    public static function getIncludedFilesMd5()
+    {
         $ret = array();
         $files = get_included_files();
         foreach ($files as $file) {
@@ -35,7 +38,8 @@ class Utils {
      *
      * @param string $title 进程标题
      */
-    public static function setProcessTitle($title) {
+    public static function setProcessTitle(string $title)
+    {
         if (function_exists('cli_set_process_title')) {
             cli_set_process_title($title);
         } else if (function_exists('setproctitle')) {
@@ -50,7 +54,8 @@ class Utils {
      *
      * @return array
      */
-    public static function getWorkerProcessInfo(array $pids) {
+    public static function getWorkerProcessInfo(array $pids): array
+    {
         $ret = array();
         foreach ($pids as $pid => $info) {
             $ret[$info['class_name']][] = $pid;
@@ -64,7 +69,8 @@ class Utils {
      *
      * @param string $msg 待输出信息
      */
-    public static function echoInfo($msg) {
+    public static function echoInfo(string $msg)
+    {
         echo date("Y-m-d H:i:s") . " $msg \n";
     }
 

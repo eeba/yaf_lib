@@ -1,15 +1,21 @@
 <?php
+
 namespace Validate\Type;
 
 use Base\Exception;
 use Validate\Abstraction;
 
-class Digit extends Abstraction {
-    public function action($param) {
-        if (is_numeric($param['value'])) {
-            return $param['value'];
+class Digit extends Abstraction
+{
+    /**
+     * @throws Exception
+     */
+    public function action($value)
+    {
+        if (is_numeric($value['value'])) {
+            return $value['value'];
         }
 
-        throw new Exception($param['msg']);
+        throw new Exception($value['msg']);
     }
 }

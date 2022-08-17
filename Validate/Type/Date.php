@@ -1,4 +1,5 @@
 <?php
+
 namespace Validate\Type;
 
 use Base\Exception;
@@ -9,13 +10,18 @@ use Validate\Abstraction;
  * Class Date
  * @package Validator
  */
-class Date extends Abstraction {
-    public function action($param) {
-        $value = trim($param['value']);
-        if ($value && preg_match('/^\d{4}([\-\/\.]?)\d{2}\1\d{2}\s*(\d{2}:\d{2}:\d{2})?$/', $param['value'])) {
-            return $param['value'];
+class Date extends Abstraction
+{
+    /**
+     * @throws Exception
+     */
+    public function action($value)
+    {
+        $value = trim($value['value']);
+        if ($value && preg_match('/^\d{4}([\-\/\.]?)\d{2}\1\d{2}\s*(\d{2}:\d{2}:\d{2})?$/', $value['value'])) {
+            return $value['value'];
         }
 
-        throw new Exception($param['msg']);
+        throw new Exception($value['msg']);
     }
 }

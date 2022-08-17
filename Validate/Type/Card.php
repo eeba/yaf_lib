@@ -1,4 +1,5 @@
 <?php
+
 namespace Validate\Type;
 
 use Base\Exception;
@@ -9,12 +10,17 @@ use Validate\Abstraction;
  * Class Card
  * @package Validate\Type
  */
-class Card extends Abstraction {
-    public function action($param) {
-        if (preg_match('/^[0-9]{9,23}$/', $param['value'])) {
-            return $param['value'];
+class Card extends Abstraction
+{
+    /**
+     * @throws Exception
+     */
+    public function action($value)
+    {
+        if (preg_match('/^[0-9]{9,23}$/', $value['value'])) {
+            return $value['value'];
         }
 
-        throw new Exception($param['msg']);
+        throw new Exception($value['msg']);
     }
 }
