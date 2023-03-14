@@ -3,8 +3,9 @@
 namespace Illuminate\Support;
 
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessUtils;
+use Symfony\Component\Process\PhpExecutableFinder;
 
 class Composer
 {
@@ -18,7 +19,7 @@ class Composer
     /**
      * The working path to regenerate from.
      *
-     * @var string|null
+     * @var string
      */
     protected $workingPath;
 
@@ -38,61 +39,50 @@ class Composer
     /**
      * Regenerate the Composer autoloader files.
      *
-     * @param  string|array  $extra
-     * @return int
+     * @param  string  $extra
+     * @return void
      */
     public function dumpAutoloads($extra = '')
     {
-        $extra = $extra ? (array) $extra : [];
+        $process = $this->getProcess();
 
-        $command = array_merge($this->findComposer(), ['dump-autoload'], $extra);
+        $process->setCommandLine(trim($this->findComposer().' dump-autoload '.$extra));
 
-        return $this->getProcess($command)->run();
+        $process->run();
     }
 
     /**
      * Regenerate the optimized Composer autoloader files.
      *
-     * @return int
+     * @return void
      */
     public function dumpOptimized()
     {
-        return $this->dumpAutoloads('--optimize');
+        $this->dumpAutoloads('--optimize');
     }
 
     /**
      * Get the composer command for the environment.
      *
-     * @return array
+     * @return string
      */
     protected function findComposer()
     {
         if ($this->files->exists($this->workingPath.'/composer.phar')) {
-            return [$this->phpBinary(), 'composer.phar'];
+            return ProcessUtils::escapeArgument((new PhpExecutableFinder)->find(false)).' composer.phar';
         }
 
-        return ['composer'];
-    }
-
-    /**
-     * Get the PHP binary.
-     *
-     * @return string
-     */
-    protected function phpBinary()
-    {
-        return ProcessUtils::escapeArgument((new PhpExecutableFinder)->find(false));
+        return 'composer';
     }
 
     /**
      * Get a new Symfony process instance.
      *
-     * @param  array  $command
      * @return \Symfony\Component\Process\Process
      */
-    protected function getProcess(array $command)
+    protected function getProcess()
     {
-        return (new Process($command, $this->workingPath))->setTimeout(null);
+        return (new Process('', $this->workingPath))->setTimeout(null);
     }
 
     /**

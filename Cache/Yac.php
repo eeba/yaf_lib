@@ -2,8 +2,6 @@
 
 namespace Cache;
 
-use Base\Exception;
-
 /**
  * Class \Base\Cache\Yac
  *
@@ -26,9 +24,9 @@ class Yac extends Abstraction
      * @param string $key
      *
      * @return mixed
-     * @throws Exception
+     * @throws \Base\Exception
      */
-    public function get(string $key)
+    public function get($key)
     {
         return $this->getInstance()->get($this->hashKey($key));
     }
@@ -39,9 +37,9 @@ class Yac extends Abstraction
      * @param int $expire
      *
      * @return bool
-     * @throws Exception
+     * @throws \Base\Exception
      */
-    public function set(string $key, $value, int $expire = 60): bool
+    public function set($key, $value, $expire = 60)
     {
         return $this->getInstance()->set($this->hashKey($key), $value, $expire);
     }
@@ -50,9 +48,9 @@ class Yac extends Abstraction
      * @param string $key
      *
      * @return bool
-     * @throws Exception
+     * @throws \Base\Exception
      */
-    public function del(string $key): bool
+    public function del($key)
     {
         return $this->getInstance()->delete($this->hashKey($key));
     }
@@ -62,7 +60,7 @@ class Yac extends Abstraction
      *
      * @return bool
      */
-    public function flush(): bool
+    public function flush()
     {
         return false;
     }
@@ -98,7 +96,7 @@ class Yac extends Abstraction
      *
      * @return string
      */
-    private function hashKey(string $key): string
+    private function hashKey($key)
     {
         return md5($key);
     }

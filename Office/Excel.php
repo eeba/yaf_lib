@@ -7,6 +7,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Exception as PhpOfficeException;
 use PhpOffice\PhpSpreadsheet\Writer\Exception as PhpOfficeWriterException;
+use Util\Guid;
 
 class Excel
 {
@@ -16,7 +17,7 @@ class Excel
      * @return array
      * @throws Exception
      */
-    public static function read($file_path): array
+    public static function read($file_path)
     {
         set_time_limit(0);
         $curr_mem_limit = ini_get("memory_limit");
@@ -34,37 +35,43 @@ class Excel
     }
 
     /**
+     *
      * @param $data
-     * @param $path
+     * @param $basePath
      * @throws PhpOfficeException
      * @throws PhpOfficeWriterException
      * @throws Exception
      */
-    public static function write($data, $path)
+    public static function write($data, $basePath)
     {
-        $client = (new \Base\Dao\Redis())->getInstance();
-        $pool = new \Cache\Adapter\Redis\RedisCachePool($client);
-        $simpleCache = new \Cache\Bridge\SimpleCache\SimpleCacheBridge($pool);
-        \PhpOffice\PhpSpreadsheet\Settings::setCache($simpleCache);
-
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getProperties()->setCreator('kbone.net')->setTitle('kbone.net');
         $spreadsheet->setActiveSheetIndex(0);
 
         foreach ($data as $key => $value) {
-            $position_y = $key + 1;
             $value = array_values($value);
             foreach ($value as $index => $item) {
-                $position_x = chr(65 + $index);
-                $position = $position_x . $position_y;
+                $position = self::colKey($index) . ($key + 1);
                 $spreadsheet->getActiveSheet()->setCellValue($position, $item);
             }
         }
 
-        $spreadsheet->setActiveSheetIndex(0);
         $spreadsheet->getActiveSheet()->setTitle('sheet1');
 
-        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        $writer->save($path);
+        try {
+            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+            $filePath = Guid::getUid() . ".xlsx";
+            $savePath = str_replace('//', '/', $basePath . DIRECTORY_SEPARATOR . $filePath);
+            $writer->save($savePath);
+        } catch (\Exception $exception) {
+            throw new \Base\Exception($exception->getMessage());
+        }
+        return $filePath;
+    }
+
+    private static function colKey($index)
+    {
+        $prefix = $index > 25 ? chr(64 + (int)($index / 26)) : "";
+        return $prefix . chr(65 + $index % 26);
     }
 }

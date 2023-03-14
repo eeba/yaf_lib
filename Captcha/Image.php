@@ -35,7 +35,7 @@ class Image extends Abstraction
         return true;
     }
 
-    public function verify($code): bool
+    public function verify($code)
     {
         return $code == $_SESSION['verify_code'] . $this->id;
     }

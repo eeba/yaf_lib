@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @site https://www.ipip.net
+ * @desc Parse IP library in ipdb format
+ * @copyright IPIP.net
+ */
+
 namespace ipip\db;
 
 class BaseStation
@@ -24,7 +30,7 @@ class BaseStation
     public function findInfo($ip, $language)
     {
         $map = $this->findMap($ip, $language);
-        if (NULL == $map)
+        if (NULL === $map)
         {
             return NULL;
         }

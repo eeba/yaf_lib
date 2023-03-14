@@ -41,7 +41,7 @@ abstract class Abstraction
      *
      * @return bool
      */
-    public function mset(array $values, int $expire = 60): bool
+    public function mset(array $values, $expire = 60)
     {
         $ret = true;
         foreach ($values as $key => $value) {
@@ -60,7 +60,7 @@ abstract class Abstraction
      *
      * @return bool
      */
-    public function mdel(array $keys): bool
+    public function mdel(array $keys)
     {
         $ret = true;
         foreach ($keys as $key) {

@@ -1,115 +1,26 @@
 <?php
-/**
-* Yaf自动补全类(基于最新的3.3.3版本)
-* @author shixinke(http://www.shixinke.com)
-* @modified 2021/12/01
-*/
 
 /**
-*
-*/
+ * @method __construct()
+ * @method appendBody(string $content, string $key): bool
+ * @method clearBody(string $key): bool
+ * @method clearHeaders(): void
+ * @method getBody(string $key): mixed
+ * @method getHeader(): void
+ * @method prependBody(string $content, string $key): bool
+ * @method response(): void
+ * @method setAllHeaders(): void
+ * @method setBody(string $content, string $name = ""): bool
+ * @method setHeader(string $name, string $value, bool $replace): bool
+ * @method setRedirect(string $url): bool
+ * @method __toString(): string
+ * @method __destruct()
+ */
 abstract class Yaf_Response_Abstract
 {
-    /**     
-    *
-    */
-    const DEFAULT_BODY    =    'content';
+    const DEFAULT_BODY = 'content';
 
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function __construct()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function __toString()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $body 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function setBody($body, $name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $body 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function appendBody($body, $name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $body 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function prependBody($body, $name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function clearBody($name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function getBody($name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function response()
-    {
-    
-    }
-
+    protected bool $_header;
+    protected bool $_body;
 }
 

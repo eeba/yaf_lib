@@ -16,7 +16,7 @@ class Sign
      *
      * @return string
      */
-    public static function getSign($app_key, $app_secret, $time, array $params = array()): string
+    public static function getSign($app_key, $app_secret, $time, array $params = array())
     {
         unset($params['key'], $params['t'], $params['m']);
         ksort($params, SORT_STRING);

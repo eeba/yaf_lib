@@ -8,15 +8,12 @@ use Validate\Abstraction;
 class Thunder extends Abstraction
 {
 
-    /**
-     * @throws Exception
-     */
-    public function action($value)
+    public function action($param)
     {
-        if (preg_match('/^thunderx?:\/\/[a-zA-Z\d]+=$/', $value['value'])) {
-            return $value['value'];
+        if (preg_match('/^thunderx?:\/\/[a-zA-Z\d]+=$/', $param['value'])) {
+            return $param['value'];
         }
 
-        throw new Exception($value['msg']);
+        throw new Exception($param['msg']);
     }
 }

@@ -33,30 +33,30 @@ class Local extends Abstraction
     }
 
     /**
-     * @param     $local
+     * @param     $file
      * @param     $category
      * @param string $filename
      *
-     * @return array|string|string[]
+     * @return mixed|string
      * @throws Exception
      */
-    public function put($local, $category, $filename = '')
+    public function put($file, $category, $filename = '')
     {
-        if ($local['error']) {
+        if ($file['error']) {
             return '';
         }
 
         $dir = $this->config['bucket'] . '/' . $category . '/' . date('Ym') . '/';
-        $filename = $filename ?: md5_file($local['tmp_name']) . '.' . pathinfo($local['name'], PATHINFO_EXTENSION);
+        $filename = $filename ?: md5_file($file['tmp_name']) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
         $target = strtolower(str_replace('//', '/', $dir . $filename));
 
         $this->checkDir($dir);
-        $ret = move_uploaded_file($local['tmp_name'], $target);
+        $ret = move_uploaded_file($file['tmp_name'], $target);
 
         if ($ret) {
             return str_replace($this->config['bucket'], '', $target);
         } else {
-            throw new Exception("put file '" . $local['name'] . "' is fail");
+            throw new Exception("put file '" . $file['name'] . "' is fail");
         }
     }
 
@@ -64,22 +64,23 @@ class Local extends Abstraction
     /**
      * 下载
      *
-     * @param        $target
+     * @param        $path
      * @param        $local
      *
      * @return string
      * @throws Exception
      */
-    public function get($target, $local = null): string
+    public function get($path, $local = null)
     {
-        $target = $this->config['bucket'] . '/' . $target;
+        $target = $this->config['bucket'] . '/' . $path;
         $target = str_replace('//', '/', $target);
         if (!is_readable($target)) {
             Logger::error('目录不存在/不可读', ["file '$target' is not found or can't be read"]);
             throw new Exception("file '$target' is not found or can't be read");
         }
 
-        return file_get_contents($target);
+        $content = file_get_contents($target);
+        return $content;
     }
 
 
@@ -89,14 +90,16 @@ class Local extends Abstraction
      * @return bool
      * @throws Exception
      */
-    private function checkDir($path): bool
+    private function checkDir($path)
     {
-        if (!is_dir($path)) {
+        if (is_dir($path)) {
+            return true;
+        } else {
             $ret = mkdir($path, 0777, true);
             if (!$ret) {
                 throw new Exception(get_class() . " can't create the folder " . $path);
             }
+            return true;
         }
-        return true;
     }
 }

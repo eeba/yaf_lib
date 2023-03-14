@@ -51,7 +51,7 @@ class Aes implements CryptInterface
      * @return string       密文
      * @throws \Base\Exception
      */
-    public static function encrypt($plain, $key = self::DEFAULT_KEY): string
+    public static function encrypt($plain, $key = self::DEFAULT_KEY)
     {
 
         $config = Config::get('aes.' . $key);
@@ -92,7 +92,7 @@ class Aes implements CryptInterface
      * @param array $data
      * @return string
      */
-    protected static function serialize(array $data): string
+    protected static function serialize(array $data)
     {
         return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
@@ -102,7 +102,7 @@ class Aes implements CryptInterface
      * @param $string
      * @return array
      */
-    protected static function unserialize($string): array
+    protected static function unserialize($string)
     {
         return json_decode($string, true);
     }

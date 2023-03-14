@@ -53,7 +53,7 @@ class Handler
      * @param array $params
      * @return null
      */
-    public static function check(array $params): ?array
+    public static function check(array $params)
     {
         $ret = array();
         foreach ($params as $key => $value) {

@@ -11,7 +11,7 @@ abstract class Abstraction
      * @param array $option
      * @return mixed
      */
-    abstract function push($queue_name, $value, array $option = array());
+    abstract function push($queue_name, $value, $option = array());
 
     /**
      * 队列的出队操作
@@ -19,7 +19,7 @@ abstract class Abstraction
      * @param array $option
      * @return mixed
      */
-    abstract function pop($queue_name, array $option = array());
+    abstract function pop($queue_name, $option = array());
 
     /**
      * 队列的长度

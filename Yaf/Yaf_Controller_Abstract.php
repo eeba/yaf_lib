@@ -1,195 +1,32 @@
 <?php
-/**
-* Yaf自动补全类(基于最新的3.3.3版本)
-* @author shixinke(http://www.shixinke.com)
-* @modified 2021/12/01
-*/
 
 /**
-*
-*/
+ * @method final private __construct()
+ * @method display(string $tpl, array $parameters = []): bool
+ * @method forward(string $action, array $parameters = []): bool
+ * @method getInvokeArg(string $name): void
+ * @method getInvokeArgs(): void
+ * @method getModuleName(): string
+ * @method getName(): string
+ * @method getRequest(): Yaf_Request_Abstract
+ * @method getResponse(): Yaf_Response_Abstract
+ * @method getView(): Yaf_View_Interface
+ * @method getViewpath(): string
+ * @method init(): void
+ * @method initView(array $options = []): void
+ * @method redirect(string $url): bool
+ * @method render(string $tpl, array $parameters = []): string
+ * @method setViewpath(string $view_directory): void
+ */
 abstract class Yaf_Controller_Abstract
 {
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $request 
-     * @param  mixed $response 
-     * @param  mixed $view 
-     * @param array $args 
-     * @return 
-     */
-    public function __construct($request, $response, $view, Array $args)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $tpl 
-     * @param array $parameters 
-     * @return 
-     */
-    protected function render($tpl, Array $parameters)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $tpl 
-     * @param array $parameters 
-     * @return 
-     */
-    protected function display($tpl, Array $parameters)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getRequest()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getResponse()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getView()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getName()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getModuleName()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param array $options 
-     * @return 
-     */
-    public function initView(Array $options)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $view_directory 
-     * @return 
-     */
-    public function setViewpath($view_directory)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getViewpath()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $module 
-     * @param  mixed $controller 
-     * @param  mixed $action 
-     * @param array $parameters 
-     * @return 
-     */
-    public function forward($module, $controller, $action, Array $parameters)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $url 
-     * @return 
-     */
-    public function redirect($url)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getInvokeArgs()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function getInvokeArg($name)
-    {
-    
-    }
-
+    public array $actions;
+    protected string $_module;
+    protected string $_controller;
+    protected string $_name;
+    protected array $_invoke_args;
+    protected Yaf_Request_Abstract $_request;
+    protected Yaf_Response_Abstract $_response;
+    protected Yaf_View_Interface $_view;
 }
 

@@ -7,15 +7,12 @@ use Validate\Abstraction;
 
 class Digit extends Abstraction
 {
-    /**
-     * @throws Exception
-     */
-    public function action($value)
+    public function action($param)
     {
-        if (is_numeric($value['value'])) {
-            return $value['value'];
+        if (is_numeric($param['value'])) {
+            return $param['value'];
         }
 
-        throw new Exception($value['msg']);
+        throw new Exception($param['msg']);
     }
 }

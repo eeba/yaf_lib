@@ -105,7 +105,7 @@ class Request
             throw new Exception('invalid http method:' . $method);
         }
         if (!$this->checkOptions($options)) {
-            throw new Exception('invalid options');
+            //throw new Exception('invalid options');
         }
 
         if (self::METHOD_POST == $method && $data && is_array($data)) {

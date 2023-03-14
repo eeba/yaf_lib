@@ -11,7 +11,7 @@ class Ip
      * 服务器IP地址
      * @return string
      */
-    public static function getServerIp(): string
+    public static function getServerIp()
     {
         if (isset($_SERVER['SERVER_ADDR'])) {
             return $_SERVER['SERVER_ADDR'];
@@ -23,7 +23,7 @@ class Ip
      * 客户端IP地址
      * @return string
      */
-    public static function getClientIp(): string
+    public static function getClientIp()
     {
         if (PHP_SAPI == 'cli') {
             return self::getServerIp();
@@ -55,15 +55,17 @@ class Ip
      *
      * @return array
      */
-    public static function getInfo(string $ip = ''): array
+    public static function getInfo($ip = '')
     {
         $city = new City(__DIR__ . '/ipipfree.ipdb');
         $ip = $ip ?: self::getClientIp();
         $data = $city->findMap($ip, 'CN');
-        return array(
+        $result = array(
             'country' => $data['country_name'] ?: '',
             'region' => $data['region_name'] ?: '',
             'city' => $data['city_name'] ?: '',
         );
+
+        return $result;
     }
 }

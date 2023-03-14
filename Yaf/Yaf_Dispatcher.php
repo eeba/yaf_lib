@@ -1,317 +1,43 @@
 <?php
-/**
-* Yaf自动补全类(基于最新的3.3.3版本)
-* @author shixinke(http://www.shixinke.com)
-* @modified 2021/12/01
-*/
 
 /**
-*
-*/
+ * @method __construct()
+ * @method autoRender(bool $flag): Yaf_Dispatcher
+ * @method catchException(bool $flag): Yaf_Dispatcher
+ * @method disableView(): bool
+ * @method dispatch(Yaf_Request_Abstract $request): Yaf_Response_Abstract
+ * @method enableView(): Yaf_Dispatcher
+ * @method flushInstantly(bool $flag): Yaf_Dispatcher
+ * @method getApplication(): Yaf_Application
+ * @method getDefaultAction(): string
+ * @method getDefaultController(): string
+ * @method getDefaultModule(): string
+ * @method static getInstance(): Yaf_Dispatcher
+ * @method getRequest(): Yaf_Request_Abstract
+ * @method getRouter(): Yaf_Router
+ * @method initView(string $templates_dir, array $options): Yaf_View_Interface
+ * @method registerPlugin(Yaf_Plugin_Abstract $plugin): Yaf_Dispatcher
+ * @method returnResponse(bool $flag): Yaf_Dispatcher
+ * @method setDefaultAction(string $action): Yaf_Dispatcher
+ * @method setDefaultController(string $controller): Yaf_Dispatcher
+ * @method setDefaultModule(string $module): Yaf_Dispatcher
+ * @method setErrorHandler(call $callback, int $error_types): Yaf_Dispatcher
+ * @method setRequest(Yaf_Request_Abstract $request): Yaf_Dispatcher
+ * @method setView(Yaf_View_Interface $view): Yaf_Dispatcher
+ * @method throwException(bool $flag): Yaf_Dispatcher
+ */
 final class Yaf_Dispatcher
 {
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    private function __construct()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function enableView()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function disableView()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $templates_dir 
-     * @param array $options 
-     * @return 
-     */
-    public function initView($templates_dir, Array $options)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $view 
-     * @return 
-     */
-    public function setView($view)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $request 
-     * @return 
-     */
-    public function setRequest($request)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $response 
-     * @return 
-     */
-    public function setResponse($response)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getApplication()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getRouter()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getResponse()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getRequest()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getDefaultModule()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getDefaultController()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getDefaultAction()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $callback 
-     * @param  mixed $error_types 
-     * @return 
-     */
-    public function setErrorHandler($callback, $error_types)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $module 
-     * @return 
-     */
-    public function setDefaultModule($module)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $controller 
-     * @return 
-     */
-    public function setDefaultController($controller)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $action 
-     * @return 
-     */
-    public function setDefaultAction($action)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $flag 
-     * @return 
-     */
-    public function returnResponse($flag)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $flag 
-     * @return 
-     */
-    public function autoRender($flag)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $flag 
-     * @return 
-     */
-    public function flushInstantly($flag)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public static  function getInstance()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $request 
-     * @return 
-     */
-    public function dispatch($request)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $flag 
-     * @return 
-     */
-    public function throwException($flag)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $flag 
-     * @return 
-     */
-    public function catchException($flag)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $plugin 
-     * @return 
-     */
-    public function registerPlugin($plugin)
-    {
-    
-    }
-
+    protected Yaf_Router $_router;
+    protected Yaf_View_Interface $_view;
+    protected Yaf_Request_Abstract $_request;
+    protected Yaf_Response_Abstract $_return_response;
+    protected static Yaf_Dispatcher $_instance;
+    protected bool $_auto_render;
+    protected bool $_instantly_flush;
+    protected array $_plugins;
+    protected string $_default_module;
+    protected string $_default_controller;
+    protected string $_default_action;
 }
 

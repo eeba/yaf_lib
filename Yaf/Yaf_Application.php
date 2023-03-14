@@ -1,185 +1,31 @@
 <?php
-/**
-* Yaf自动补全类(基于最新的3.3.3版本)
-* @author shixinke(http://www.shixinke.com)
-* @modified 2021/12/01
-*/
 
 /**
-*
-*/
+ * @method __construct(mixed $config, string $environ = null)
+ * @method static app(): mixed
+ * @method bootstrap(Yaf_Bootstrap_Abstract $bootstrap = null): Yaf_Application
+ * @method clearLastError(): Yaf_Application
+ * @method environ(): void
+ * @method execute(callable $entry, string ...$args): void
+ * @method getAppDirectory(): Yaf_Application
+ * @method getConfig(): Yaf_Config_Abstract
+ * @method getDispatcher(): Yaf_Dispatcher
+ * @method getLastErrorMsg(): string
+ * @method getLastErrorNo(): int
+ * @method getModules(): array
+ * @method run(): void
+ * @method setAppDirectory(string $directory): Yaf_Application
+ * @method __destruct()
+ */
 final class Yaf_Application
 {
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $config 
-     * @param  mixed $environ 
-     * @return 
-     */
-    public function __construct($config, $environ)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function run()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $entry 
-     * @param  mixed $... 
-     * @return 
-     */
-    public function execute($entry, $...)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public static  function app()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function environ()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $bootstrap 
-     * @return 
-     */
-    public function bootstrap($bootstrap)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getConfig()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getModules()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getDispatcher()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $directory 
-     * @return 
-     */
-    public function setAppDirectory($directory)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getAppDirectory()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getLastErrorNo()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getLastErrorMsg()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function clearLastError()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function getInstance()
-    {
-    
-    }
-
+    protected Yaf_Config_Abstract $config;
+    protected Yaf_Dispatcher $dispatcher;
+    protected static Yaf_Application $_app;
+    protected string $_modules;
+    protected bool $_running;
+    protected bool $_environ;
+//    protected $_err_no = "0";
+//    protected $_err_msg = "";
 }
 

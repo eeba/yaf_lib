@@ -1,37 +1,32 @@
 {
-    "require": {
-        "php": ">=7.3.0",
-        "ext-PDO": "*",
-        "ext-json": "*",
-        "ext-curl": "*",
-        "ext-redis": "*",
-        "ext-openssl": "*",
-        "ext-posix": "*",
-        "ext-pcntl": "*",
-        "ext-bcmath": "*",
-        "smarty/smarty": "^3.1",
-        "ipip/db": "^1.0",
-        "swiftmailer/swiftmailer": "^6.2",
-        "guzzlehttp/guzzle": "^7.2",
-        "gregwar/captcha": "^1.1",
-        "aliyuncs/oss-sdk-php": "^2.4",
-        "jaeger/querylist": "^4.2",
-        "elasticsearch/elasticsearch": "^7.10",
-        "overtrue/wechat": "^5.2",
-        "phpoffice/phpspreadsheet": "^1.15",
-        "illuminate/support": "^8.19",
-        "illuminate/contracts": "^8.19",
-        "cache/simple-cache-bridge": "^1.1",
-        "cache/redis-adapter": "^1.1",
-        "monolog/monolog": "^2.2"
-    },
-    "require-dev": {
-        "shixinke/php-ide-helper":"dev-master"
-    },
-    "repositories": {
+  "require": {
+    "smarty/smarty": "^4.3",
+    "ipip/db": "^1.0",
+    "swiftmailer/swiftmailer": "^6.3",
+    "guzzlehttp/guzzle": "^7.5",
+    "gregwar/captcha": "^1.1",
+    "aliyuncs/oss-sdk-php": "^2.6",
+    "jaeger/querylist": "^4.2",
+    "elasticsearch/elasticsearch": "^8.6",
+    "overtrue/wechat": "^5.3",
+    "phpoffice/phpspreadsheet": "^1.26",
+    "monolog/monolog": "^2.8",
+    "firebase/php-jwt": "^6.3",
+    "illuminate/support": "^5.4",
+    "ext-json": "*",
+    "cache/simple-cache-bridge": "^1.2",
+    "cache/redis-adapter": "^1.1"
+  },
+  "repositories": {
         "packagist": {
             "type": "composer",
             "url": "https://mirrors.aliyun.com/composer"
         }
+    },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true,
+      "easywechat-composer/easywechat-composer": true
     }
+  }
 }

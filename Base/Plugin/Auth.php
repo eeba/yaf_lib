@@ -26,7 +26,7 @@ class Auth extends \Yaf_Plugin_Abstract
     public function dispatchLoopStartup(\Yaf_Request_Abstract $request, \Yaf_Response_Abstract $response)
     {
         $uri = strtolower($request->getRequestUri());
-        $admin_acl = $_SESSION['admin_acl'] ?? [];
+        $admin_acl = isset($_SESSION['admin_acl']) ? $_SESSION['admin_acl'] : [];
         if (!in_array($uri, $this->white_list)) {
             if (!isset($_SESSION['admin_info'])) {
                 throw new Exception("您已退出，请先<a onclick='parent.window.location.reload();' style='cursor: pointer;'>登录</a>");

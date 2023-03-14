@@ -1,3 +1,82 @@
+## Release 8.4.0
+
+- Added a `ClientInterface` to simplify the mock of the Client,
+  this is a fix for [#1227](https://github.com/elastic/elasticsearch-php/issues/1227)
+  [#1249](https://github.com/elastic/elasticsearch-php/pull/1249)
+- Added the support of Symfony HTTP client, fixing the issue [#1241](https://github.com/elastic/elasticsearch-php/issues/1241)
+  [#1243](https://github.com/elastic/elasticsearch-php/pull/1243)
+- Added the API compatibility header
+  [#1233](https://github.com/elastic/elasticsearch-php/pull/1233)
+- Updated APIs for [Elasticsearch 8.4](https://github.com/elastic/elasticsearch/releases/tag/v8.4.0)
+  [7815caa](https://github.com/elastic/elasticsearch-php/commit/7815caac3d9342f13555481bd03ceb8d9c49a881)
+
+## Release 8.3.0
+
+- Updated APIs for [Elasticsearch 8.3](https://github.com/elastic/elasticsearch/releases/tag/v8.3.0)
+  [fb117a8](https://github.com/elastic/elasticsearch-php/commit/fb117a813cd28e8c0b9f4350896b66c068bfd072)
+
+## Release 8.2.0
+
+- Updated APIs for [Elasticsearch 8.2](https://github.com/elastic/elasticsearch/releases/tag/v8.2.0)
+  [630cb0b](https://github.com/elastic/elasticsearch-php/commit/630cb0bdcd4b864d2ed8cef380665cdb90429eec)
+- Added the array support for `text/plain`
+  [#1220](https://github.com/elastic/elasticsearch-php/pull/1220) 
+
+## Release 8.1.0
+
+- Updated APIs for [Elasticsearch 8.1](https://github.com/elastic/elasticsearch/releases/tag/v8.1.0)
+  [e4c2ac9](https://github.com/elastic/elasticsearch-php/commit/e4c2ac9b2c71e06c99b7a43712ccd83711fe6510)
+
+## Release 8.0.1
+
+- Fixed `NoNodeAvailableException` exception in endpoints
+  [e7d448d](https://github.com/elastic/elasticsearch-php/commit/e7d448d540f120eb3a3e3fe0d5866bf62fb67f3a)
+
+## Release 8.0.0
+
+- Finally released 8.0.0 GA.
+
+## Release 8.0.0-rc2
+
+- Added the common parameters in all the endpoints
+  [6427f8c](https://github.com/elastic/elasticsearch-php/commit/6427f8c42ba2afbe82c00adffdf93dd60b439432)
+
+## Release 8.0.0-rc1
+
+- Fixed query string in API endpoints + added a first integration test
+  [e404235](https://github.com/elastic/elasticsearch-php/commit/e404235890b53a99242f7fc5ddea6ee6b2459e8f)
+- Added AdapterOptions class and setNodePool() in ClientBuilder
+  [9150f71](https://github.com/elastic/elasticsearch-php/commit/9150f717488ddb74d83a119d215c0584aa98c95a)
+- Fixed urlencode in params, Exception in test code generation
+  [142327b](https://github.com/elastic/elasticsearch-php/commit/142327b3cb730042ec0b21b7c6076164bb0721ed)
+- Improved client/server response exception messages
+  [50de3e6](https://github.com/elastic/elasticsearch-php/commit/50de3e60fc9b0167a948a992fda78bc5e1a42152)
+
+## Release 8.0.0-alpha
+
+First alpha release of elasticsearch-php 8.0.0.
+
+This major release is a complete new PHP client for Elasticsearch. We build it from scratch!
+We tried to reduce the BC breaks as much as possible but there are some (big) differences: 
+
+### Architectural changes:
+
+- we changed the namespace, now everything is under `Elastic\Elasticsearch`
+- we used the [elastic-transport-php](https://github.com/elastic/elastic-transport-php) library for HTTP communications;
+- we changed the `Exception` model, using the namespace `Elastic\Elasticsearch\Exception`. All the exceptions extends the
+  `ElasticsearchException` interface, as in 7.x
+- we changed the response type of each endpoints using an [Elasticsearch](src/Response/Elasticsearch.php) response class.
+  This class wraps a a [PSR-7](https://www.php-fig.org/psr/psr-7/) response allowing the access of the body response
+  as array or object. This means you can access the API response as in 7.x, no BC break here! :angel:
+- we changed the `ConnectionPool` in `NodePool`. The `connection` naming was ambigous since the objects are nodes (hosts)
+
+You can have a look at the [BREAKING_CHANGES](BREAKING_CHANGES.md) file for more information.
+
+## Release 7.17.0
+
+- Allow psr/log v3
+  [#1184](https://github.com/elastic/elasticsearch-php/pull/1184)
+
 ## Release 7.16.0
 
 - Added support of includePortInHostHeader in ClientBuilder::fromConfig
@@ -39,6 +118,7 @@
   [9e05c81](https://github.com/elastic/elasticsearch-php/commit/9e05c8108b638b60cc676b6a4f4be97c7df9eb64)
 - Usage of PHPUnit 9 only + migrated xml configurations
   [038b5dd](https://github.com/elastic/elasticsearch-php/commit/038b5dd043dc76b20b9f5f265ea914a38d33568d)
+
 ## Release 7.12.0
 
 - Updated the endpoints for ES 7.12 + removed cpliakas/git-wrapper

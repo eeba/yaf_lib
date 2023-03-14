@@ -12,16 +12,13 @@ use Validate\Abstraction;
  */
 class Date extends Abstraction
 {
-    /**
-     * @throws Exception
-     */
-    public function action($value)
+    public function action($param)
     {
-        $value = trim($value['value']);
-        if ($value && preg_match('/^\d{4}([\-\/\.]?)\d{2}\1\d{2}\s*(\d{2}:\d{2}:\d{2})?$/', $value['value'])) {
-            return $value['value'];
+        $value = trim($param['value']);
+        if ($value && preg_match('/^\d{4}([\-\/\.]?)\d{2}\1\d{2}\s*(\d{2}:\d{2}:\d{2})?$/', $param['value'])) {
+            return $param['value'];
         }
 
-        throw new Exception($value['msg']);
+        throw new Exception($param['msg']);
     }
 }

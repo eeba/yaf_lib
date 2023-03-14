@@ -8,16 +8,13 @@ use Validate\Abstraction;
 class Ip extends Abstraction
 {
 
-    /**
-     * @throws Exception
-     */
-    public function action($value)
+    public function action($param)
     {
-        $ret = filter_var($value['value'], FILTER_VALIDATE_IP);
-        if ($ret) {
-            return $value['value'];
+        $ret = filter_var($param['value'], FILTER_VALIDATE_IP);
+        if ($ret != false) {
+            return $param['value'];
         }
 
-        throw new Exception($value['msg']);
+        throw new Exception($param['msg']);
     }
 }

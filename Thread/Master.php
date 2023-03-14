@@ -2,8 +2,6 @@
 
 namespace Thread;
 
-use Exception;
-
 /**
  * Class Master
  * @package Thread
@@ -79,6 +77,7 @@ class Master
             if (!$this->isRunning) break;
             sleep(self::MASTER_SLEEP);
             pcntl_signal_dispatch();
+            if (!$this->isRunning) break;
         }
 
         //如果收到退出信号
@@ -98,7 +97,7 @@ class Master
      * @access private
      * @return void
      */
-    public function sigHandler(int $sig)
+    public function sigHandler($sig)
     {
         Utils::echoInfo("master receive $sig");
         switch (intval($sig)) {
@@ -181,13 +180,13 @@ class Master
      * @param string $class_name 子进程类名
      *
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
-    protected function fork(string $class_name): bool
+    protected function fork($class_name)
     {
         $pid = pcntl_fork();
         if ($pid == -1) {
-            throw new Exception("can not fork new process");
+            throw new \Exception("can not fork new process");
         } elseif ($pid) {
             $this->pids[$pid] = array(
                 'class_name' => $class_name,
@@ -203,7 +202,6 @@ class Master
 
     /**
      * 管理进程
-     * @throws Exception
      */
     protected function manageWorkers()
     {

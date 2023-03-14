@@ -31,7 +31,7 @@ class Guid
      * @param string $flag
      * @return string
      */
-    public static function getUid(string $flag = ""): string
+    public static function getUid($flag = "")
     {
         self::$while++;
         $num = '';
@@ -46,10 +46,10 @@ class Guid
     /**
      * 进制转换
      * @param $num
-     * @param string $flag
+     * @param $flag
      * @return string
      */
-    public static function Hex($num, string $flag = ''): string
+    public static function Hex($num, $flag = '')
     {
         $dict = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $ret = '';

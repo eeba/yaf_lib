@@ -39,7 +39,7 @@ class Email
                 throw new Exception("mail config must have $key");
             }
         }
-        $config['nickname'] = $config['nickname'] ? $config['nickname'] : $config['username'];
+        $config['nickname'] = $config['nickname'] ?: $config['username'];
         $this->config = $config;
     }
 
@@ -51,7 +51,7 @@ class Email
      * @return bool
      * @throws Exception
      */
-    public function send($mail, $object, $msg, array $files = []): bool
+    public function send($mail, $object, $msg, $files = [])
     {
         if (!is_array($mail)) {
             $mail_list[] = $mail;
@@ -77,7 +77,6 @@ class Email
             }
         }
 
-        $ret = false;
         try {
             $ret = $mailer->send($message);
         } catch (\Exception $e) {

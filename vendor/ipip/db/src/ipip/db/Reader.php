@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @site https://www.ipip.net
+ * @desc Parse IP library in ipdb format
+ * @copyright IPIP.net
+ */
+
 namespace ipip\db;
 
 class Reader
@@ -50,7 +56,7 @@ class Reader
 
         $this->meta = json_decode($text, 1);
 
-        if (!isset($this->meta['fields']) || !isset($this->meta['languages']))
+        if (isset($this->meta['fields']) === FALSE || isset($this->meta['languages']) === FALSE)
         {
             throw new \Exception('IP Database metadata error.');
         }
@@ -70,16 +76,16 @@ class Reader
      * @param string $language
      * @return array|NULL
      */
-    public function find($ip, $language = 'CN')
+    public function find($ip, $language)
     {
         if (is_resource($this->file) === FALSE)
         {
-            throw new \BadMethodCallException('closed IPIP DB.');
+            throw new \BadMethodCallException('IPIP DB closed.');
         }
 
-        if (!isset($this->meta['languages'][$language]))
+        if (isset($this->meta['languages'][$language]) === FALSE)
         {
-            throw new \InvalidArgumentException("language : {$language} not support");
+            throw new \InvalidArgumentException("language : {$language} not support.");
         }
 
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6) === FALSE)
@@ -99,6 +105,7 @@ class Reader
         try
         {
             $node = $this->findNode($ip);
+
             if ($node > 0)
             {
                 $data = $this->resolve($node);
@@ -116,16 +123,18 @@ class Reader
         return NULL;
     }
 
-    public function findMap($ip, $language = 'CN')
+    public function findMap($ip, $language)
     {
         $array = $this->find($ip, $language);
-        if (NULL == $array)
+        if (NULL === $array)
         {
             return NULL;
         }
 
         return array_combine($this->meta['fields'], $array);
     }
+
+    private $v4offset = 0;
 
     /**
      * @param $ip
@@ -134,9 +143,6 @@ class Reader
      */
     private function findNode($ip)
     {
-        static $v4offset = 0;
-        static $v6offsetCache = [];
-
         $binary = inet_pton($ip);
         $bitCount = strlen($binary) * 8; // 32 | 128
         $key = substr($binary, 0, 2);
@@ -144,7 +150,7 @@ class Reader
         $index = 0;
         if ($bitCount === 32)
         {
-            if ($v4offset === 0)
+            if ($this->v4offset === 0)
             {
                 for ($i = 0; $i < 96 && $node < $this->nodeCount; $i++)
                 {
@@ -162,19 +168,11 @@ class Reader
                         return 0;
                     }
                 }
-                $v4offset = $node;
+                $this->v4offset = $node;
             }
             else
             {
-                $node = $v4offset;
-            }
-        }
-        else
-        {
-            if (isset($v6offsetCache[$key]))
-            {
-                $index = 16;
-                $node = $v6offsetCache[$key];
+                $node = $this->v4offset;
             }
         }
 
@@ -186,11 +184,6 @@ class Reader
             }
 
             $node = $this->readNode($node, 1 & ((0xFF & ord($binary[$i >> 3])) >> 7 - ($i % 8)));
-
-            if ($i == 15)
-            {
-                $v6offsetCache[$key] = $node;
-            }
         }
 
         if ($node === $this->nodeCount)
@@ -202,7 +195,7 @@ class Reader
             return $node;
         }
 
-        throw new \Exception("find node failed");
+        throw new \Exception("find node failed.");
     }
 
     /**
@@ -265,7 +258,7 @@ class Reader
                 }
             }
 
-            throw new \Exception("The Database file read bad data");
+            throw new \Exception("The Database file read bad data.");
         }
 
         return '';

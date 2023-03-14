@@ -72,7 +72,7 @@ class Oss extends Abstraction
      *
      * @return mixed|string
      */
-    public function upload($file, int $type = 1)
+    public function upload($file, $type = 1)
     {
         if ($file['error']) {
             return '';
@@ -116,6 +116,6 @@ class Oss extends Abstraction
             throw new Exception($e->getMessage(), 5100004);
         }
 
-        return $local ? !$ret : $ret;
+        return $local ? ($ret ? false : true) : $ret;
     }
 }

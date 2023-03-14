@@ -6,7 +6,7 @@ use Base\Exception;
 use EasyWeChat\Factory;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
-class WeChat
+class Wechat
 {
     protected static $apps = [];
 
@@ -24,7 +24,16 @@ class WeChat
             $config['http']['proxy'] = \Base\Config::get('server.proxy.default');
             //关闭ssl验证
             $config['http']['verify'] = false;
-            $app = Factory::officialAccount($config);
+            switch ($config['account_type']) {
+                case "official":
+                    $app = Factory::officialAccount($config);
+                    break;
+                case "mini":
+                    $app = Factory::miniProgram($config);
+                    break;
+                default:
+                    throw new Exception("公众号，小程序的配置项`account_type`错误");
+            }
 
             //替换应用中的缓存为redis
             $redis = (new \Base\Dao\Redis())->getInstance();
@@ -34,4 +43,5 @@ class WeChat
         }
         return self::$apps[$account];
     }
+
 }

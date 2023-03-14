@@ -52,7 +52,7 @@ class Config
      * @return bool
      *
      */
-    public function setWorkerConfig(string $class_name, int $work_num, int $ttl = 0, int $deal_num = 0): bool
+    public function setWorkerConfig($class_name, $work_num, $ttl = 0, $deal_num = 0)
     {
         if ($ttl === 0) {
             $ttl = rand(self::WORK_TTL, self::WORK_TTL + 1000);
@@ -78,7 +78,7 @@ class Config
      *
      * @return array
      */
-    public function getWorkerConfig(): array
+    public function getWorkerConfig()
     {
         $this->_getConfigByFile();
 
@@ -92,7 +92,7 @@ class Config
      *
      * @return int
      */
-    public function getWorkerTtl(string $class_name): int
+    public function getWorkerTtl($class_name)
     {
         $this->_getConfigByFile();
 
@@ -106,7 +106,7 @@ class Config
      *
      * @return int
      */
-    public function getWorkerNum(string $class_name): int
+    public function getWorkerNum($class_name)
     {
         $this->_getConfigByFile();
 
@@ -120,7 +120,7 @@ class Config
      *
      * @return int
      */
-    public function getWorkerDealNum(string $class_name): int
+    public function getWorkerDealNum($class_name)
     {
         $this->_getConfigByFile();
 
@@ -130,9 +130,9 @@ class Config
     /**
      * 从配置文件中加载进程配置
      *
-     * @return void
+     * @return bool
      */
-    private function _getConfigByFile(): void
+    private function _getConfigByFile()
     {
         $config = file_get_contents(self::$_thread_config_file);
         if ($config) {
@@ -140,18 +140,21 @@ class Config
         } else {
             $this->_config = array();
         }
+
+        return true;
     }
 
     /**
      * 更新进程配置文件
      *
-     * @return void
+     * @return bool
      */
-    private function _setConfigByFile(): void
+    private function _setConfigByFile()
     {
         if (!file_exists(self::$_thread_config_file) || md5(json_encode($this->_config)) !== md5_file(self::$_thread_config_file)) {
             file_put_contents(self::$_thread_config_file, json_encode($this->_config));
         }
+        return true;
     }
 
 }

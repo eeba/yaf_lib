@@ -7,16 +7,13 @@ use Validate\Abstraction;
 
 class Email extends Abstraction
 {
-    /**
-     * @throws Exception
-     */
-    public function action($value)
+    public function action($param)
     {
 
-        if (filter_var($value['value'], FILTER_VALIDATE_EMAIL)) {
-            return $value['value'];
+        if (filter_var($param['value'], FILTER_VALIDATE_EMAIL)) {
+            return $param['value'];
         }
 
-        throw new Exception($value['msg']);
+        throw new Exception($param['msg']);
     }
 }

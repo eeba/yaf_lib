@@ -30,7 +30,7 @@ class Mask
      *
      * @return bool
      */
-    public static function maskMobile(string $mobile, string $maskChar = self::DEFAULT_MASK_CHAR, int $headRestLen = self::DEFAULT_MOBILE_HEAD_REST_LEN, int $tailRestLen = self::DEFAULT_MOBILE_TAIL_REST_LEN)
+    public static function maskMobile($mobile, $maskChar = self::DEFAULT_MASK_CHAR, $headRestLen = self::DEFAULT_MOBILE_HEAD_REST_LEN, $tailRestLen = self::DEFAULT_MOBILE_TAIL_REST_LEN)
     {
         return self::maskNumericInfo($mobile, $maskChar, $headRestLen, $tailRestLen);
     }
@@ -44,7 +44,7 @@ class Mask
      *
      * @return bool
      */
-    public static function maskCertNo(string $certNo, string $maskChar = self::DEFAULT_MASK_CHAR, int $restLen = self::DEFAULT_CERT_NO_REST_LEN)
+    public static function maskCertNo($certNo, $maskChar = self::DEFAULT_MASK_CHAR, $restLen = self::DEFAULT_CERT_NO_REST_LEN)
     {
         return self::maskNumericInfo($certNo, $maskChar, $restLen, $restLen);
     }
@@ -58,7 +58,7 @@ class Mask
      *
      * @return bool
      */
-    public static function maskAcctNo(string $acctNo, string $maskChar = self::DEFAULT_MASK_CHAR, int $restLen = self::DEFAULT_ACCT_NO_REST_LEN)
+    public static function maskAcctNo($acctNo, $maskChar = self::DEFAULT_MASK_CHAR, $restLen = self::DEFAULT_ACCT_NO_REST_LEN)
     {
         return self::maskNumericInfo($acctNo, $maskChar, $restLen, $restLen);
     }
@@ -73,9 +73,9 @@ class Mask
      * @param int $headRestLen default 4 首端保留长度
      * @param int $tailRestLen default 4 尾端保留长度
      *
-     * @return string
+     * @return bool
      */
-    public static function maskNumericInfo(string $info, string $maskChar = self::DEFAULT_MASK_CHAR, int $headRestLen = self::DEFAULT_NUMERIC_HEAD_REST_LEN, int $tailRestLen = self::DEFAULT_NUMERIC_TAIL_REST_LEN): string
+    public static function maskNumericInfo($info, $maskChar = self::DEFAULT_MASK_CHAR, $headRestLen = self::DEFAULT_NUMERIC_HEAD_REST_LEN, $tailRestLen = self::DEFAULT_NUMERIC_TAIL_REST_LEN)
     {
         return empty($info) ? $info : substr($info, 0, $headRestLen) . str_repeat($maskChar, strlen($info) - $headRestLen - $tailRestLen) . substr($info, -$tailRestLen);
     }
@@ -89,7 +89,7 @@ class Mask
      *
      * @return string
      */
-    public static function maskName(string $name, string $maskChar = self::DEFAULT_MASK_CHAR, int $maskType = self::MASK_FAMILY_NAME): string
+    public static function maskName($name, $maskChar = self::DEFAULT_MASK_CHAR, $maskType = self::MASK_FAMILY_NAME)
     {
         if (!$name) {
             return $name;

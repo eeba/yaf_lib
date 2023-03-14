@@ -40,11 +40,11 @@ class Node
             $method_list = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
             foreach ($method_list as $value) {
                 $method_name = $value->name;
-                if (!stripos($method_name, 'Action')) {
+                if ('action' != $method_name) {
                     continue;
                 }
                 $method_doc = $value->getDocComment();
-                if ($method_doc && preg_match('/\@name\s+(.+)/i', $method_doc, $match)) {
+                if ($method_doc && preg_match('/\@actionName\s+(.+)/i', $method_doc, $match)) {
                     $method_name = trim($match[1]);
                 }
                 $node[$node_key]['method'][] = [

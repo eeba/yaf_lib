@@ -7,51 +7,64 @@ class Layout
     /**
      * layoutTarget.
      *
-     * @var string
+     * @var ?string
      */
     private $layoutTarget;
 
     /**
      * X Mode.
      *
-     * @var string
+     * @var ?string
      */
     private $xMode;
 
     /**
      * Y Mode.
      *
-     * @var string
+     * @var ?string
      */
     private $yMode;
 
     /**
      * X-Position.
      *
-     * @var float
+     * @var ?float
      */
     private $xPos;
 
     /**
      * Y-Position.
      *
-     * @var float
+     * @var ?float
      */
     private $yPos;
 
     /**
      * width.
      *
-     * @var float
+     * @var ?float
      */
     private $width;
 
     /**
      * height.
      *
-     * @var float
+     * @var ?float
      */
     private $height;
+
+    /**
+     * Position - t=top.
+     *
+     * @var string
+     */
+    private $dLblPos = '';
+
+    /** @var string */
+    private $numFmtCode = '';
+
+    /** @var bool */
+    private $numFmtLinked = false;
 
     /**
      * show legend key
@@ -143,6 +156,12 @@ class Layout
         if (isset($layout['h'])) {
             $this->height = (float) $layout['h'];
         }
+        if (isset($layout['dLblPos'])) {
+            $this->dLblPos = (string) $layout['dLblPos'];
+        }
+        if (isset($layout['numFmtCode'])) {
+            $this->numFmtCode = (string) $layout['numFmtCode'];
+        }
         $this->initBoolean($layout, 'showLegendKey');
         $this->initBoolean($layout, 'showVal');
         $this->initBoolean($layout, 'showCatName');
@@ -150,6 +169,7 @@ class Layout
         $this->initBoolean($layout, 'showPercent');
         $this->initBoolean($layout, 'showBubbleSize');
         $this->initBoolean($layout, 'showLeaderLines');
+        $this->initBoolean($layout, 'numFmtLinked');
         $this->initColor($layout, 'labelFillColor');
         $this->initColor($layout, 'labelBorderColor');
         $this->initColor($layout, 'labelFontColor');
@@ -172,7 +192,7 @@ class Layout
     /**
      * Get Layout Target.
      *
-     * @return string
+     * @return ?string
      */
     public function getLayoutTarget()
     {
@@ -182,7 +202,7 @@ class Layout
     /**
      * Set Layout Target.
      *
-     * @param string $target
+     * @param ?string $target
      *
      * @return $this
      */
@@ -196,7 +216,7 @@ class Layout
     /**
      * Get X-Mode.
      *
-     * @return string
+     * @return ?string
      */
     public function getXMode()
     {
@@ -206,7 +226,7 @@ class Layout
     /**
      * Set X-Mode.
      *
-     * @param string $mode
+     * @param ?string $mode
      *
      * @return $this
      */
@@ -220,7 +240,7 @@ class Layout
     /**
      * Get Y-Mode.
      *
-     * @return string
+     * @return ?string
      */
     public function getYMode()
     {
@@ -230,7 +250,7 @@ class Layout
     /**
      * Set Y-Mode.
      *
-     * @param string $mode
+     * @param ?string $mode
      *
      * @return $this
      */
@@ -244,7 +264,7 @@ class Layout
     /**
      * Get X-Position.
      *
-     * @return number
+     * @return null|float|int
      */
     public function getXPosition()
     {
@@ -254,7 +274,7 @@ class Layout
     /**
      * Set X-Position.
      *
-     * @param float $position
+     * @param ?float $position
      *
      * @return $this
      */
@@ -268,7 +288,7 @@ class Layout
     /**
      * Get Y-Position.
      *
-     * @return number
+     * @return null|float
      */
     public function getYPosition()
     {
@@ -278,7 +298,7 @@ class Layout
     /**
      * Set Y-Position.
      *
-     * @param float $position
+     * @param ?float $position
      *
      * @return $this
      */
@@ -292,7 +312,7 @@ class Layout
     /**
      * Get Width.
      *
-     * @return number
+     * @return ?float
      */
     public function getWidth()
     {
@@ -302,7 +322,7 @@ class Layout
     /**
      * Set Width.
      *
-     * @param float $width
+     * @param ?float $width
      *
      * @return $this
      */
@@ -316,7 +336,7 @@ class Layout
     /**
      * Get Height.
      *
-     * @return number
+     * @return null|float
      */
     public function getHeight()
     {
@@ -326,7 +346,7 @@ class Layout
     /**
      * Set Height.
      *
-     * @param float $height
+     * @param ?float $height
      *
      * @return $this
      */
@@ -481,6 +501,42 @@ class Layout
     public function setLabelFontColor(?ChartColor $chartColor): self
     {
         $this->labelFontColor = $chartColor;
+
+        return $this;
+    }
+
+    public function getDLblPos(): string
+    {
+        return $this->dLblPos;
+    }
+
+    public function setDLblPos(string $dLblPos): self
+    {
+        $this->dLblPos = $dLblPos;
+
+        return $this;
+    }
+
+    public function getNumFmtCode(): string
+    {
+        return $this->numFmtCode;
+    }
+
+    public function setNumFmtCode(string $numFmtCode): self
+    {
+        $this->numFmtCode = $numFmtCode;
+
+        return $this;
+    }
+
+    public function getNumFmtLinked(): bool
+    {
+        return $this->numFmtLinked;
+    }
+
+    public function setNumFmtLinked(bool $numFmtLinked): self
+    {
+        $this->numFmtLinked = $numFmtLinked;
 
         return $this;
     }

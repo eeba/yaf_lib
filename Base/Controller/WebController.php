@@ -16,9 +16,6 @@ abstract class WebController extends Abstraction
     {
     }
 
-    /**
-     * @return array
-     */
     public function params()
     {
         return [];
@@ -30,15 +27,14 @@ abstract class WebController extends Abstraction
     {
     }
 
-
     public function indexAction()
     {
         $this->before();
         $this->auth();
         $this->params = Handler::check($this->params());
         $this->action();
-        $this->after();
         $this->flush();
+        $this->after();
     }
 
 }

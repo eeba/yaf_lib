@@ -12,18 +12,15 @@ class Str extends Abstraction
         'max' => 255,
     );
 
-    /**
-     * @throws Exception
-     */
-    public function action($value)
+    public function action($param)
     {
-        $len = strlen($value['value']);
-        $min = $value['option']['min'] ?? $this->default_settings['min'];
-        $max = $value['option']['max'] ?? $this->default_settings['max'];
+        $len = strlen($param['value']);
+        $min = isset($param['option']['min']) ? $param['option']['min'] : $this->default_settings['min'];
+        $max = isset($param['option']['max']) ? $param['option']['max'] : $this->default_settings['max'];
         if ($len >= $min && $len <= $max) {
-            return $value['value'];
+            return $param['value'];
         }
 
-        throw new Exception($value['msg']);
+        throw new Exception($param['msg']);
     }
 }

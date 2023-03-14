@@ -16,12 +16,12 @@ class Request extends \Yaf_Request_Http
         return $data;
     }
 
-    public function isAjax()
+    public static function isAjax()
     {
-        parent::isXmlHttpRequest();
+        return (new \Yaf_Request_Http)->isXmlHttpRequest();
     }
 
-    public function isHttps()
+    public function isHttps(): bool
     {
         if ($this->getServer('HTTPS') === 'on'
             || $this->getServer('HTTP_X_FORWARDED_PROTO') === 'https'//为解决教育网https登录的问题，由教育网vip添加一个http头信息

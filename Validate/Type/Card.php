@@ -12,15 +12,12 @@ use Validate\Abstraction;
  */
 class Card extends Abstraction
 {
-    /**
-     * @throws Exception
-     */
-    public function action($value)
+    public function action($param)
     {
-        if (preg_match('/^[0-9]{9,23}$/', $value['value'])) {
-            return $value['value'];
+        if (preg_match('/^[0-9]{9,23}$/', $param['value'])) {
+            return $param['value'];
         }
 
-        throw new Exception($value['msg']);
+        throw new Exception($param['msg']);
     }
 }

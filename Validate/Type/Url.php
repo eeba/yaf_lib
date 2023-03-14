@@ -10,16 +10,13 @@ use Validate\Abstraction;
  */
 class Url extends Abstraction
 {
-    /**
-     * @throws Exception
-     */
-    public function action($value)
+    public function action($param)
     {
-        $parse = parse_url($value['value']);
+        $parse = parse_url($param['value']);
         if ($parse && isset($parse['host']) && in_array(strtolower($parse['scheme']), array('ftp', 'http', 'https'))) {
-            return $value['value'];
+            return $param['value'];
         }
 
-        throw new Exception($value['msg']);
+        throw new Exception($param['msg']);
     }
 }

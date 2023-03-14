@@ -16,22 +16,25 @@ class Redis extends Abstraction
         $this->redis = $config ? new DataRedis($config) : new DataRedis();
     }
 
-    public function push($queue_name, $value, array $option = array())
+    public function push($queue_name, $message, $option = array())
     {
-        return $this->redis->rPush($this->getKey($queue_name), $value);
+        $ret = $this->redis->rPush($this->getKey($queue_name), $message);
+        return $ret;
     }
 
-    public function pop($queue_name, array $option = array())
+    public function pop($queue_name, $option = array())
     {
-        return $this->redis->lPop($this->getKey($queue_name));
+        $ret = $this->redis->lPop($this->getKey($queue_name));
+        return $ret;
     }
 
     public function len($queue_name)
     {
-        return $this->redis->lLen($this->getKey($queue_name));
+        $ret = $this->redis->lLen($this->getKey($queue_name));
+        return $ret;
     }
 
-    public function getKey($key): string
+    public function getKey($key)
     {
         return 'QUEUE_' . strtoupper($key);
     }

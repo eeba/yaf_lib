@@ -5,7 +5,7 @@ namespace Util;
 class Ua
 {
 
-    public static function isWeiXin(): bool
+    public static function isWeiXin()
     {
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
             return true;
@@ -14,7 +14,7 @@ class Ua
         }
     }
 
-    public static function isMobile(): bool
+    public static function isMobile()
     {
         // 如果有HTTP_X_WAP_PROFILE则一定是移动设备
         if (isset($_SERVER['HTTP_X_WAP_PROFILE'])) {
@@ -23,7 +23,7 @@ class Ua
 
         // 如果via信息含有wap则一定是移动设备,部分服务商会屏蔽该信息
         if (isset($_SERVER['HTTP_VIA'])) {
-            return (bool)stristr($_SERVER['HTTP_VIA'], "wap");
+            return stristr($_SERVER['HTTP_VIA'], "wap") ? true : false;
         }
         // 脑残法，判断手机发送的客户端标志,兼容性有待提高。其中'MicroMessenger'是微信
         if (isset($_SERVER['HTTP_USER_AGENT'])) {

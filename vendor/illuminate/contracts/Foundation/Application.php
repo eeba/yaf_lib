@@ -16,71 +16,16 @@ interface Application extends Container
     /**
      * Get the base path of the Laravel installation.
      *
-     * @param  string  $path
      * @return string
      */
-    public function basePath($path = '');
-
-    /**
-     * Get the path to the bootstrap directory.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function bootstrapPath($path = '');
-
-    /**
-     * Get the path to the application configuration files.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function configPath($path = '');
-
-    /**
-     * Get the path to the database directory.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function databasePath($path = '');
-
-    /**
-     * Get the path to the resources directory.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function resourcePath($path = '');
-
-    /**
-     * Get the path to the storage directory.
-     *
-     * @return string
-     */
-    public function storagePath();
+    public function basePath();
 
     /**
      * Get or check the current application environment.
      *
-     * @param  string|array  $environments
-     * @return string|bool
+     * @return string
      */
-    public function environment(...$environments);
-
-    /**
-     * Determine if the application is running in the console.
-     *
-     * @return bool
-     */
-    public function runningInConsole();
-
-    /**
-     * Determine if the application is running unit tests.
-     *
-     * @return bool
-     */
-    public function runningUnitTests();
+    public function environment();
 
     /**
      * Determine if the application is currently down for maintenance.
@@ -100,10 +45,11 @@ interface Application extends Container
      * Register a service provider with the application.
      *
      * @param  \Illuminate\Support\ServiceProvider|string  $provider
-     * @param  bool  $force
+     * @param  array  $options
+     * @param  bool   $force
      * @return \Illuminate\Support\ServiceProvider
      */
-    public function register($provider, $force = false);
+    public function register($provider, $options = [], $force = false);
 
     /**
      * Register a deferred provider and service.
@@ -115,14 +61,6 @@ interface Application extends Container
     public function registerDeferredProvider($provider, $service = null);
 
     /**
-     * Resolve a service provider instance from the class name.
-     *
-     * @param  string  $provider
-     * @return \Illuminate\Support\ServiceProvider
-     */
-    public function resolveProvider($provider);
-
-    /**
      * Boot the application's service providers.
      *
      * @return void
@@ -132,7 +70,7 @@ interface Application extends Container
     /**
      * Register a new boot listener.
      *
-     * @param  callable  $callback
+     * @param  mixed  $callback
      * @return void
      */
     public function booting($callback);
@@ -140,76 +78,15 @@ interface Application extends Container
     /**
      * Register a new "booted" listener.
      *
-     * @param  callable  $callback
+     * @param  mixed  $callback
      * @return void
      */
     public function booted($callback);
 
     /**
-     * Run the given array of bootstrap classes.
-     *
-     * @param  array  $bootstrappers
-     * @return void
-     */
-    public function bootstrapWith(array $bootstrappers);
-
-    /**
-     * Get the current application locale.
+     * Get the path to the cached services.php file.
      *
      * @return string
      */
-    public function getLocale();
-
-    /**
-     * Get the application namespace.
-     *
-     * @return string
-     *
-     * @throws \RuntimeException
-     */
-    public function getNamespace();
-
-    /**
-     * Get the registered service provider instances if any exist.
-     *
-     * @param  \Illuminate\Support\ServiceProvider|string  $provider
-     * @return array
-     */
-    public function getProviders($provider);
-
-    /**
-     * Determine if the application has been bootstrapped before.
-     *
-     * @return bool
-     */
-    public function hasBeenBootstrapped();
-
-    /**
-     * Load and boot all of the remaining deferred providers.
-     *
-     * @return void
-     */
-    public function loadDeferredProviders();
-
-    /**
-     * Set the current application locale.
-     *
-     * @param  string  $locale
-     * @return void
-     */
-    public function setLocale($locale);
-
-    /**
-     * Determine if middleware has been disabled for the application.
-     *
-     * @return bool
-     */
-    public function shouldSkipMiddleware();
-
-    /**
-     * Terminate the application.
-     *
-     * @return void
-     */
-    public function terminate();
+    public function getCachedServicesPath();
 }

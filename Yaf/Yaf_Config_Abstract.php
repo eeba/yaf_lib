@@ -1,191 +1,30 @@
 <?php
 /**
-* Yaf自动补全类(基于最新的3.3.3版本)
-* @author shixinke(http://www.shixinke.com)
-* @modified 2021/12/01
-*/
+ * Yaf自动补全类(基于最新的3.3.3版本)
+ * @author shixinke(http://www.shixinke.com)
+ * @modified 2021/12/01
+ */
 
 /**
-*
-*/
-abstract class Yaf_Config_Abstract implements Iterator, Traversable, ArrayAccess, Countable
+ * @method readonly(): bool
+ * @method toArray(): array
+ * @method __get (string $name):mixed
+ * @method __set(string $name, mixed $value): void
+ * @method __isset(string $name): void
+ * @method key(): void
+ * @method next(): void
+ * @method offsetExists($name): void
+ * @method offsetGet($name): void
+ * @method offsetSet($name, $value): void
+ * @method offsetUnset($name): void
+ * @method rewind(): void
+ * @method valid(): void
+ * @method count(): void
+ * @method current(): void
+ */
+abstract class Yaf_Config_Abstract implements Iterator, ArrayAccess, Countable
 {
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function get($name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function count()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function toArray()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function offsetUnset($name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function rewind()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function current()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function key()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function next()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public function valid()
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function __isset($name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function __get($name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function offsetGet($name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $name 
-     * @return 
-     */
-    public function offsetExists($name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $name 
-     * @param  mixed $value 
-     * @return 
-     */
-    public abstract  function offsetSet($name, $value);
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $name 
-     * @param  mixed $value 
-     * @return 
-     */
-    public abstract  function set($name, $value);
-
-    /**
-     * 
-     *
-     * @example 
-     * @return 
-     */
-    public abstract  function readonly();
-
+    protected array $_config;
+    protected string $_readonly = "1";
 }
 

@@ -50,10 +50,13 @@ class Redis extends Abstraction
      * @param string $key key值
      *
      * @return bool|int
+     * @throws Exception
      */
     public function del($key)
     {
-        return $this->getInstance()->del($key);
+        $ret = $this->getInstance()->del($key);
+
+        return $ret;
     }
 
     /**

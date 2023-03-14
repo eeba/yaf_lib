@@ -10,16 +10,13 @@ use Validate\Abstraction;
  */
 class Identify extends Abstraction
 {
-    /**
-     * @throws Exception
-     */
-    public function action($value)
+    public function action($param)
     {
-        if (preg_match('/(^\d{15}$)|(^\d{17}[0-9Xx]$)/', $value['value']) && self::checkIdentity($value['value'])) {
-            return $value['value'];
+        if (preg_match('/(^\d{15}$)|(^\d{17}[0-9Xx]$)/', $param['value']) && self::checkIdentity($param['value'])) {
+            return $param['value'];
         }
 
-        throw new Exception($value['msg']);
+        throw new Exception($param['msg']);
     }
 
     /**
@@ -27,7 +24,7 @@ class Identify extends Abstraction
      * @param $id_num
      * @return bool
      */
-    private static function checkIdentity($id_num): bool
+    private static function checkIdentity($id_num)
     {
         //15位无校验位
         if (strlen($id_num) == 15) {

@@ -41,9 +41,6 @@ class Des implements CryptInterface
 
     const DEFAULT_KEY = "common";
 
-    /**
-     * @throws Exception
-     */
     public static function encrypt($plain, $key = self::DEFAULT_KEY)
     {
         $config = Config::get('des.' . $key);
@@ -57,9 +54,6 @@ class Des implements CryptInterface
         return openssl_encrypt($plain, $config['method'], $config['password'], $config['options']);
     }
 
-    /**
-     * @throws Exception
-     */
     public static function decrypt($enplain, $key = self::DEFAULT_KEY)
     {
         $config = Config::get('des.' . $key);
@@ -70,7 +64,7 @@ class Des implements CryptInterface
         return $config['pkcs5pad'] !== false ? self::pkcs5Unpad($plain) : $plain;
     }
 
-    public static function pkcs5Pad($plain, $blocksize): string
+    public static function pkcs5Pad($plain, $blocksize)
     {
         $pad = $blocksize - (strlen($plain) % $blocksize);
         return $plain . str_repeat(chr($pad), $pad);

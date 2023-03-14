@@ -38,7 +38,7 @@ class Utils
      *
      * @param string $title 进程标题
      */
-    public static function setProcessTitle(string $title)
+    public static function setProcessTitle($title)
     {
         if (function_exists('cli_set_process_title')) {
             cli_set_process_title($title);
@@ -54,7 +54,7 @@ class Utils
      *
      * @return array
      */
-    public static function getWorkerProcessInfo(array $pids): array
+    public static function getWorkerProcessInfo(array $pids)
     {
         $ret = array();
         foreach ($pids as $pid => $info) {
@@ -69,7 +69,7 @@ class Utils
      *
      * @param string $msg 待输出信息
      */
-    public static function echoInfo(string $msg)
+    public static function echoInfo($msg)
     {
         echo date("Y-m-d H:i:s") . " $msg \n";
     }

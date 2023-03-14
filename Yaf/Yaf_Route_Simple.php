@@ -1,53 +1,11 @@
 <?php
-/**
-* Yaf自动补全类(基于最新的3.3.3版本)
-* @author shixinke(http://www.shixinke.com)
-* @modified 2021/12/01
-*/
 
 /**
-*
-*/
+ * @method __construct(string $module_name, string $controller_name, string $action_name)
+ */
 final class Yaf_Route_Simple implements Yaf_Route_Interface
 {
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $module_name 
-     * @param  mixed $controller_name 
-     * @param  mixed $action_name 
-     * @return 
-     */
-    public function __construct($module_name, $controller_name, $action_name)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param  mixed $request 
-     * @return 
-     */
-    public function route($request)
-    {
-    
-    }
-
-    /**
-     * 
-     *
-     * @example 
-     * @param array $info 
-     * @param array $query 
-     * @return 
-     */
-    public function assemble(Array $info, Array $query)
-    {
-    
-    }
-
+    protected string $controller;
+    protected string $module;
+    protected string $action;
 }
-

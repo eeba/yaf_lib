@@ -5,7 +5,7 @@ namespace Base;
 class Env
 {
 
-    private static $controller_name = '';
+    private static string $controller_name = '';
 
     public static function isCli()
     {
@@ -37,4 +37,5 @@ class Env
     {
         return \Yaf_Application::app()->getDispatcher()->getRequest()->getRequestUri();
     }
+
 }

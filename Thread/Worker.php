@@ -83,6 +83,8 @@ abstract class Worker
                 sleep($this->whileSleep);
             }
             pcntl_signal_dispatch();
+            if (!$this->isRunning)
+                break;
         }
         exit;
     }
@@ -121,9 +123,9 @@ abstract class Worker
      * @access protected
      * @return void
      */
-    protected function sigHandler(int $sig)
+    protected function sigHandler($sig)
     {
-        switch ($sig) {
+        switch (intval($sig)) {
             case SIGTERM:
                 $this->stop();
                 break;
@@ -135,7 +137,7 @@ abstract class Worker
     /**
      * 检查文件变更
      */
-    protected function checkIncludedFiles(): bool
+    protected function checkIncludedFiles()
     {
         if (!$this->includedFile) {
             $this->includedFile = Utils::getIncludedFilesMd5();
@@ -153,7 +155,7 @@ abstract class Worker
     /**
      * 检查循环次数
      */
-    protected function checkRunNum(): bool
+    protected function checkRunNum()
     {
         $thread_config = new Config();
         $class_name = "\\" . get_class($this);
@@ -167,7 +169,7 @@ abstract class Worker
     /**
      * 检查生存时长
      */
-    protected function checkRunTtl(): bool
+    protected function checkRunTtl()
     {
         $thread_config = new Config();
         $class_name = "\\" . get_class($this);

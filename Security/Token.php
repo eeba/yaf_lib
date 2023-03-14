@@ -22,11 +22,12 @@ class Token
      * @param bool $uniq token是否具有唯一性
      * @return string
      */
-    public static function getFormToken(array $data = array(), bool $uniq = false): string
+    public static function getFormToken(array $data = array(), $uniq = false)
     {
         $controller = (new \Yaf\Request\Http())->getControllerName();
         $time = microtime(true);
-        return $time . "|" . $controller . "|" . $uniq . "|" . md5($time . $controller . $uniq . serialize($data) . self::RANDOM);
+        $token = $time . "|" . $controller . "|" . $uniq . "|" . md5($time . $controller . $uniq . serialize($data) . self::RANDOM);
+        return $token;
     }
 
     /**
@@ -35,10 +36,10 @@ class Token
      * @param        $token
      * @param array $data 表单上的既定项
      * @param bool $ttl token有效时间 单位秒
-     * @param string|null $controller default null token来源控制器, 默认不校验
+     * @param string $controller default null token来源控制器, 默认不校验
      * @return bool
      */
-    public static function checkFormToken($token, array $data = array(), bool $ttl = false, string $controller = null): bool
+    public static function checkFormToken($token, array $data = array(), $ttl = false, $controller = null)
     {
         $ret = explode("|", $token);
         $time = $ret[0];
