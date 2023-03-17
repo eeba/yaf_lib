@@ -9,7 +9,7 @@ use Yaf_Dispatcher;
 
 class Abstraction extends \Yaf_Controller_Abstract
 {
-    protected $res = [];
+    protected array|string $res;
 
     protected function init()
     {
@@ -42,8 +42,14 @@ class Abstraction extends \Yaf_Controller_Abstract
                 $this->getResponse()->setBody(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
                 break;
             case Response::FORMAT_PLAIN:
-                $this->getResponse()->setHeader('Content-Type', 'text/plain; charset=utf-8');
-                $this->getResponse()->setBody(strval($this->res));
+                if ($this->res) {
+                    $this->getResponse()->setHeader('Content-Type', 'text/plain; charset=utf-8');
+                    if (is_array($this->res)) {
+                        $this->getResponse()->setBody(strval(json_encode($this->res, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)));
+                    } else {
+                        $this->getResponse()->setBody(strval($this->res));
+                    }
+                }
                 break;
             default:
                 $this->getResponse()->setHeader('Content-Type', 'text/plain; charset=utf-8');
