@@ -11,8 +11,7 @@ abstract class Abstraction
     /**
      * 验证方法
      *
-     * @param $value
-     * @return mixed
+     * @param array $param
      */
-    abstract public function action($value);
+    abstract public function action(array $param);
 }

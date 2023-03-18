@@ -12,8 +12,7 @@ use Swift_Attachment;
 
 class Email
 {
-    protected $config = array();
-    protected $need_config = array(
+    protected array $must_exist_key = array(
         'host',
         'port',
         'ssl',
@@ -34,7 +33,7 @@ class Email
             throw new Exception("mail {$config} config not find");
         }
 
-        foreach ($this->need_config as $key) {
+        foreach ($this->must_exist_key as $key) {
             if (!array_key_exists($key, $config)) {
                 throw new Exception("mail config must have $key");
             }
@@ -51,7 +50,7 @@ class Email
      * @return bool
      * @throws Exception
      */
-    public function send($mail, $object, $msg, $files = [])
+    public function send($mail, $object, $msg, array $files = []): bool
     {
         if (!is_array($mail)) {
             $mail_list[] = $mail;

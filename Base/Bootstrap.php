@@ -2,6 +2,8 @@
 
 namespace Base;
 
+use Yaf_Dispatcher;
+
 class Bootstrap extends \Yaf_Bootstrap_Abstract
 {
 
@@ -35,9 +37,9 @@ class Bootstrap extends \Yaf_Bootstrap_Abstract
     /**
      * 三方类库
      *
-     * @param \Yaf_Dispatcher $dispatcher
+     * @param Yaf_Dispatcher $dispatcher
      */
-    public function _initVendor(\Yaf_Dispatcher $dispatcher)
+    public function _initVendor(Yaf_Dispatcher $dispatcher)
     {
         $loader = include(LIB_PATH . '/vendor/autoload.php');
         $loader->addPsr4('Script\\', APP_PATH . '/script');
@@ -47,9 +49,9 @@ class Bootstrap extends \Yaf_Bootstrap_Abstract
     /**
      * 注册本地命名空间
      *
-     * @param \Yaf_Dispatcher $dispatcher
+     * @param Yaf_Dispatcher $dispatcher
      */
-    public function _initRegisterLocalNameSpace(\Yaf_Dispatcher $dispatcher)
+    public function _initRegisterLocalNameSpace(Yaf_Dispatcher $dispatcher)
     {
         \Yaf_Loader::getInstance()->registerLocalNamespace('Service');
         \Yaf_Loader::getInstance()->registerLocalNamespace('Data');

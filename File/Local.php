@@ -2,26 +2,25 @@
 
 namespace File;
 
+use Base\Config;
 use Log\Logger;
 use Base\Exception;
 
 class Local extends Abstraction
 {
-    private $config = null;
-    private $instance_obj = null;
-    private $check_key = ['bucket'];
+    private Local|null $instance_obj = null;
+    private array $must_exist_key = ['bucket'];
 
 
     /**
      * Local constructor.
      * @throws Exception
      */
-    public function __construct()
+    public function __construct(string $name = "server.file.local")
     {
         if (!$this->instance_obj) {
-            $config = \Base\Config::get('server.file.local');
-
-            foreach ($this->check_key as $key) {
+            $config = Config::get($name);
+            foreach ($this->must_exist_key as $key) {
                 if (!isset($config[$key])) {
                     throw new Exception('配置缺少：' . $key, 5100001);
                 }
@@ -33,24 +32,18 @@ class Local extends Abstraction
     }
 
     /**
-     * @param     $file
-     * @param     $category
-     * @param string $filename
-     *
-     * @return mixed|string
+     * @param $file
+     * @return string
      * @throws Exception
      */
-    public function put($file, $category, $filename = '')
+    public function put($file):string
     {
         if ($file['error']) {
-            return '';
+            throw new Exception("put file '" . $file['name'] . "' is fail, error:" . $file['error']);
         }
 
-        $dir = $this->config['bucket'] . '/' . $category . '/' . date('Ym') . '/';
-        $filename = $filename ?: md5_file($file['tmp_name']) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
-        $target = strtolower(str_replace('//', '/', $dir . $filename));
-
-        $this->checkDir($dir);
+        $target = $this->getFilePath();
+        $this->checkDir($target);
         $ret = move_uploaded_file($file['tmp_name'], $target);
 
         if ($ret) {
@@ -64,42 +57,37 @@ class Local extends Abstraction
     /**
      * 下载
      *
-     * @param        $path
-     * @param        $local
-     *
+     * @param $target
+     * @param null $options
      * @return string
      * @throws Exception
      */
-    public function get($path, $local = null)
+    public function get($target, $options = null): string
     {
-        $target = $this->config['bucket'] . '/' . $path;
+        $target = $this->config['bucket'] . '/' . $target;
         $target = str_replace('//', '/', $target);
         if (!is_readable($target)) {
             Logger::error('目录不存在/不可读', ["file '$target' is not found or can't be read"]);
             throw new Exception("file '$target' is not found or can't be read");
         }
 
-        $content = file_get_contents($target);
-        return $content;
+        return file_get_contents($target);
     }
 
 
     /**
-     * @param $path
-     *
-     * @return bool
+     * @param $target
+     * @return void
      * @throws Exception
      */
-    private function checkDir($path)
+    private function checkDir($target): void
     {
-        if (is_dir($path)) {
-            return true;
-        } else {
+        $path = pathinfo($target, PATHINFO_DIRNAME);
+        if (!is_dir($path)) {
             $ret = mkdir($path, 0777, true);
             if (!$ret) {
                 throw new Exception(get_class() . " can't create the folder " . $path);
             }
-            return true;
         }
     }
 }

@@ -3,20 +3,21 @@
 namespace Base\Dao;
 
 use Base\Exception as Exception;
+use Cache\Abstraction;
 
 class Cache
 {
 
-    protected static $cache;
+    protected static Abstraction $cache;
 
     //默认缓存对象过期时间: 1day=3600s * 24
     const DEFAULT_TTL = 86400;
 
     //缓存类型，支持redis和yac
-    protected $cache_type = 'Redis';
+    protected string $cache_type = 'Redis';
 
     ///定义支持的缓存操作
-    protected static $_functions = array('get', 'set', 'del', 'mget', 'mset', 'mdel');
+    protected static array $_functions = array('get', 'set', 'del');
 
     /**
      * @param $name
@@ -53,38 +54,17 @@ class Cache
         }
         $cache = self::$cache[$cache_type];
 
+        $key = $this->getKey($cache_id, $arguments[0]);
         if ('get' == $function) {
-            $key = $this->getKey($cache_id, $arguments[0]);
             $ret = $cache->get($key);
             $ret = $ret ? json_decode($ret, true) : false;
         } else if ('set' == $function) {
             $config = $this->$cache_id;
-            $key = $this->getKey($cache_id, $arguments[0]);
             $data = json_encode($arguments[1]);
-            $ret = $cache->set($key, $data, $config['ttl']) ? true : false;
+            $ret = (bool)$cache->set($key, $data, $config['ttl']);
         } else if ('del' == $function) {
-            $key = $this->getKey($cache_id, $arguments[0]);
-            $ret = $cache->del($key) ? true : false;
-        } else if ("mget" == $function) {
-            $keys = $this->getKey($cache_id, $arguments[0]);
-            $vals = $cache->mget($keys);
-
-            $ret = array();
-            foreach ($keys as $idx => $key) {
-                $val = $vals[$idx];
-                $ret[$key] = ($val ? json_decode($val, true) : $val);
-            }
-        } else if ('mset' == $function) {
-            $config = $this->$cache_id;
-            $vals = array();
-            foreach ($arguments[0] as $key => $val) {
-                $vals[$this->getKey($cache_id, $key)] = json_encode($val);
-            }
-            $ret = $cache->mset($vals, $config['ttl']) ? true : false;
-        } else if ('mdel' == $function) {
-            $keys = $this->getKey($cache_id, $arguments[0]);
-            $ret = $cache->mdel($keys) ? true : false;
-        } else {
+            $ret = (bool)$cache->del($key);
+        }  else {
             $ret = false;
         }
 
@@ -95,11 +75,11 @@ class Cache
      * 获取键
      *
      * @param string $cache_id 缓存标识
-     * @param string|array $key 键
+     * @param array|string $key 键
      *
      * @return string|array 添加前缀后的键
      */
-    protected function getKey($cache_id, $key)
+    protected function getKey(string $cache_id, array|string $key): array|string
     {
         $prefix = $this->$cache_id;
         $prefix = $prefix['prefix'];
@@ -112,7 +92,7 @@ class Cache
             return $key;
         }
 
-        return 'CACHE_' . $prefix . '_' . $key;
+        return 'CACHE:' . $prefix . ':' . $key;
     }
 
     /**
@@ -122,7 +102,7 @@ class Cache
      * @param string $prefix 键前缀
      * @param int $ttl default 86400 缓存时效, 默认1天
      */
-    protected function setConfig($cache_id, $prefix, $ttl = self::DEFAULT_TTL)
+    protected function setConfig(string $cache_id, string $prefix, int $ttl = self::DEFAULT_TTL): void
     {
         $cache_id = strtolower($cache_id);
         $this->$cache_id = array(

@@ -11,7 +11,7 @@ interface CryptInterface
      *
      * @return mixed
      */
-    public static function encrypt($plain, $key);
+    public static function encrypt($plain, $key): mixed;
 
     /**
      * 统一解密
@@ -20,5 +20,5 @@ interface CryptInterface
      *
      * @return mixed
      */
-    public static function decrypt($enplain, $key);
+    public static function decrypt($enplain, $key): mixed;
 }

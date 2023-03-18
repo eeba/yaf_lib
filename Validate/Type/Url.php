@@ -10,6 +10,9 @@ use Validate\Abstraction;
  */
 class Url extends Abstraction
 {
+    /**
+     * @throws Exception
+     */
     public function action($param)
     {
         $parse = parse_url($param['value']);

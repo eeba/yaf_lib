@@ -2,6 +2,8 @@
 
 namespace Cache;
 
+use Base\Exception;
+
 /**
  * Class \Base\Cache\Yac
  *
@@ -15,60 +17,46 @@ namespace Cache;
  */
 class Yac extends Abstraction
 {
-    /**
-     * @var \Yac $yac
-     */
-    protected $yac = null;
+    protected ?\Yac $instance = null;
 
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     * @throws \Base\Exception
-     */
-    public function get($key)
+    public function get(string $key): string|array
     {
         return $this->getInstance()->get($this->hashKey($key));
     }
 
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @param int $expire
-     *
-     * @return bool
-     * @throws \Base\Exception
-     */
-    public function set($key, $value, $expire = 60)
+    public function set(string $key, bool|array|string $value, int $ttl = self::DEFAULT_EXPIRE): bool
     {
-        return $this->getInstance()->set($this->hashKey($key), $value, $expire);
+        return $this->getInstance()->set($this->hashKey($key), $value, $ttl);
     }
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     * @throws \Base\Exception
-     */
-    public function del($key)
+    public function del(string $key): bool
     {
         return $this->getInstance()->delete($this->hashKey($key));
     }
+
+    protected function getInstance(): \Yac
+    {
+        if ($this->instance) {
+            $this->instance = new \Yac();
+        }
+
+        return $this->instance;
+    }
+
 
     /**
      * 去掉危险操作的功能
      *
      * @return bool
      */
-    public function flush()
+    public function flush(): bool
     {
         return false;
     }
 
-    public function close()
+    public function close(): bool
     {
-        $this->yac = null;
-
+        $this->instance = null;
         return true;
     }
 
@@ -77,26 +65,13 @@ class Yac extends Abstraction
         $this->close();
     }
 
-    /**
-     * @return \Yac
-     */
-    public function getInstance()
-    {
-        if (!$this->yac) {
-            $this->yac = new \Yac(substr(APP . "_", 0, 16));
-        }
-
-        return $this->yac;
-    }
 
     /**
      * 防止超出长度,yac默认限制 48位
-     *
      * @param string $key
-     *
      * @return string
      */
-    private function hashKey($key)
+    private function hashKey(string $key): string
     {
         return md5($key);
     }

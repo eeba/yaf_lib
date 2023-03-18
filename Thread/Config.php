@@ -32,9 +32,9 @@ class Config
     const WORK_TTL = 8640;  //子进程1小时，回收
     const WORK_DEAL_NUM = 100000;  //子进程循环处理100000个，回收
 
-    private static $_thread_config_file;  //子进程配置文件存放路径
+    private static string $_thread_config_file;  //子进程配置文件存放路径
 
-    protected $_config = array();
+    protected array $_config = array();
 
     public function __construct()
     {
@@ -52,7 +52,7 @@ class Config
      * @return bool
      *
      */
-    public function setWorkerConfig($class_name, $work_num, $ttl = 0, $deal_num = 0)
+    public function setWorkerConfig(string $class_name, int $work_num, int $ttl = 0, int $deal_num = 0): bool
     {
         if ($ttl === 0) {
             $ttl = rand(self::WORK_TTL, self::WORK_TTL + 1000);
@@ -78,7 +78,7 @@ class Config
      *
      * @return array
      */
-    public function getWorkerConfig()
+    public function getWorkerConfig(): array
     {
         $this->_getConfigByFile();
 
@@ -92,7 +92,7 @@ class Config
      *
      * @return int
      */
-    public function getWorkerTtl($class_name)
+    public function getWorkerTtl(string $class_name): int
     {
         $this->_getConfigByFile();
 
@@ -106,7 +106,7 @@ class Config
      *
      * @return int
      */
-    public function getWorkerNum($class_name)
+    public function getWorkerNum(string $class_name): int
     {
         $this->_getConfigByFile();
 
@@ -120,7 +120,7 @@ class Config
      *
      * @return int
      */
-    public function getWorkerDealNum($class_name)
+    public function getWorkerDealNum(string $class_name): int
     {
         $this->_getConfigByFile();
 
@@ -130,9 +130,9 @@ class Config
     /**
      * 从配置文件中加载进程配置
      *
-     * @return bool
+     * @return void
      */
-    private function _getConfigByFile()
+    private function _getConfigByFile(): void
     {
         $config = file_get_contents(self::$_thread_config_file);
         if ($config) {
@@ -140,21 +140,18 @@ class Config
         } else {
             $this->_config = array();
         }
-
-        return true;
     }
 
     /**
      * 更新进程配置文件
      *
-     * @return bool
+     * @return void
      */
-    private function _setConfigByFile()
+    private function _setConfigByFile(): void
     {
         if (!file_exists(self::$_thread_config_file) || md5(json_encode($this->_config)) !== md5_file(self::$_thread_config_file)) {
             file_put_contents(self::$_thread_config_file, json_encode($this->_config));
         }
-        return true;
     }
 
 }

@@ -49,9 +49,9 @@ class Aes implements CryptInterface
      * @param string $plain 明文  支持数组形式
      * @param string $key 指定加密配置 默认采用common的配置加密
      * @return string       密文
-     * @throws \Base\Exception
+     * @throws Exception
      */
-    public static function encrypt($plain, $key = self::DEFAULT_KEY)
+    public static function encrypt($plain, $key = self::DEFAULT_KEY): string
     {
 
         $config = Config::get('aes.' . $key);
@@ -72,7 +72,7 @@ class Aes implements CryptInterface
      * @return array|string    明文
      * @throws Exception
      */
-    public static function decrypt($enplain, $key = self::DEFAULT_KEY)
+    public static function decrypt($enplain, $key = self::DEFAULT_KEY): array|string
     {
 
         $config = Config::get('aes.' . $key);
@@ -92,7 +92,7 @@ class Aes implements CryptInterface
      * @param array $data
      * @return string
      */
-    protected static function serialize(array $data)
+    protected static function serialize(array $data): string
     {
         return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
@@ -102,7 +102,7 @@ class Aes implements CryptInterface
      * @param $string
      * @return array
      */
-    protected static function unserialize($string)
+    protected static function unserialize($string): array
     {
         return json_decode($string, true);
     }

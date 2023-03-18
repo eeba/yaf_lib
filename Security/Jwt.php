@@ -56,7 +56,7 @@ EOD;
     {
         $decoded = [];
         try {
-            //\Firebase\JWT\JWT::$leeway = 60;//当前时间减去60，把时间留点余地
+            //\Firebase\JWT\JWT::$leeway = 60;//当前时间减去60，给时间留点余地
             $decoded = \Firebase\JWT\JWT::decode($jwt, new \Firebase\JWT\Key(self::$publicKey, "RS256")); //RS256方式，这里要和签发的时候对应
         } catch (\Firebase\JWT\SignatureInvalidException $e) {  //签名不正确
             throw new Exception("token错误", 5005001);

@@ -18,7 +18,7 @@ class Session extends Yaf_Plugin_Abstract
      * @param Yaf_Response_Abstract $response
      * @return void
      */
-    public function dispatchLoopStartup(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response)
+    public function dispatchLoopStartup(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response): void
     {
         //启用session
         if (defined('APP')) {

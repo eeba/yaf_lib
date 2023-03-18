@@ -3,11 +3,12 @@
 namespace Base;
 
 use Smarty;
+use SmartyException;
 
 
 class View implements \Yaf_View_Interface
 {
-    protected $_smarty = null;
+    protected ?Smarty $_smarty = null;
 
     public function __construct()
     {
@@ -27,14 +28,20 @@ class View implements \Yaf_View_Interface
         $this->_smarty->assign($name, $value);
     }
 
+    /**
+     * @throws SmartyException
+     */
     public function display($tpl, $tpl_vars = NULL)
     {
         $this->render($tpl, $tpl_vars);
     }
 
-    public function render($tpl, $tpl_vars = NULL)
+    /**
+     * @throws SmartyException
+     */
+    public function render($tpl, $tpl_vars = NULL): bool|string
     {
-        if (strpos($tpl, 'error') === false) {
+        if (!str_contains($tpl, 'error')) {
             $uri = \Yaf_Dispatcher::getInstance()->getRequest()->getRequestUri();
             $tpl = $uri == '/' ? 'index.html' : $uri . '.html';
         } else {
@@ -59,7 +66,7 @@ class View implements \Yaf_View_Interface
 
     }
 
-    public function getScriptPath($request = NULL)
+    public function getScriptPath($request = NULL): string
     {
         return APP_PATH . DIRECTORY_SEPARATOR . 'views';
     }

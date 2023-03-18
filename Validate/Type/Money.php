@@ -8,6 +8,9 @@ use Validate\Abstraction;
 class Money extends Abstraction
 {
 
+    /**
+     * @throws Exception
+     */
     public function action($param)
     {
         if (preg_match('/^[0-9]+$/', $param['value'])) {

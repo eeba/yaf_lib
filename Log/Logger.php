@@ -29,13 +29,13 @@ use Monolog\Processor\WebProcessor;
  */
 class Logger
 {
-    private static $_instance;
+    private static \Monolog\Logger $_instance;
 
     private function __construct()
     {
     }
 
-    private static function getInstance()
+    private static function getInstance(): \Monolog\Logger
     {
         if (is_null(self::$_instance)) {
             $logger = new \Monolog\Logger(APP);
@@ -59,7 +59,7 @@ class Logger
         self::getInstance()->$function_num($message, $context);
     }
 
-    private static function getPath()
+    private static function getPath(): string
     {
         $controller_name = strtolower(\Base\Env::getControllerName());
         $path = strtolower(LOG_PATH . DIRECTORY_SEPARATOR . $controller_name . DIRECTORY_SEPARATOR . date("Ym") . DIRECTORY_SEPARATOR . date("Ymd") . ".log");

@@ -9,22 +9,20 @@ use OSS\Core\OssException;
 
 class Oss extends Abstraction
 {
-    private $config = null;
-    private $instance_obj = null;
-    private $check_key = ['endpoint', 'key_id', 'key_secret', 'bucket', 'domain'];
+    private ?OssClient $instance_obj = null;
+    private array $must_exist_key = ['endpoint', 'key_id', 'key_secret', 'bucket'];
 
     /**
-     * @param $name
+     * @param string $name
      *
      * @return OssClient|null
      * @throws Exception
      */
-    public function __construct($name)
+    public function __construct(string $name = 'server.file.oss')
     {
         if (!$this->instance_obj) {
-            $config = \Base\Config::get('server.file.' . $name);
-
-            foreach ($this->check_key as $key) {
+            $config = \Base\Config::get($name);
+            foreach ($this->must_exist_key as $key) {
                 if (!isset($config[$key])) {
                     throw new Exception('配置缺少：' . $key, 5100001);
                 }
@@ -42,80 +40,44 @@ class Oss extends Abstraction
     }
 
     /**
-     * @param string $local 源
-     * @param string $target 目标
-     * @param int $type 1:上传文件，2:上传内容
-     *
-     * @return mixed
+     * @param $file
+     * @return string
      */
-    public function put($local, $target, $type = 1)
+    public function put($file): string
     {
+        $target = '';
         try {
-            if ($type == 1) {
-                $this->instance_obj->uploadFile($this->config['bucket'], $target, $local);
-            } else {
-                $this->instance_obj->putObject($this->config['bucket'], $target, $local);
-            }
-            $ret = str_replace('//', '/', $this->config['domain'] . '/' . $target);
+            $target = str_replace($this->config['bucket'], "", $this->getFilePath($file));
+            $this->instance_obj->uploadFile($this->config['bucket'], $target, $file['tmp_name']);
         } catch (\Exception $e) {
-            $ret = '';
-            Logger::error('上传失败', ['local' => $local, 'target' => $local, $e->getMessage()]);
+            Logger::error('上传失败', ['local' => $file['tmp_name'], 'target' => $target, $e->getMessage()]);
         }
 
-        return $ret;
+        return $target;
     }
-
-    /**
-     * form表单上传文件，单个文件
-     * @param        $file
-     * @param int $type
-     *
-     * @return mixed|string
-     */
-    public function upload($file, $type = 1)
-    {
-        if ($file['error']) {
-            return '';
-        }
-
-        $root_path = isset($this->config['root_path']) && $this->config['root_path'] ? $this->config['root_path'] : APP;
-        $local = $file['tmp_name'];
-        if ($type == 1) {
-            $target = $root_path . '/' . date('Ym') . '/' . md5($file['name']) . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
-        } else {
-            $target = $root_path . '/' . date('Ym') . '/' . $file['name'];
-        }
-        $target = strtolower(trim(str_replace('//', '/', $target), '/'));
-        return $this->put($local, $target);
-    }
-
 
     /**
      * 下载
      *
-     * @param        $target
-     * @param string $local 本地目录，为空时下载到内存
-     *
+     * @param      $target
+     * @param null $options
      * @return string
      * @throws Exception
+     * <code>
+     * $options = array(
+     *      OssClient::OSS_PROCESS => "image/auto-orient,1/resize,p_50/quality,q_50"
+     * );
+     * </code>
      */
-    public function get($target, $local = '')
+    public function get($target, $options = null): string
     {
         try {
-            if ($local) {
-                $options = array(
-                    OssClient::OSS_FILE_DOWNLOAD => $local
-                );
-
-                $ret = $this->instance_obj->getObject($this->config['bucket'], $target, $options);
-            } else {
-                $ret = $this->instance_obj->getObject($this->config['bucket'], $target);
-            }
+            $result = $this->instance_obj->getObject($this->config['bucket'], $target, $options);
         } catch (\Exception $e) {
-            Logger::warning('下载失败', [$e->getMessage()]);
+            Logger::debug("file get:", [$e->getMessage()]);
             throw new Exception($e->getMessage(), 5100004);
         }
 
-        return $local ? ($ret ? false : true) : $ret;
+        return $result;
     }
 }

@@ -7,6 +7,9 @@ use Validate\Abstraction;
 
 class Email extends Abstraction
 {
+    /**
+     * @throws Exception
+     */
     public function action($param)
     {
 

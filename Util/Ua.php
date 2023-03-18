@@ -5,16 +5,16 @@ namespace Util;
 class Ua
 {
 
-    public static function isWeiXin()
+    public static function isWeiXin(): bool
     {
-        if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
+        if (str_contains($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
             return true;
         } else {
             return false;
         }
     }
 
-    public static function isMobile()
+    public static function isMobile(): bool
     {
         // 如果有HTTP_X_WAP_PROFILE则一定是移动设备
         if (isset($_SERVER['HTTP_X_WAP_PROFILE'])) {
@@ -23,7 +23,7 @@ class Ua
 
         // 如果via信息含有wap则一定是移动设备,部分服务商会屏蔽该信息
         if (isset($_SERVER['HTTP_VIA'])) {
-            return stristr($_SERVER['HTTP_VIA'], "wap") ? true : false;
+            return (bool)stristr($_SERVER['HTTP_VIA'], "wap");
         }
         // 脑残法，判断手机发送的客户端标志,兼容性有待提高。其中'MicroMessenger'是微信
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
@@ -72,7 +72,7 @@ class Ua
         if (isset ($_SERVER['HTTP_ACCEPT'])) {
             // 如果只支持wml并且不支持html那一定是移动设备
             // 如果支持wml和html但是wml在html之前则是移动设备
-            if ((strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') !== false) && (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === false || (strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') < strpos($_SERVER['HTTP_ACCEPT'], 'text/html')))) {
+            if ((str_contains($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml')) && (!str_contains($_SERVER['HTTP_ACCEPT'], 'text/html') || (strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') < strpos($_SERVER['HTTP_ACCEPT'], 'text/html')))) {
                 return true;
             }
         }

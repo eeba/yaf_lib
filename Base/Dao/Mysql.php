@@ -5,15 +5,17 @@ namespace Base\Dao;
 use Base\Config;
 use Base\Exception;
 use Log\Logger;
+use PDO;
+use PDOStatement;
 
 class Mysql
 {
-    private $db_name = '';
-    private $db = [];
-    private $stmt = null;
-    private $in_transaction = false; //是否启用了事务
-    private $mode_flag = false; //是否启用读写分离
-    private $config = []; //配置
+    private string $db_name = '';
+    private array $db = [];
+    private ?PDO $stmt = null;
+    private bool $in_transaction = false; //是否启用了事务
+    private bool $mode_flag = false; //是否启用读写分离
+    private mixed $config = []; //配置
 
     const TIMEOUT = 3;
     const WRITE = 'write';
@@ -23,7 +25,7 @@ class Mysql
      * Mysql constructor.
      * @param string $name 数据库名称
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->db_name = $name;
         if (!$this->config) {
@@ -31,12 +33,12 @@ class Mysql
         }
     }
 
-    protected function getId($mode)
+    protected function getId($mode): string
     {
         return $mode . $this->db_name;
     }
 
-    protected function getDbMode($sql)
+    protected function getDbMode($sql): string
     {
         //不区分读写模式时，直接用写模式，连接master
         if (!$this->mode_flag) {
@@ -51,38 +53,36 @@ class Mysql
             return self::WRITE;
         }
 
-        $mode = stripos(trim($sql), 'select') !== false ? self::READ : self::WRITE;
-
-        return $mode;
+        return stripos(trim($sql), 'select') !== false ? self::READ : self::WRITE;
     }
 
-    private function connect($config)
+    private function connect($config): PDO
     {
         $option = array();
         if (isset($config['pconnect']) && $config['pconnect'] === true) {
-            $option[\PDO::ATTR_PERSISTENT] = true;
+            $option[PDO::ATTR_PERSISTENT] = true;
         }
         // MYSQL查询缓存
-        $option[\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY] = true;
+        $option[PDO::MYSQL_ATTR_USE_BUFFERED_QUERY] = true;
 
         // 错误处理方式，使用异常
-        $option[\PDO::ATTR_ERRMODE] = \PDO::ERRMODE_EXCEPTION;
+        $option[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
 
         // 默认连接后执行的sql
         if (!empty($config['encoding'])) {
-            $option[\PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES '{$config['encoding']}'";
+            $option[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES '{$config['encoding']}'";
         }
 
-        $option[\PDO::ATTR_TIMEOUT] = self::TIMEOUT;
+        $option[PDO::ATTR_TIMEOUT] = self::TIMEOUT;
         if (isset($config['timeout'])) {
-            $option[\PDO::ATTR_TIMEOUT] = $config['timeout'];
+            $option[PDO::ATTR_TIMEOUT] = $config['timeout'];
         }
 
         $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s', $config['host'], $config['port'], $config['dbname']);
         if (isset($config['charset'])) {
             $dsn .= ';charset=' . $config['charset'];
         }
-        return new \PDO($dsn, $config['username'], $config['password'], $option);
+        return new PDO($dsn, $config['username'], $config['password'], $option);
     }
 
     protected function getPdo($mode = self::READ)
@@ -94,7 +94,7 @@ class Mysql
         return $this->db[$key];
     }
 
-    public function setModeFlag($flag)
+    public function setModeFlag($flag): void
     {
         $this->mode_flag = $flag;
     }
@@ -104,28 +104,19 @@ class Mysql
      *
      * @param       $sql
      * @param array $params
-     * @return bool|int|null
+     * @return PDO|bool|int|null
      * @throws \Exception
      */
-    public function query($sql, $params = array())
+    public function query($sql, array $params = array()): PDO|bool|int|null
     {
         $this->exec($sql, $params);
         $tags = explode(' ', trim($sql), 2);
-        switch (strtoupper($tags[0])) {
-            case 'SELECT':
-                $result = $this->stmt->fetchAll(\PDO::FETCH_ASSOC);
-                break;
-            case 'INSERT':
-                $result = $this->lastInsertId();
-                break;
-            case 'UPDATE':
-            case 'DELETE':
-                $result = $this->stmt->rowCount();
-                break;
-            default:
-                $result = $this->stmt;
-        }
-        return $result;
+        return match (strtoupper($tags[0])) {
+            'SELECT' => $this->stmt->fetchAll(PDO::FETCH_ASSOC),
+            'INSERT' => $this->lastInsertId(),
+            'UPDATE', 'DELETE' => $this->stmt->rowCount(),
+            default => $this->stmt,
+        };
     }
 
     /**
@@ -133,10 +124,10 @@ class Mysql
      *
      * @param $table_name
      * @param $data
-     * @return bool|int|null
+     * @return PDO|bool|int|null
      * @throws \Exception
      */
-    public function insert($table_name, $data)
+    public function insert($table_name, $data): PDO|bool|int|null
     {
         $cols = implode(',', array_map(function ($v) {
             return "`{$v}`";
@@ -158,9 +149,9 @@ class Mysql
      * @return bool|int|null
      * @throws \Exception
      */
-    public function update($table_name, array $data = array(), array $where = array(), array $order = array(), $limit = 0)
+    public function update($table_name, array $data = array(), array $where = array(), array $order = array(), int $limit = 0): PDO|bool|int|null
     {
-        $params = array();
+        $params = $set_sql = array();
         foreach ($data as $key => $value) {
             $set_sql[] = "`{$key}` = ?";
             $params[] = $value;
@@ -180,7 +171,7 @@ class Mysql
      * @return bool|int|null
      * @throws \Exception
      */
-    public function delete($table_name, array $where = array(), array $order = array(), $limit = 1)
+    public function delete($table_name, array $where = array(), array $order = array(), int $limit = 1): PDO|bool|int|null
     {
         $where_sql = $this->toSql($where, $order, $limit);
         $sql = "delete from {$table_name} where {$where_sql['sql']}";
@@ -198,7 +189,7 @@ class Mysql
      * @return bool|int|null
      * @throws \Exception
      */
-    public function select($table_name, array $where = array(), $cols = '*', array $order = array(), $limit = 0)
+    public function select($table_name, array $where = array(), string $cols = '*', array $order = array(), int $limit = 0): PDO|bool|int|null
     {
         if (is_array($cols) && !empty($cols)) {
             $cols = implode(',', array_map(function ($v) {
@@ -222,7 +213,7 @@ class Mysql
      * @return array
      * @throws \Exception
      */
-    public function find($table_name, array $where = array(), $cols = '*', array $order = array())
+    public function find($table_name, array $where = array(), string $cols = '*', array $order = array()): array
     {
         $result = $this->select($table_name, $where, $cols, $order, 1);
         return $result ? $result[0] : [];
@@ -231,7 +222,7 @@ class Mysql
     /**
      * 开启
      */
-    public function begin()
+    public function begin(): void
     {
         $this->in_transaction = true;
         $this->getPdo(self::WRITE)->beginTransaction();
@@ -240,7 +231,7 @@ class Mysql
     /**
      * 提交
      */
-    public function commit()
+    public function commit(): void
     {
         $this->in_transaction = false;
         $this->getPdo(self::WRITE)->commit();
@@ -249,7 +240,7 @@ class Mysql
     /**
      * 回滚
      */
-    public function rollback()
+    public function rollback(): void
     {
         $this->in_transaction = false;
         $this->getPdo(self::WRITE)->rollBack();
@@ -263,7 +254,7 @@ class Mysql
      * @param int $limit
      * @return array
      */
-    public function toSql(array $param = array(), array $order = array(), $limit = 0)
+    public function toSql(array $param = array(), array $order = array(), int $limit = 0): array
     {
         $sql = '';
         $where = array();
@@ -342,10 +333,10 @@ class Mysql
      *
      * @param $sql
      * @param $params
-     * @return null|\PDOStatement
-     * @throws \Exception
+     * @return void
+     * @throws Exception
      */
-    private function exec($sql, $params)
+    private function exec($sql, $params): void
     {
         //执行
         $_start = microtime(true);
@@ -371,7 +362,6 @@ class Mysql
             Logger::debug('sql', [$_start, $_end, $_end - $_start, $debug_sql]);
         }
 
-        return $this->stmt;
     }
 
     /**
@@ -379,7 +369,7 @@ class Mysql
      * @param null $name
      * @return bool|int
      */
-    public function lastInsertId($name = null)
+    public function lastInsertId($name = null): bool|int
     {
         $last = $this->getPdo(self::WRITE)->lastInsertId($name);
         if (false === $last) {

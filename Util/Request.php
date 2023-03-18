@@ -3,6 +3,8 @@
 namespace Util;
 
 use Base\Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class Request
@@ -17,18 +19,15 @@ class Request
 
     const METHOD_GET = 'get';
     const METHOD_POST = 'post';
+
     /**
-     * @var string 请求资源根路径
+     * @var Client
      */
-    private $_base_uri;
-    /**
-     * @var \GuzzleHttp\Client
-     */
-    private $_client;
+    private Client $_client;
     /**
      * @see http://docs.guzzlephp.org/en/latest/request-options.html
      */
-    private static $_options_sets = array(
+    private static array $_options_sets = array(
         'allow_redirects',
         'auth',
         'cert',
@@ -48,7 +47,7 @@ class Request
         'timeout',
     );
 
-    private static $_method = array(
+    private static array $_method = array(
         'get',
         'post',
         'delete',
@@ -65,13 +64,11 @@ class Request
      *
      * @throws Exception
      */
-    public function __construct($base_uri, array $options = array())
+    public function __construct(string $base_uri, array $options = array())
     {
         if (!$this->checkOptions($options)) {
             throw new Exception('invalid options');
         }
-
-        $this->_base_uri = $base_uri;
 
         $config['base_uri'] = $base_uri;
         $config['timeout'] = 10;
@@ -80,7 +77,7 @@ class Request
         $config['http_errors'] = true;
         $config['verify'] = false;
 
-        $this->_client = new \GuzzleHttp\Client(array_merge($config, $options));
+        $this->_client = new Client(array_merge($config, $options));
 
     }
 
@@ -90,14 +87,13 @@ class Request
      * @param string $method 请求方法
      * @param string $path 请求资源相对路径 e.g. foo/bar foo/bar?a=1&b=2
      * @param mixed $data default array()
-     * @param mixed $upload_file default false
      * @param array $options default array()
      *
      * @return string
      * @throws Exception
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    public function request($method, $path, $data = array(), array $options = array())
+    public function request(string $method, string $path, $data = array(), array $options = array()): string
     {
         $method = strtolower($method);
 
@@ -105,7 +101,7 @@ class Request
             throw new Exception('invalid http method:' . $method);
         }
         if (!$this->checkOptions($options)) {
-            //throw new Exception('invalid options');
+            throw new Exception('invalid options');
         }
 
         if (self::METHOD_POST == $method && $data && is_array($data)) {
@@ -146,7 +142,7 @@ class Request
      *
      * @return bool
      */
-    private function checkMethod($method)
+    private function checkMethod(string $method): bool
     {
         return in_array($method, self::$_method);
     }
@@ -158,7 +154,7 @@ class Request
      *
      * @return bool
      */
-    private function checkOptions(array $options)
+    private function checkOptions(array $options): bool
     {
         if ($options) {
             return empty(array_diff(array_keys($options), self::$_options_sets));

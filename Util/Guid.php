@@ -14,7 +14,7 @@ namespace Util;
  */
 class Guid
 {
-    protected static $while = 0;
+    protected static int $while = 0;
 
 
     /**
@@ -31,7 +31,7 @@ class Guid
      * @param string $flag
      * @return string
      */
-    public static function getUid($flag = "")
+    public static function getUid(string $flag = ""): string
     {
         self::$while++;
         $num = '';
@@ -46,10 +46,10 @@ class Guid
     /**
      * 进制转换
      * @param $num
-     * @param $flag
+     * @param string $flag
      * @return string
      */
-    public static function Hex($num, $flag = '')
+    public static function Hex($num, string $flag = ''): string
     {
         $dict = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $ret = '';

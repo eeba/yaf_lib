@@ -3,6 +3,7 @@
 namespace Util;
 
 use ipip\db\City;
+use JetBrains\PhpStorm\ArrayShape;
 
 class Ip
 {
@@ -11,7 +12,7 @@ class Ip
      * 服务器IP地址
      * @return string
      */
-    public static function getServerIp()
+    public static function getServerIp(): string
     {
         if (isset($_SERVER['SERVER_ADDR'])) {
             return $_SERVER['SERVER_ADDR'];
@@ -23,7 +24,7 @@ class Ip
      * 客户端IP地址
      * @return string
      */
-    public static function getClientIp()
+    public static function getClientIp(): string
     {
         if (PHP_SAPI == 'cli') {
             return self::getServerIp();
@@ -55,17 +56,15 @@ class Ip
      *
      * @return array
      */
-    public static function getInfo($ip = '')
+    public static function getInfo(string $ip = ''): array
     {
         $city = new City(__DIR__ . '/ipipfree.ipdb');
         $ip = $ip ?: self::getClientIp();
         $data = $city->findMap($ip, 'CN');
-        $result = array(
+        return array(
             'country' => $data['country_name'] ?: '',
             'region' => $data['region_name'] ?: '',
             'city' => $data['city_name'] ?: '',
         );
-
-        return $result;
     }
 }

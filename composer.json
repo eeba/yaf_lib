@@ -15,7 +15,13 @@
     "illuminate/support": "^5.4",
     "ext-json": "*",
     "cache/simple-cache-bridge": "^1.2",
-    "cache/redis-adapter": "^1.1"
+    "cache/redis-adapter": "^1.1",
+    "ext-pdo": "*",
+    "ext-redis": "*",
+    "ext-openssl": "*",
+    "ext-pcntl": "*",
+    "ext-posix": "*",
+    "ext-bcmath": "*"
   },
   "repositories": {
         "packagist": {

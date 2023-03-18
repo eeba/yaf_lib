@@ -68,3 +68,7 @@ const YAF_ERR_TYPE_ERROR = 521;
 /**
  */
 const YAF_ERR_ACCESS_ERROR = 522;
+
+
+const APP = "";
+const LOG_PATH = "";

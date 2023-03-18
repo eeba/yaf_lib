@@ -9,9 +9,9 @@ use Util\Rand;
 class Image extends Abstraction
 {
 
-    protected $show_type = false; //true: 返回base64内容， false: 直接显示
-    protected $content = false; //验证码内容
-    protected $id = ''; //验证码id, 同个页面多个验证码时使用
+    protected mixed $show_type = false; //true: 返回base64内容， false: 直接显示
+    protected mixed $content = false; //验证码内容
+    protected mixed $id = ''; //验证码id, 同个页面多个验证码时使用
 
     public function __construct($content = '', $show_type = false, $id = '')
     {
@@ -20,7 +20,7 @@ class Image extends Abstraction
         $this->id = $id;
     }
 
-    public function show($width = 80, $height = 30)
+    public function show($width = 80, $height = 30): bool|string
     {
         $_SESSION['verify_code' . $this->id] = strtolower($this->content);
 
@@ -35,7 +35,7 @@ class Image extends Abstraction
         return true;
     }
 
-    public function verify($code)
+    public function verify($code): bool
     {
         return $code == $_SESSION['verify_code'] . $this->id;
     }

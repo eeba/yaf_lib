@@ -33,14 +33,14 @@ use Base\Exception;
 class Redis
 {
 
-    const DEFAULT_CONNECT_TIMEOUT = 5;
+    const DEFAULT_CONNECT_TIMEOUT = 2;
     const NAME_DEFAULT = 'server.redis.common';
 
-    private static $res = [];   //redis链接资源
-    private $config = [];       //配置
-    private $config_name = '';  //配置项
+    private static array $res = [];   //redis链接资源
+    private array $config = [];       //配置
+    private string $config_name;  //配置项
 
-    private $_persistent = false;   //用于判断是否使用持久连接
+    private bool $_persistent = false;   //用于判断是否使用持久连接
 
     public function __construct($config_name = self::NAME_DEFAULT)
     {
@@ -48,10 +48,10 @@ class Redis
     }
 
     /**
-     * @return mixed
+     * @return \Redis
      * @throws Exception
      */
-    public function getInstance()
+    public function getInstance(): \Redis
     {
         if (!isset(self::$res[$this->config_name])) {
             self::$res[$this->config_name] = new \Redis();
@@ -66,24 +66,21 @@ class Redis
      * 获取配置
      * @throws Exception
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->config = Config::get($this->config_name);
         if (!$this->config) {
-            throw new Exception(get_class($this) . " need be configured. Config : `{$this->config_name}`");
+            throw new Exception(get_class($this) . " need be configured. Config : `$this->config_name`");
         }
     }
 
     /**
      * 链接redis
      *
-     * @param $obj
-     * @param $config
-     *
-     * @return mixed
+     * @return bool
      * @throws Exception
      */
-    protected function connect()
+    protected function connect(): bool
     {
         try {
             if (isset($this->config['persistent']) && $this->config['persistent']) {
@@ -101,7 +98,7 @@ class Redis
                 }
             }
         } catch (\Exception $e) {
-            throw new Exception("redis connect " . $this->config['host'] . " fail");
+            throw new Exception("redis connect " . $this->config['host'] . " fail, error:" . $e->getMessage());
         }
 
         return true;
@@ -112,11 +109,11 @@ class Redis
      *
      * @throws Exception
      */
-    protected function setOptions()
+    protected function setOptions(): void
     {
         if (isset($this->config['auth']) && $this->config['auth']) {
             $password = isset($this->config['user']) && $this->config['user'] ? $this->config['user'] . ':' . $this->config['auth'] : $this->config['auth'];
-            if (self::$res[$this->config_name]->auth($password) == false) {
+            if (!self::$res[$this->config_name]->auth($password)) {
                 throw new Exception("redis auth " . $this->config['host'] . " fail");
             }
         }
@@ -135,7 +132,7 @@ class Redis
      * @return mixed
      * @throws Exception
      */
-    public function __call($name, $args = array())
+    public function __call($name, array $args = array())
     {
         try {
             $ret = call_user_func_array(array($this->getInstance(), $name), $args);
@@ -158,7 +155,7 @@ class Redis
      *
      * @return bool
      */
-    public function flush()
+    public function flush(): bool
     {
         return false;
     }
@@ -168,7 +165,7 @@ class Redis
      *
      * @return bool
      */
-    public function close()
+    public function close(): bool
     {
         (self::$res[$this->config_name] && isset(self::$res[$this->config_name]->socket)) && self::$res[$this->config_name]->close();
         self::$res[$this->config_name] = null;

@@ -21,7 +21,7 @@ class Env
         }
     }
 
-    public static function setControllerName($controller_name)
+    public static function setControllerName($controller_name): void
     {
         self::$controller_name = str_replace('\\', '/', $controller_name);
     }

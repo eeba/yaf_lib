@@ -32,7 +32,7 @@ namespace Validate;
 class Handler
 {
 
-    private static $_default_validator = array(
+    private static array $_default_validator = array(
         'date' => 'Type\\Date',
         'digit' => 'Type\\Digit',
         'email' => 'Type\\Email',

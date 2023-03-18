@@ -6,7 +6,6 @@ use Base\Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Exception as PhpOfficeException;
-use PhpOffice\PhpSpreadsheet\Writer\Exception as PhpOfficeWriterException;
 use Util\Guid;
 
 class Excel
@@ -38,11 +37,11 @@ class Excel
      *
      * @param $data
      * @param $basePath
-     * @throws PhpOfficeException
-     * @throws PhpOfficeWriterException
+     * @return string
      * @throws Exception
+     * @throws PhpOfficeException
      */
-    public static function write($data, $basePath)
+    public static function write($data, $basePath): string
     {
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getProperties()->setCreator('kbone.net')->setTitle('kbone.net');
@@ -69,7 +68,7 @@ class Excel
         return $filePath;
     }
 
-    private static function colKey($index)
+    private static function colKey($index): string
     {
         $prefix = $index > 25 ? chr(64 + (int)($index / 26)) : "";
         return $prefix . chr(65 + $index % 26);

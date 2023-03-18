@@ -2,22 +2,22 @@
 
 namespace Base;
 
-use Base\Exception;
+use Yaf_Response_Http;
 
-class Response extends \Yaf_Response_Http
+class Response extends Yaf_Response_Http
 {
     const FORMAT_JSON = 'json';
     const FORMAT_PLAIN = 'plain';
     const FORMAT_HTML = 'html';
 
-    static public $formatter = null;
+    static public ?string $formatter = null;
 
     public static function setFormatter($format)
     {
         self::$formatter = $format;
     }
 
-    public static function getFormatter()
+    public static function getFormatter(): string
     {
         return self::$formatter ?: '';
     }
@@ -27,7 +27,7 @@ class Response extends \Yaf_Response_Http
      * @param string $filename 下载文件的名称
      * @throws Exception
      */
-    public static function download($file, $filename)
+    public static function download(string $file, string $filename)
     {
         ob_clean();
         ob_start();

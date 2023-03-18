@@ -12,7 +12,10 @@ use Validate\Abstraction;
  */
 class Date extends Abstraction
 {
-    public function action($param)
+    /**
+     * @throws Exception
+     */
+    public function action(array $param)
     {
         $value = trim($param['value']);
         if ($value && preg_match('/^\d{4}([\-\/\.]?)\d{2}\1\d{2}\s*(\d{2}:\d{2}:\d{2})?$/', $param['value'])) {

@@ -2,6 +2,8 @@
 
 namespace Thread;
 
+use Exception;
+
 /**
  * Class Master
  * @package Thread
@@ -29,11 +31,11 @@ class Master
     const MASTER_PID_FILE_PREFIX = "/var/run/PHP_THREAD_MASTER_PID.";
     const MASTER_SLEEP = 10;
 
-    private static $_master_pid_file;  //保存主进程pid文件路径
+    private static string $_master_pid_file;  //保存主进程pid文件路径
 
-    protected $isRunning = false;
-    protected $pids = array();
-    protected $work_proc = array();
+    protected bool $isRunning = false;
+    protected array $pids = array();
+    protected array $work_proc = array();
 
     public function __construct()
     {
@@ -97,7 +99,7 @@ class Master
      * @access private
      * @return void
      */
-    public function sigHandler($sig)
+    public function sigHandler(int $sig): void
     {
         Utils::echoInfo("master receive $sig");
         switch (intval($sig)) {
@@ -129,7 +131,7 @@ class Master
      * @access protected
      * @return void
      */
-    protected function registerSigHandler()
+    protected function registerSigHandler(): void
     {
         pcntl_signal(SIGTERM, array($this, 'sigHandler'));
         pcntl_signal(SIGHUP, array($this, 'sigHandler'));
@@ -143,7 +145,7 @@ class Master
      * @access protected
      * @return void
      */
-    protected function waitChild()
+    protected function waitChild(): void
     {
         while (($pid = pcntl_waitpid(-1, $status, WNOHANG)) > 0) {
             Utils::echoInfo("master waitpid $pid");
@@ -156,7 +158,7 @@ class Master
      *
      * @param null $pid
      */
-    protected function cleanup($pid = null)
+    protected function cleanup($pid = null): void
     {
         Utils::echoInfo("clean up $pid");
         if (!$pid) {
@@ -180,13 +182,13 @@ class Master
      * @param string $class_name 子进程类名
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function fork($class_name)
+    protected function fork(string $class_name): bool
     {
         $pid = pcntl_fork();
         if ($pid == -1) {
-            throw new \Exception("can not fork new process");
+            throw new Exception("can not fork new process");
         } elseif ($pid) {
             $this->pids[$pid] = array(
                 'class_name' => $class_name,
@@ -202,8 +204,9 @@ class Master
 
     /**
      * 管理进程
+     * @throws Exception
      */
-    protected function manageWorkers()
+    protected function manageWorkers(): void
     {
         $obj_thread_config = new Config();
         $thread_config = $obj_thread_config->getWorkerConfig();

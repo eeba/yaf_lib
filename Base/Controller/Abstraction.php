@@ -5,9 +5,10 @@ namespace Base\Controller;
 use Base\Request;
 use Base\Response;
 use Base\View;
+use Yaf_Controller_Abstract;
 use Yaf_Dispatcher;
 
-class Abstraction extends \Yaf_Controller_Abstract
+class Abstraction extends Yaf_Controller_Abstract
 {
     protected array|string $res;
 

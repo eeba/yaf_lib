@@ -32,7 +32,7 @@ class Request extends \Yaf_Request_Http
         return false;
     }
 
-    public function getRequestDataTime()
+    public function getRequestDataTime(): string
     {
         return date('Y-m-d H:i:s', $this->getServer('REQUEST_TIME'));
     }

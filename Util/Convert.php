@@ -10,7 +10,7 @@ class Convert
      * @param $hex
      * @return array
      */
-    public static function colorHexDec($hex)
+    public static function colorHexDec($hex): array
     {
         if (!preg_match('/^[0-9a-fA-F]{3}$|^[0-9a-fA-F]{6}$/', $hex)) {
             return ['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0];

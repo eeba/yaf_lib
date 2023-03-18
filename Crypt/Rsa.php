@@ -41,13 +41,11 @@ class Rsa implements CryptInterface
     /**
      * 加密
      * @param $plain
-     * @param $key
-     * @param int $padding
-     *
+     * @param string $key
      * @return string
      * @throws Exception
      */
-    public static function encrypt($plain, $key = self::DEFAULT_KEY, $padding = OPENSSL_PKCS1_PADDING)
+    public static function encrypt($plain, $key = self::DEFAULT_KEY): string
     {
         $rsa_content = Config::get('rsa.' . $key);
         if (!$rsa_content) {
@@ -55,13 +53,13 @@ class Rsa implements CryptInterface
         }
 
         $enplain = '';
-        $errmsg = '';
+        $err_msg = '';
         $public_key = openssl_pkey_get_public($rsa_content['public_key']);
-        if (!openssl_public_encrypt($plain, $enplain, $public_key, $padding)) {
+        if (!openssl_public_encrypt($plain, $enplain, $public_key, OPENSSL_PKCS1_PADDING)) {
             while ($msg = openssl_error_string()) {
-                $errmsg .= $msg . "\n";
+                $err_msg .= $msg . "\n";
             }
-            throw new Exception($errmsg);
+            throw new Exception($err_msg);
         }
         return $enplain;
     }
@@ -69,13 +67,11 @@ class Rsa implements CryptInterface
     /**
      * 解密
      * @param $enplain
-     * @param $key
-     * @param int $padding
-     *
+     * @param string $key
      * @return string
      * @throws Exception
      */
-    public static function decrypt($enplain, $key = self::DEFAULT_KEY, $padding = OPENSSL_PKCS1_PADDING)
+    public static function decrypt($enplain, $key = self::DEFAULT_KEY): string
     {
         $rsa_content = Config::get('rsa.' . $key);
         if (!$rsa_content) {
@@ -85,7 +81,7 @@ class Rsa implements CryptInterface
         $plain = '';
         $errmsg = "";
         $private_key = openssl_pkey_get_private($rsa_content['private_key']);
-        if (!openssl_private_decrypt($enplain, $plain, $private_key, $padding)) {
+        if (!openssl_private_decrypt($enplain, $plain, $private_key, OPENSSL_PKCS1_PADDING)) {
             while ($msg = openssl_error_string()) {
                 $errmsg .= $msg . "\n";
             }
@@ -97,13 +93,13 @@ class Rsa implements CryptInterface
     /**
      * 对js加密的内容解密
      * @param $enplain
-     * @param $key
+     * @param string $key
      * @param int $padding
      *
      * @return string
      * @throws Exception
      */
-    public static function decryptForJs($enplain, $key = self::DEFAULT_KEY, $padding = OPENSSL_PKCS1_PADDING)
+    public static function decryptForJs($enplain, string $key = self::DEFAULT_KEY, int $padding = OPENSSL_PKCS1_PADDING): string
     {
         $enplain = pack("H*", $enplain);
         $plain = self::decrypt($enplain, $key);

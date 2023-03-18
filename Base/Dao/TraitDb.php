@@ -3,6 +3,7 @@
 namespace Base\Dao;
 
 use Base\Request;
+use Exception;
 
 trait TraitDb
 {
@@ -10,7 +11,7 @@ trait TraitDb
     /**
      * 事务开始
      */
-    public function begin()
+    public function begin(): void
     {
         self::db()->begin();
     }
@@ -18,7 +19,7 @@ trait TraitDb
     /**
      * 提交事务
      */
-    public function commit()
+    public function commit(): void
     {
         self::db()->commit();
     }
@@ -26,7 +27,7 @@ trait TraitDb
     /**
      * 回滚
      */
-    public function rollback()
+    public function rollback(): void
     {
         self::db()->rollback();
     }
@@ -36,9 +37,9 @@ trait TraitDb
      *
      * @param $data
      * @return bool|int|null
-     * @throws \Exception
+     * @throws Exception
      */
-    public function add($data)
+    public function add($data): bool|int|null
     {
         return self::db()->insert($this->table, $data);
     }
@@ -52,7 +53,7 @@ trait TraitDb
      * @param int $limit
      * @return bool|int|null
      */
-    public function update(array $data = array(), array $where = array(), array $order = array(), $limit = 0)
+    public function update(array $data = array(), array $where = array(), array $order = array(), $limit = 0): bool|int|null
     {
         return self::db()->update($this->table, $data, $where, $order, $limit);
     }
@@ -65,7 +66,7 @@ trait TraitDb
      * @param array $order
      * @return array
      */
-    public function findById($id, $cols = '*', array $order = array())
+    public function findById($id, string $cols = '*', array $order = array()): array
     {
         return self::db()->find($this->table, ['id' => $id], $cols, $order);
     }
@@ -78,7 +79,7 @@ trait TraitDb
      * @param array $order
      * @return array
      */
-    public function find($where = [], $cols = '*', array $order = array())
+    public function find(array $where = [], string $cols = '*', array $order = array()): array
     {
         return self::db()->find($this->table, $where, $cols, $order);
     }
@@ -92,7 +93,7 @@ trait TraitDb
      * @param int $limit
      * @return bool|int|array|null
      */
-    public function getList(array $where = array(), $cols = '*', array $order = array(), $limit = 0)
+    public function getList(array $where = array(), string $cols = '*', array $order = array(), int $limit = 0): int|bool|array|null
     {
         return self::db()->select($this->table, $where, $cols, $order, $limit);
     }
@@ -105,7 +106,7 @@ trait TraitDb
      * @param int $limit
      * @return bool|int|null
      */
-    public function delete(array $where = array(), array $order = array(), $limit = 1)
+    public function delete(array $where = array(), array $order = array(), int $limit = 1): bool|int|null
     {
         return self::db()->delete($this->table, $where, $order, $limit);
     }
@@ -117,7 +118,7 @@ trait TraitDb
      * @param array $params
      * @return bool|int|array|null
      */
-    public function query($sql, $params = [])
+    public function query($sql, array $params = []): int|bool|array|null
     {
         return self::db()->query($sql, $params);
     }
@@ -128,7 +129,7 @@ trait TraitDb
      * @param array $where
      * @return mixed
      */
-    public function count($where = [])
+    public function count(array $where = []): mixed
     {
         $ret = $this->find($where, 'count(1) num');
         return $ret['num'];
@@ -140,9 +141,9 @@ trait TraitDb
      * @param array $where
      * @param string $cols
      * @param array $order
-     * @return mixed
+     * @return array
      */
-    public function dataTable(array $where = [], $cols = '*', array $order = [])
+    public function dataTable(array $where = [], string $cols = '*', array $order = []): array
     {
         if (is_array($cols) && !empty($cols)) {
             $cols = implode(',', array_map(function ($v) {

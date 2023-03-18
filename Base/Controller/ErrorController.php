@@ -2,11 +2,13 @@
 
 namespace Base\Controller;
 
+use Log\Logger;
+
 class ErrorController extends Abstraction
 {
     public function errorAction($exception)
     {
-        \Log\Logger::error("errorAction", [
+        Logger::error("errorAction", [
             $exception->getCode(),
             $exception->getMessage(),
             $exception->getFile(),
@@ -40,13 +42,9 @@ class ErrorController extends Abstraction
      */
     protected function isNotFound($error_code)
     {
-        switch ($error_code) {
-            case 515://YAF_ERR_NOTFOUND_MODULE
-            case 516://YAF_ERR_NOTFOUND_CONTROLLER
-            case 517://YAF_ERR_NOTFOUND_ACTION
-                return true;
-            default:
-                return false;
-        }
+        return match ($error_code) {
+            515, 516, 517 => true,
+            default => false,
+        };
     }
 }

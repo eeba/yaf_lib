@@ -5,8 +5,12 @@ namespace Base;
 class Node
 {
 
-    private $path = '';
-    private $file_list = [];
+    private string $path = '';
+    private array $file_list = [];
+    /**
+     * @var array|mixed
+     */
+    private mixed $filter;
 
     public function __construct($path, $filter = [])
     {
@@ -14,7 +18,7 @@ class Node
         $this->filter = $filter;
     }
 
-    public function nodeList()
+    public function nodeList(): array
     {
         $this->fileList($this->path);
         $node = [];
@@ -56,7 +60,7 @@ class Node
         return $node;
     }
 
-    private function fileList($path)
+    private function fileList($path): void
     {
         $dir_handler = opendir($path);
         while ($file = readdir($dir_handler)) {

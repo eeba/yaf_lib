@@ -7,7 +7,10 @@ use Validate\Abstraction;
 
 class Digit extends Abstraction
 {
-    public function action($param)
+    /**
+     * @throws Exception
+     */
+    public function action(array $param)
     {
         if (is_numeric($param['value'])) {
             return $param['value'];

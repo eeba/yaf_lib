@@ -41,7 +41,10 @@ class Des implements CryptInterface
 
     const DEFAULT_KEY = "common";
 
-    public static function encrypt($plain, $key = self::DEFAULT_KEY)
+    /**
+     * @throws Exception
+     */
+    public static function encrypt($plain, $key = self::DEFAULT_KEY): string|bool
     {
         $config = Config::get('des.' . $key);
         if (!$config) {
@@ -54,7 +57,10 @@ class Des implements CryptInterface
         return openssl_encrypt($plain, $config['method'], $config['password'], $config['options']);
     }
 
-    public static function decrypt($enplain, $key = self::DEFAULT_KEY)
+    /**
+     * @throws Exception
+     */
+    public static function decrypt($enplain, $key = self::DEFAULT_KEY): string|bool
     {
         $config = Config::get('des.' . $key);
         if (!$config) {
@@ -64,15 +70,15 @@ class Des implements CryptInterface
         return $config['pkcs5pad'] !== false ? self::pkcs5Unpad($plain) : $plain;
     }
 
-    public static function pkcs5Pad($plain, $blocksize)
+    public static function pkcs5Pad($plain, $blocksize): string
     {
         $pad = $blocksize - (strlen($plain) % $blocksize);
         return $plain . str_repeat(chr($pad), $pad);
     }
 
-    public static function pkcs5Unpad($plain)
+    public static function pkcs5Unpad($plain): bool|string
     {
-        $pad = ord($plain{strlen($plain) - 1});
+        $pad = ord($plain[strlen($plain) - 1]);
         if ($pad > strlen($plain)) {
             return false;
         }

@@ -24,11 +24,11 @@ namespace Thread;
 abstract class Worker
 {
 
-    protected $isRunning = false;
-    protected $includedFile = null;
-    protected $runNum = 0;  //已处理任务数量
-    protected $runStartTime = 0;  //进程已运行时间
-    protected $whileSleep = 1;  //未处理任务时进程睡眠时间
+    protected bool $isRunning = false;
+    protected array|null $includedFile = null;
+    protected int $runNum = 0;  //已处理任务数量
+    protected int $runStartTime = 0;  //进程已运行时间
+    protected int $whileSleep = 1;  //未处理任务时进程睡眠时间
 
     /**
      * 子进程开始处理任务
@@ -36,7 +36,7 @@ abstract class Worker
      * @access public
      * @return void
      */
-    public function doTask()
+    public function doTask(): void
     {
         $this->runStartTime = time();
         $this->isRunning = true;
@@ -107,7 +107,7 @@ abstract class Worker
      * @access protected
      * @return void
      */
-    protected function registerSigHandler()
+    protected function registerSigHandler(): void
     {
         pcntl_signal(SIGINT, SIG_IGN);
         pcntl_signal(SIGHUP, SIG_IGN);
@@ -123,7 +123,7 @@ abstract class Worker
      * @access protected
      * @return void
      */
-    protected function sigHandler($sig)
+    protected function sigHandler(int $sig): void
     {
         switch (intval($sig)) {
             case SIGTERM:
@@ -137,7 +137,7 @@ abstract class Worker
     /**
      * 检查文件变更
      */
-    protected function checkIncludedFiles()
+    protected function checkIncludedFiles(): bool
     {
         if (!$this->includedFile) {
             $this->includedFile = Utils::getIncludedFilesMd5();
@@ -155,7 +155,7 @@ abstract class Worker
     /**
      * 检查循环次数
      */
-    protected function checkRunNum()
+    protected function checkRunNum(): bool
     {
         $thread_config = new Config();
         $class_name = "\\" . get_class($this);
@@ -169,7 +169,7 @@ abstract class Worker
     /**
      * 检查生存时长
      */
-    protected function checkRunTtl()
+    protected function checkRunTtl(): bool
     {
         $thread_config = new Config();
         $class_name = "\\" . get_class($this);
@@ -187,6 +187,6 @@ abstract class Worker
      * @access public
      * @return void
      */
-    abstract public function process();
+    abstract public function process(): void;
 
 }

@@ -3,6 +3,7 @@
 namespace Security;
 
 use Base\Dao\Redis;
+use Exception;
 
 /**
  * Class Lock
@@ -25,21 +26,21 @@ class Lock
      * @param int $expire
      * @return bool
      */
-    public static function mutexLock($lock_id, $expire = self::DEFAULT_EXPIRE)
+    public static function mutexLock($lock_id, int $expire = self::DEFAULT_EXPIRE): bool
     {
         $redis = new Redis();
         $ret = $redis->set($lock_id, self::DEFAULT_VALUE, array('nx', 'ex' => $expire));
-        return $ret ? true : false;
+        return (bool)$ret;
     }
 
     /**
      * 阻塞锁
      * @param $lock_id
-     * @param $expire
-     * @param $wait_time
+     * @param int $expire
+     * @param int $wait_time
      * @return bool
      */
-    public static function blockLock($lock_id, $expire = self::DEFAULT_EXPIRE, $wait_time = self::DEFAULT_WAIT)
+    public static function blockLock($lock_id, int $expire = self::DEFAULT_EXPIRE, int $wait_time = self::DEFAULT_WAIT): bool
     {
         $ret = self::mutexLock($lock_id, $expire);
         if ($ret) {
@@ -64,13 +65,13 @@ class Lock
      * 解除锁
      *
      * @return bool true-解除成功 false-解除失败
-     * @throws \Exception
+     * @throws Exception
      */
-    public static function unlock($lock_id)
+    public static function unlock($lock_id): bool
     {
         $redis = new Redis();
         $ret = $redis->del($lock_id);
-        return $ret ? true : false;
+        return (bool)$ret;
     }
 
 }

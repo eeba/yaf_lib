@@ -4,7 +4,7 @@ namespace Msg;
 
 abstract class Abstraction
 {
-    public $config;
+    protected array $config;
 
     public function __construct($config = '')
     {

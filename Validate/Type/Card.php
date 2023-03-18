@@ -12,7 +12,10 @@ use Validate\Abstraction;
  */
 class Card extends Abstraction
 {
-    public function action($param)
+    /**
+     * @throws Exception
+     */
+    public function action(array $param)
     {
         if (preg_match('/^[0-9]{9,23}$/', $param['value'])) {
             return $param['value'];

@@ -28,9 +28,9 @@ class Mask
      * @param int $headRestLen default 3 手机号首端保留长度，默认为3
      * @param int $tailRestLen default 4 手机号尾端保留长度，默认为4
      *
-     * @return bool
+     * @return string
      */
-    public static function maskMobile($mobile, $maskChar = self::DEFAULT_MASK_CHAR, $headRestLen = self::DEFAULT_MOBILE_HEAD_REST_LEN, $tailRestLen = self::DEFAULT_MOBILE_TAIL_REST_LEN)
+    public static function maskMobile(string $mobile, string $maskChar = self::DEFAULT_MASK_CHAR, int $headRestLen = self::DEFAULT_MOBILE_HEAD_REST_LEN, int $tailRestLen = self::DEFAULT_MOBILE_TAIL_REST_LEN): string
     {
         return self::maskNumericInfo($mobile, $maskChar, $headRestLen, $tailRestLen);
     }
@@ -38,13 +38,13 @@ class Mask
     /**
      * 证件号添加马赛克
      *
-     * @param string $certNo 手机号
+     * @param string $certNo 证件号
      * @param string $maskChar default * 马赛克字符
      * @param int $restLen default 4 证件号首尾保留长度，默认为4
      *
-     * @return bool
+     * @return string
      */
-    public static function maskCertNo($certNo, $maskChar = self::DEFAULT_MASK_CHAR, $restLen = self::DEFAULT_CERT_NO_REST_LEN)
+    public static function maskCertNo(string $certNo, string $maskChar = self::DEFAULT_MASK_CHAR, int $restLen = self::DEFAULT_CERT_NO_REST_LEN): string
     {
         return self::maskNumericInfo($certNo, $maskChar, $restLen, $restLen);
     }
@@ -56,9 +56,9 @@ class Mask
      * @param string $maskChar default * 马赛克字符
      * @param int $restLen default 4 证件号首尾保留长度，默认为4
      *
-     * @return bool
+     * @return string
      */
-    public static function maskAcctNo($acctNo, $maskChar = self::DEFAULT_MASK_CHAR, $restLen = self::DEFAULT_ACCT_NO_REST_LEN)
+    public static function maskAcctNo(string $acctNo, string $maskChar = self::DEFAULT_MASK_CHAR, int $restLen = self::DEFAULT_ACCT_NO_REST_LEN): string
     {
         return self::maskNumericInfo($acctNo, $maskChar, $restLen, $restLen);
     }
@@ -73,9 +73,9 @@ class Mask
      * @param int $headRestLen default 4 首端保留长度
      * @param int $tailRestLen default 4 尾端保留长度
      *
-     * @return bool
+     * @return string
      */
-    public static function maskNumericInfo($info, $maskChar = self::DEFAULT_MASK_CHAR, $headRestLen = self::DEFAULT_NUMERIC_HEAD_REST_LEN, $tailRestLen = self::DEFAULT_NUMERIC_TAIL_REST_LEN)
+    public static function maskNumericInfo(string $info, string $maskChar = self::DEFAULT_MASK_CHAR, int $headRestLen = self::DEFAULT_NUMERIC_HEAD_REST_LEN, int $tailRestLen = self::DEFAULT_NUMERIC_TAIL_REST_LEN): string
     {
         return empty($info) ? $info : substr($info, 0, $headRestLen) . str_repeat($maskChar, strlen($info) - $headRestLen - $tailRestLen) . substr($info, -$tailRestLen);
     }
@@ -89,16 +89,16 @@ class Mask
      *
      * @return string
      */
-    public static function maskName($name, $maskChar = self::DEFAULT_MASK_CHAR, $maskType = self::MASK_FAMILY_NAME)
+    public static function maskName(string $name, string $maskChar = self::DEFAULT_MASK_CHAR, int $maskType = self::MASK_FAMILY_NAME): string
     {
         if (!$name) {
             return $name;
         }
         $encoding = mb_detect_encoding($name);
-        $strlen = mb_strlen($name, $encoding);
-        if ($strlen < 4) {
+        $str_len = mb_strlen($name, $encoding);
+        if ($str_len < 4) {
             $maskLen = 1;
-        } else if ($strlen < 5) {
+        } else if ($str_len < 5) {
             $maskLen = 2;
         } else {
             return $name;
@@ -108,7 +108,7 @@ class Mask
             return str_repeat($maskChar, $maskLen) . mb_substr($name, $maskLen, null, $encoding);
         }
 
-        return mb_substr($name, 0, $strlen - $maskLen, $encoding) . str_repeat($maskChar, $maskLen);
+        return mb_substr($name, 0, $str_len - $maskLen, $encoding) . str_repeat($maskChar, $maskLen);
     }
 
 }
