@@ -29,7 +29,7 @@ use Monolog\Processor\WebProcessor;
  */
 class Logger
 {
-    private static \Monolog\Logger $_instance;
+    private static ?\Monolog\Logger $_instance = null;
 
     private function __construct()
     {

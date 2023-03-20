@@ -10,7 +10,7 @@ use Yaf_Dispatcher;
 
 class Abstraction extends Yaf_Controller_Abstract
 {
-    protected array|string $res;
+    protected array|string $res = [];
 
     protected function init()
     {
