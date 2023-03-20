@@ -12,7 +12,7 @@ class Mysql
 {
     private string $db_name = '';
     private array $db = [];
-    private ?PDO $stmt = null;
+    private ?PDOStatement $stmt = null;
     private bool $in_transaction = false; //是否启用了事务
     private bool $mode_flag = false; //是否启用读写分离
     private mixed $config = []; //配置
@@ -104,10 +104,10 @@ class Mysql
      *
      * @param       $sql
      * @param array $params
-     * @return PDO|bool|int|null
+     * @return array|bool|int|null
      * @throws \Exception
      */
-    public function query($sql, array $params = array()): PDO|bool|int|null
+    public function query($sql, array $params = array()): array|bool|int|null
     {
         $this->exec($sql, $params);
         $tags = explode(' ', trim($sql), 2);
@@ -124,10 +124,10 @@ class Mysql
      *
      * @param $table_name
      * @param $data
-     * @return PDO|bool|int|null
+     * @return bool|int|null
      * @throws \Exception
      */
-    public function insert($table_name, $data): PDO|bool|int|null
+    public function insert($table_name, $data): bool|int|null
     {
         $cols = implode(',', array_map(function ($v) {
             return "`{$v}`";
@@ -149,7 +149,7 @@ class Mysql
      * @return bool|int|null
      * @throws \Exception
      */
-    public function update($table_name, array $data = array(), array $where = array(), array $order = array(), int $limit = 0): PDO|bool|int|null
+    public function update($table_name, array $data = array(), array $where = array(), array $order = array(), int $limit = 0): bool|int|null
     {
         $params = $set_sql = array();
         foreach ($data as $key => $value) {
@@ -171,7 +171,7 @@ class Mysql
      * @return bool|int|null
      * @throws \Exception
      */
-    public function delete($table_name, array $where = array(), array $order = array(), int $limit = 1): PDO|bool|int|null
+    public function delete($table_name, array $where = array(), array $order = array(), int $limit = 1): bool|int|null
     {
         $where_sql = $this->toSql($where, $order, $limit);
         $sql = "delete from {$table_name} where {$where_sql['sql']}";
@@ -189,7 +189,7 @@ class Mysql
      * @return bool|int|null
      * @throws \Exception
      */
-    public function select($table_name, array $where = array(), string $cols = '*', array $order = array(), int $limit = 0): PDO|bool|int|null
+    public function select($table_name, array $where = array(), string $cols = '*', array $order = array(), int $limit = 0): array|bool|int|null
     {
         if (is_array($cols) && !empty($cols)) {
             $cols = implode(',', array_map(function ($v) {
@@ -251,10 +251,10 @@ class Mysql
      *
      * @param array $param
      * @param array $order
-     * @param int $limit
+     * @param int|array $limit
      * @return array
      */
-    public function toSql(array $param = array(), array $order = array(), int $limit = 0): array
+    public function toSql(array $param = array(), array $order = array(), int|array $limit = 0): array
     {
         $sql = '';
         $where = array();
