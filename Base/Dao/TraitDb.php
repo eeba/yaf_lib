@@ -106,7 +106,7 @@ trait TraitDb
      * @param int $limit
      * @return bool|int|null
      */
-    public function delete(array $where = array(), array $order = array(), int $limit = 1): bool|int|null
+    public function delete(array $where = array(), array $order = array(), int $limit = 0): bool|int|null
     {
         return self::db()->delete($this->table, $where, $order, $limit);
     }

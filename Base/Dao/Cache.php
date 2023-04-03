@@ -8,7 +8,7 @@ use Cache\Abstraction;
 class Cache
 {
 
-    protected static Abstraction $cache;
+    protected static array $cache = [];
 
     //默认缓存对象过期时间: 1day=3600s * 24
     const DEFAULT_TTL = 86400;

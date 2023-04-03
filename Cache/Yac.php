@@ -36,7 +36,7 @@ class Yac extends Abstraction
 
     protected function getInstance(): \Yac
     {
-        if ($this->instance) {
+        if (!$this->instance) {
             $this->instance = new \Yac();
         }
 

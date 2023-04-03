@@ -34,7 +34,7 @@ class Redis extends Abstraction
 
     protected function getInstance(): \Base\Dao\Redis
     {
-        if ($this->instance) {
+        if (!$this->instance) {
             $this->instance = new \Base\Dao\Redis($this->config_name);
         }
 
